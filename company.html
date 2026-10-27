@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Офис ИИ-компании</title>
+<style>
+:root{--bg:#f3efe7;--card:#fffdf8;--ink:#2a2723;--dim:#7a7368;--line:#e2dacb;--gold:#b8861b}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#17191d;--card:#1f2228;--ink:#ece8e1;--dim:#9a958c;--line:#30343b;--gold:#e8bf55}}
+:root[data-theme="dark"]{--bg:#17191d;--card:#1f2228;--ink:#ece8e1;--dim:#9a958c;--line:#30343b;--gold:#e8bf55}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,"Segoe UI",sans-serif}
+main{max-width:1320px;margin:0 auto;padding:18px 16px 50px}
+h1{font-size:24px;margin:0}.sub{color:var(--dim);font-size:13px;margin:2px 0 12px}
+.wrap{display:grid;grid-template-columns:minmax(0,1fr) 310px;gap:14px}
+@media (max-width:980px){.wrap{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px}
+canvas{width:100%;height:auto;display:block;border-radius:10px;touch-action:none}
+.stats{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:13px;color:var(--dim);margin-top:8px}
+.stats b{color:var(--ink)}
+.dot{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+h2{font-size:16px;margin:0 0 8px}
+ol{margin:0;padding-left:22px}ol li{margin:4px 0;font-size:13px}
+.cr{font-variant-numeric:tabular-nums;color:var(--gold);font-weight:700;float:right;margin-left:6px}
+.muted{color:var(--dim);font-size:12px}
+.win{background:rgba(80,200,120,.14);border-radius:8px;padding:6px 8px;margin:4px 0;font-size:13px}
+.fire{font-size:12px;color:#c0563a;margin:2px 0}
+.chat{max-height:260px;overflow:auto;font-size:12px}.chat div{margin:3px 0}
+#tip{position:fixed;pointer-events:none;background:rgba(20,20,24,.93);color:#fff;font-size:12px;padding:6px 9px;border-radius:8px;max-width:340px;display:none;z-index:5}
+</style>
+</head>
+<body>
+<main>
+<h1>Офис ИИ-компании</h1>
+<p class="sub" id="upd">загрузка…</p>
+<div class="wrap">
+  <div class="card">
+    <canvas id="c" width="1200" height="760"></canvas>
+    <div class="stats" id="stats"></div>
+    <div class="stats">
+      <span><i class="dot" style="background:#3b82f6"></i>изобретатели</span>
+      <span><i class="dot" style="background:#ef7d33"></i>скептики</span>
+      <span><i class="dot" style="background:#e3b23c"></i>инженеры, прототиписты</span>
+      <span><i class="dot" style="background:#8b5cf6"></i>совет, стратеги, редакторы, объединители</span>
+      <span><i class="dot" style="background:#d94f70"></i>аудиторы</span>
+      <span><i class="dot" style="background:#3fa96b"></i>отделы</span>
+      <span><i class="dot" style="background:#7f8c99"></i>бухгалтерия</span>
+      <span class="muted">Яркий и с «…» — работает сейчас; бледный — ждёт своей очереди к компьютеру. Наведи на человечка — кто он и сколько заработал.</span>
+    </div>
+  </div>
+  <div>
+    <div class="card"><h2>🏆 Доска почёта</h2><ol id="top"><li class="muted">пока пусто</li></ol>
+      <p class="muted" style="margin:8px 0 0">Кредиты вымышленные. Новая идея (нет в литературе) и сработала +500 · подтверждённый выигрыш +300 · честный отрицательный замер +50. Раздутое обещание −100…−300 · старая идея под видом новой −100 · работа не по заданию −100 и выговор · три штрафа подряд — направление закрывается.</p></div>
+    <div class="card" style="margin-top:12px"><h2>Подтверждённые победы</h2><div id="wins"><p class="muted">пока нет — компания ищет</p></div></div>
+    <div class="card" style="margin-top:12px"><h2>💬 Общий чат идей</h2><div id="chat" class="chat"><p class="muted">появится в первом раунде</p></div></div>
+    <div class="card" style="margin-top:12px"><h2>Серверная</h2><div id="gpus" class="muted">—</div></div>
+  </div>
+</div>
+</main>
+<div id="tip"></div>
+<script>
+const cv = document.getElementById("c"), cx = cv.getContext("2d");
+const DPR = Math.min(2, window.devicePixelRatio || 1);
+const W = 1200, H = 760;
+cv.width = W * DPR; cv.height = H * DPR; cx.scale(DPR, DPR);
+const dark = () => getComputedStyle(document.documentElement).getPropertyValue("--bg").trim().startsWith("#1");
+const S = 3.25, OX = 600, OY = 92, CO = Math.cos(Math.PI / 6), SI = 0.5;
+const P = (x, y, z = 0) => [OX + (x - y) * CO * S, OY + (x + y) * SI * S - z * S];
+function poly(pts, fill, stroke) { cx.beginPath(); pts.forEach((p, i) => (i ? cx.lineTo(p[0], p[1]) : cx.moveTo(p[0], p[1]))); cx.closePath(); if (fill) { cx.fillStyle = fill; cx.fill(); } if (stroke) { cx.strokeStyle = stroke; cx.lineWidth = 0.8; cx.stroke(); } }
+function shade(hex, k) { const n = parseInt(hex.slice(1), 16); let r = n >> 16, g = (n >> 8) & 255, b = n & 255; r = Math.max(0, Math.min(255, r * k)); g = Math.max(0, Math.min(255, g * k)); b = Math.max(0, Math.min(255, b * k)); return "rgb(" + (r | 0) + "," + (g | 0) + "," + (b | 0) + ")"; }
+function box(x, y, z, w, d, h, col, edge) {
+  const e = edge || "rgba(0,0,0,.18)";
+  poly([P(x + w, y, z), P(x + w, y + d, z), P(x + w, y + d, z + h), P(x + w, y, z + h)], shade(col, 0.78), e);
+  poly([P(x, y + d, z), P(x + w, y + d, z), P(x + w, y + d, z + h), P(x, y + d, z + h)], shade(col, 0.9), e);
+  poly([P(x, y, z + h), P(x + w, y, z + h), P(x + w, y + d, z + h), P(x, y + d, z + h)], col, e);
+}
+function ellipse(x, y, z, r, col) { const [a, b] = P(x, y, z); cx.beginPath(); cx.ellipse(a, b, r * S * CO * 1.15, r * S * SI * 1.15, 0, 0, Math.PI * 2); cx.fillStyle = col; cx.fill(); }
+function ball(x, y, z, r, col) { const [a, b] = P(x, y, z); const g = cx.createRadialGradient(a - r * S * 0.35, b - r * S * 0.35, r * S * 0.15, a, b, r * S); g.addColorStop(0, shade(col, 1.18)); g.addColorStop(1, shade(col, 0.82)); cx.beginPath(); cx.arc(a, b, r * S, 0, Math.PI * 2); cx.fillStyle = g; cx.fill(); }
+
+const FW = 300, FD = 210;
+const ROOMS = [
+  { id: "dept", name: "Отделы", x: 0, y: 0, w: 80, d: 70, rug: "#cfe3d4" },
+  { id: "skeptic", name: "Переговорная · проверка", x: 80, y: 0, w: 92, d: 70, rug: "#f2d7c4" },
+  { id: "engineer", name: "Мастерская", x: 172, y: 0, w: 62, d: 70, rug: "#efe1b8" },
+  { id: "server", name: "Серверная", x: 234, y: 0, w: 66, d: 92, rug: "#c9d2dc" },
+  { id: "inventor", name: "Зал изобретателей", x: 0, y: 70, w: 172, d: 140, rug: "#d3def2" },
+  { id: "board", name: "Кабинет совета", x: 172, y: 70, w: 62, d: 70, rug: "#ddd3f1" },
+  { id: "auditor", name: "Аудит", x: 172, y: 140, w: 62, d: 70, rug: "#f2cfd8" },
+  { id: "lounge", name: "Кухня и бухгалтерия", x: 234, y: 92, w: 66, d: 118, rug: "#e7e2d6" },
+];
+const R = Object.fromEntries(ROOMS.map((r) => [r.id, r]));
+const SHIRT = { inventor: "#3b82f6", skeptic: "#ef7d33", engineer: "#e3b23c", board: "#8b5cf6", auditor: "#d94f70", dept: "#3fa96b", accounting: "#7f8c99" };
+const SKIN = ["#f1c9a5", "#e0ac83", "#c98e63", "#f5d5bb", "#a8724f"];
+const HAIR = ["#2b2118", "#5b3a22", "#8a5a2b", "#1a1a1a", "#c9a46b", "#6d6d6d"];
+const furniture = [], seats = {};
+const add = (o) => { furniture.push(o); return furniture.length - 1; };
+function deskRow(x0, y0, n, step, list, opt = {}) {
+  for (let i = 0; i < n; i++) {
+    const x = x0 + i * step;
+    const di = add({ k: "desk", x, y: y0, w: step - 1.2, d: 5, wood: opt.wood || "#c8a57a", mon: !opt.noMon });
+    add({ k: "chair", x: x + step / 2 - 2, y: y0 + 7.3 });
+    list.push({ x: x + step / 2 - 0.6, y: y0 + 8.6, seated: true, desk: di });
+  }
+}
+seats.dept = []; [[8, 12], [44, 12], [8, 38], [44, 38], [26, 56]].forEach(([x, y]) => deskRow(x, y, 1, 22, seats.dept, { wood: "#b98f62" }));
+seats.skeptic = [];
+add({ k: "table", x: 96, y: 26, w: 60, d: 16, col: "#9c7650" });
+add({ k: "whiteboard", x: 98, y: 1.6, w: 44 });
+for (let i = 0; i < 8; i++) { seats.skeptic.push({ x: 99 + i * 7.6, y: 46.5, seated: true }); add({ k: "chair", x: 97.6 + i * 7.6, y: 45 }); }
+for (let i = 0; i < 8; i++) { seats.skeptic.push({ x: 99 + i * 7.6, y: 20.5, seated: true }); add({ k: "chair", x: 97.6 + i * 7.6, y: 18 }); }
+seats.engineer = [];
+add({ k: "bench", x: 178, y: 8, w: 50, d: 10 }); add({ k: "bench", x: 178, y: 32, w: 50, d: 10 });
+for (let i = 0; i < 6; i++) { seats.engineer.push({ x: 181 + i * 8, y: 21 }); seats.engineer.push({ x: 181 + i * 8, y: 45 }); }
+add({ k: "rack", x: 246, y: 10, i: 0 }); add({ k: "rack", x: 246, y: 48, i: 1 });
+seats.inventor = [];
+for (let row = 0; row < 9; row++) for (let b = 0; b < 3; b++) deskRow(6 + b * 55, 78 + row * 14.5, 6, 8.4, seats.inventor);
+seats.board = [];
+add({ k: "round", x: 203, y: 103, r: 13 });
+for (let i = 0; i < 12; i++) { const a = (i / 12) * Math.PI * 2; seats.board.push({ x: 203 + Math.cos(a) * 18.5, y: 103 + Math.sin(a) * 18.5 }); }
+seats.auditor = []; deskRow(178, 150, 4, 13, seats.auditor, { wood: "#a9846a" }); deskRow(178, 172, 4, 13, seats.auditor, { wood: "#a9846a" });
+seats.accounting = []; deskRow(244, 104, 2, 20, seats.accounting, { wood: "#b58d65" });
+add({ k: "sofa", x: 246, y: 176, w: 34 }); add({ k: "cooler", x: 290, y: 120 }); add({ k: "coffee", x: 286, y: 144 });
+add({ k: "fame", x: 244, y: 96.2 });
+[[3, 3], [73, 3], [84, 63], [166, 63], [228, 3], [4, 202], [164, 202], [228, 134], [294, 204]].forEach(([x, y]) => add({ k: "plant", x, y }));
+// стоячие места — в проходах, у кулера и дивана: ждут своей очереди к компьютеру
+const extraOf = {};
+function extra(room) {
+  if (extraOf[room]) return extraOf[room];
+  const r = R[room === "accounting" ? "lounge" : room] || R.inventor, out = [];
+  if (room === "inventor") { for (let row = 0; row < 9; row++) for (let x = 7; x < 168; x += 4.6) out.push({ x, y: 88.5 + row * 14.5 + 3.4 }); }
+  else for (let y = r.y + r.d - 5; y > r.y + 8; y -= 5.2) for (let x = r.x + 5; x < r.x + r.w - 4; x += 5.2) out.push({ x, y });
+  return (extraOf[room] = out);
+}
+
+let data = null, people = [];
+const hash = (s) => { let h = 2166136261; for (let i = 0; i < s.length; i++) h = Math.imul(h ^ s.charCodeAt(i), 16777619); return h >>> 0; };
+function place() {
+  const used = {}, out = [];
+  const all = (data.people || []).slice().sort((a, b) => b.a - a.a);
+  for (const p of all) {
+    const room = seats[p.r] ? p.r : "inventor";
+    const s = seats[room], i = used[room] = (used[room] || 0) + 1;
+    let seat;
+    if (i <= s.length) seat = s[i - 1];
+    else { const ex = extra(room); if (i - s.length > ex.length) continue; seat = ex[i - s.length - 1]; }
+    const h = hash(p.l);
+    out.push({ ...p, room, x: seat.x, y: seat.y, seated: !!seat.seated, desk: seat.desk, skin: SKIN[h % 5], hair: HAIR[(h >> 3) % 6], ph: (h % 1000) / 159 });
+  }
+  people = out;
+}
+async function poll() {
+  try { data = await (await fetch("company.json?ts=" + Date.now())).json(); } catch (e) { return; }
+  place(); panels();
+}
+function esc(s) { return String(s ?? "").replace(/[<&>]/g, (c) => ({ "<": "&lt;", "&": "&amp;", ">": "&gt;" })[c]); }
+function panels() {
+  document.getElementById("upd").textContent = "обновлено " + (data.updated || "") + (data.ledger?.раунд ? " · раунд " + data.ledger.раунд : "");
+  const by = {}; for (const p of data.people || []) { by[p.r] = by[p.r] || [0, 0]; by[p.r][0]++; by[p.r][1] += p.a; }
+  const tot = (data.people || []).length, act = (data.people || []).filter((p) => p.a).length;
+  document.getElementById("stats").innerHTML = `<span>в компании <b>${tot}</b></span><span>за компьютерами сейчас <b>${act}</b></span>` +
+    Object.entries({ inventor: "изобретатели", skeptic: "скептики", engineer: "инженеры", board: "совет", auditor: "аудит", dept: "отделы", accounting: "бухгалтерия" }).filter(([k]) => by[k]).map(([k, n]) => `<span>${n}: <b>${by[k][1]}</b> / ${by[k][0]}</span>`).join("");
+  const L = data.ledger || {};
+  const top = (L.топ || []).slice(0, 10);
+  document.getElementById("top").innerHTML = top.length ? top.map((r, i) => `<li>${["🥇", "🥈", "🥉"][i] || ""} ${esc(r.кто)} <span class="cr">${r.кредиты} кр.</span><div class="muted">${esc((r.события || []).slice(-1)[0] || "")}</div></li>`).join("") : '<li class="muted">ведомость появится после первого раунда</li>';
+  document.getElementById("wins").innerHTML = (L.победители || []).length ? L.победители.map((w) => typeof w === "string" ? `<div class="win">✅ ${esc(w)}</div>` : `<div class="win">✅ ${esc(w.title || w.что || "")}${w.gain != null ? `<div class="muted">${esc(typeof w.gain === "number" ? "+" + w.gain + "%" : w.gain)}</div>` : ""}</div>`).join("") : '<p class="muted">пока нет — компания ищет</p>';
+  document.getElementById("chat").innerHTML = (data.chat || []).length ? data.chat.slice(-40).reverse().map((m) => `<div><b>${esc(m.кто)}:</b> ${esc(m.текст)}</div>`).join("") : '<p class="muted">появится в первом раунде</p>';
+  document.getElementById("gpus").innerHTML = (data.gpus || []).filter((g) => g.name).map((g) => `<div><b>${esc(g.name)}</b> — ${g.bits ? g.bits.toFixed(3).replace(".", ",") + " / " + (g.bits2 || 0).toFixed(3).replace(".", ",") + " бита, " + g.minutes + " мин" : "идёт"}</div>`).join("") || "обе карты свободны";
+}
+
+function drawFloor() {
+  const dk = dark();
+  box(0, 0, -3, FW, FD, 3, dk ? "#3a3530" : "#e9dfcf");
+  for (const r of ROOMS) poly([P(r.x + 1.5, r.y + 1.5), P(r.x + r.w - 1.5, r.y + 1.5), P(r.x + r.w - 1.5, r.y + r.d - 1.5), P(r.x + 1.5, r.y + r.d - 1.5)], dk ? shade(r.rug, 0.42) : r.rug);
+  cx.strokeStyle = dk ? "rgba(255,255,255,.04)" : "rgba(120,90,50,.08)"; cx.lineWidth = 1;
+  for (let x = 0; x <= FW; x += 10) { const a = P(x, 0), b = P(x, FD); cx.beginPath(); cx.moveTo(a[0], a[1]); cx.lineTo(b[0], b[1]); cx.stroke(); }
+}
+function drawWalls() {
+  const dk = dark(), wall = dk ? "#4a4f57" : "#f6f1e8", WH = 30;
+  poly([P(0, 0, 0), P(FW, 0, 0), P(FW, 0, WH), P(0, 0, WH)], shade(wall, 0.95), "rgba(0,0,0,.12)");
+  poly([P(0, 0, 0), P(0, FD, 0), P(0, FD, WH), P(0, 0, WH)], shade(wall, 0.85), "rgba(0,0,0,.12)");
+  const glass = dk ? "#2f4e6b" : "#bfe0f5";
+  for (let x = 10; x < FW - 10; x += 26) poly([P(x, 0, 10), P(x + 16, 0, 10), P(x + 16, 0, 25), P(x, 0, 25)], glass, "rgba(255,255,255,.5)");
+  for (let y = 10; y < FD - 10; y += 26) poly([P(0, y, 10), P(0, y + 16, 10), P(0, y + 16, 25), P(0, y, 25)], shade(glass, 0.92), "rgba(255,255,255,.5)");
+  box(-1.5, -1.5, WH, FW + 1.5, 1.5, 1, dk ? "#5b6069" : "#ddd3c3"); box(-1.5, 0, WH, 1.5, FD, 1, dk ? "#5b6069" : "#ddd3c3");
+}
+const PARTS = [];
+const seg = (x1, y1, x2, y2, door) => PARTS.push({ x1, y1, x2, y2, door, depth: Math.max(x1, x2) + Math.max(y1, y2) });
+seg(80, 0, 80, 70, 35); seg(172, 0, 172, 210, 100); seg(234, 0, 234, 210, 110); seg(0, 70, 172, 70, 60); seg(172, 70, 234, 70, 200); seg(172, 140, 234, 140, 200); seg(234, 92, 300, 92, 270);
+function drawGlass(g) {
+  const dk = dark(), Hh = 18, col = dk ? "rgba(140,190,230,.16)" : "rgba(150,200,235,.28)", fr = dk ? "#6c7480" : "#b9c3cc";
+  const alongX = g.y1 === g.y2, a = alongX ? g.x1 : g.y1, b = alongX ? g.x2 : g.y2;
+  for (const [s, e] of [[a, g.door - 6], [g.door + 6, b]]) {
+    if (e <= s) continue;
+    const p = alongX ? [P(s, g.y1, 0), P(e, g.y1, 0), P(e, g.y1, Hh), P(s, g.y1, Hh)] : [P(g.x1, s, 0), P(g.x1, e, 0), P(g.x1, e, Hh), P(g.x1, s, Hh)];
+    poly(p, col, fr);
+    cx.strokeStyle = fr; cx.lineWidth = 2; cx.beginPath(); cx.moveTo(p[3][0], p[3][1]); cx.lineTo(p[2][0], p[2][1]); cx.stroke();
+  }
+}
+const activeDesk = new Set();
+function drawFurniture(o, idx, t) {
+  const dk = dark();
+  switch (o.k) {
+    case "desk": {
+      box(o.x, o.y, 0, 0.8, 0.8, 7, "#6b5a48"); box(o.x + o.w - 0.8, o.y, 0, 0.8, 0.8, 7, "#6b5a48");
+      box(o.x, o.y, 7, o.w, o.d, 0.9, o.wood);
+      if (o.mon) { const on = activeDesk.has(idx); box(o.x + o.w / 2 - 0.4, o.y + 1, 7.9, 0.8, 0.8, 2.2, "#333"); box(o.x + o.w / 2 - 2.6, o.y + 0.6, 10, 5.2, 0.7, 3.6, on ? "#7fd3ff" : "#2a2d33"); if (on) { const [a, b] = P(o.x + o.w / 2, o.y + 1.4, 11.8); cx.fillStyle = "rgba(127,211,255,.22)"; cx.beginPath(); cx.arc(a, b, 9, 0, 7); cx.fill(); } }
+      break;
+    }
+    case "chair": box(o.x, o.y, 3.4, 4, 3.6, 0.9, dk ? "#3d4450" : "#59626e"); box(o.x + 1.6, o.y + 1.4, 0, 0.8, 0.8, 3.4, "#444"); break;
+    case "table": box(o.x + 3, o.y + 3, 0, 1.2, 1.2, 7, "#5a4636"); box(o.x + o.w - 4, o.y + o.d - 4, 0, 1.2, 1.2, 7, "#5a4636"); box(o.x, o.y, 7, o.w, o.d, 1.2, o.col); break;
+    case "whiteboard": { poly([P(o.x, o.y, 9), P(o.x + o.w, o.y, 9), P(o.x + o.w, o.y, 24), P(o.x, o.y, 24)], "#fbfbf6", "#9aa"); cx.strokeStyle = "#e05d5d"; cx.lineWidth = 1.2; const a = P(o.x + 5, o.y, 20), b = P(o.x + 22, o.y, 16), c = P(o.x + 30, o.y, 21); cx.beginPath(); cx.moveTo(a[0], a[1]); cx.lineTo(b[0], b[1]); cx.lineTo(c[0], c[1]); cx.stroke(); cx.strokeStyle = "#4a7fd0"; const d1 = P(o.x + 6, o.y, 13), d2 = P(o.x + 38, o.y, 13); cx.beginPath(); cx.moveTo(d1[0], d1[1]); cx.lineTo(d2[0], d2[1]); cx.stroke(); break; }
+    case "bench": box(o.x, o.y, 0, o.w, o.d, 8, "#8d7a62"); box(o.x + 6, o.y + 2, 8, 6, 5, 3, "#7d8794"); box(o.x + 20, o.y + 3, 8, 10, 3, 1.5, "#c0392b"); box(o.x + 36, o.y + 2, 8, 4, 4, 5, "#566"); break;
+    case "rack": {
+      const run = data && (data.gpus || [])[o.i] && data.gpus[o.i].running;
+      box(o.x, o.y, 0, 36, 24, 40, dk ? "#23262c" : "#3a3f47");
+      for (let r = 0; r < 8; r++) for (let c = 0; c < 6; c++) { const on = run && Math.sin(t * 6 + r * 1.7 + c * 2.3 + o.i) > 0.2; const [a, b] = P(o.x + 36, o.y + 3 + c * 3.6, 5 + r * 4.4); cx.fillStyle = on ? (c % 3 ? "#5dff96" : "#ffcc4d") : "#2b3a2f"; cx.fillRect(a - 0.9, b - 0.9, 1.8, 1.8); }
+      break;
+    }
+    case "round": ellipse(o.x, o.y, 0, 3, "rgba(0,0,0,.15)"); box(o.x - 1, o.y - 1, 0, 2, 2, 7, "#5a4636"); ellipse(o.x, o.y, 7.6, o.r, "#7e5b3e"); ellipse(o.x, o.y, 7.9, o.r - 0.6, "#9a714f"); break;
+    case "sofa": box(o.x, o.y, 0, o.w, 9, 4, "#5f7fa8"); box(o.x, o.y, 4, o.w, 2.4, 5, "#4f6d92"); break;
+    case "cooler": box(o.x, o.y, 0, 5, 5, 10, "#dfe6ea"); ball(o.x + 2.5, o.y + 2.5, 13.5, 2.6, "#7fc3ef"); break;
+    case "coffee": box(o.x - 4, o.y, 0, 12, 7, 8, "#8b6b4f"); box(o.x - 2, o.y + 1, 8, 5, 4, 5, "#333"); break;
+    case "fame": { poly([P(o.x, o.y, 10), P(o.x + 30, o.y, 10), P(o.x + 30, o.y, 25), P(o.x, o.y, 25)], "#2d3a2f", "#c9a24a"); const [a, b] = P(o.x + 15, o.y, 20); cx.font = "13px system-ui"; cx.textAlign = "center"; cx.fillText("🏆", a, b); break; }
+    case "plant": box(o.x - 2, o.y - 2, 0, 4, 4, 4.5, "#b06a3b"); ball(o.x, o.y, 8.5, 3.2, "#3f8f4f"); ball(o.x + 1.6, o.y - 1.2, 10.5, 2.2, "#4fa860"); break;
+  }
+}
+function drawPerson(p, t, hover) {
+  const shirt = SHIRT[p.r] || "#3b82f6", on = !!p.a;
+  cx.globalAlpha = on ? 1 : 0.55;
+  const bob = on ? Math.sin(t * 2.2 + p.ph) * 0.25 : 0;
+  ellipse(p.x, p.y, 0, 2.6, "rgba(0,0,0,.18)");
+  const z0 = p.seated ? 3.4 : 0;
+  if (!p.seated) { box(p.x - 1.3, p.y - 0.5, 0, 1.1, 1.1, 5.2, "#2f3b52"); box(p.x + 0.2, p.y - 0.5, 0, 1.1, 1.1, 5.2, "#2f3b52"); }
+  else box(p.x - 1.4, p.y - 2.6, z0 + 0.6, 2.8, 2.6, 1.2, "#2f3b52");
+  const zt = (p.seated ? z0 + 1 : 5.2) + bob;
+  box(p.x - 1.9, p.y - 0.9, zt, 3.8, 1.9, 5.2, on ? shirt : shade(shirt, 0.8));
+  box(p.x - 2.6, p.y - 0.6, zt + 1.4, 0.8, 1.2, 3.6, shade(shirt, on ? 0.9 : 0.72));
+  box(p.x + 1.8, p.y - 0.6, zt + 1.4, 0.8, 1.2, 3.6, shade(shirt, on ? 0.9 : 0.72));
+  ball(p.x, p.y, zt + 7.3, 2.1, p.skin);
+  const [hx, hy] = P(p.x, p.y, zt + 7.3);
+  cx.beginPath(); cx.arc(hx, hy - 0.6, 2.1 * S, Math.PI * 1.05, Math.PI * 1.95); cx.fillStyle = p.hair; cx.fill();
+  if (on && Math.sin(t * 1.3 + p.ph) > 0.35) {
+    const [bx, by] = P(p.x, p.y, zt + 13); cx.fillStyle = "rgba(255,255,255,.92)"; cx.beginPath(); if (cx.roundRect) cx.roundRect(bx - 8, by - 6, 16, 9, 4); else cx.rect(bx - 8, by - 6, 16, 9); cx.fill();
+    cx.fillStyle = "#555"; for (let i = 0; i < 3; i++) { cx.beginPath(); cx.arc(bx - 4 + i * 4, by - 1.5, 1.1 + 0.4 * Math.max(0, Math.sin(t * 6 - i)), 0, 7); cx.fill(); }
+  }
+  if (hover) { cx.strokeStyle = "#ffd25e"; cx.lineWidth = 2; cx.beginPath(); cx.arc(hx, hy, 2.1 * S + 3, 0, 7); cx.stroke(); }
+  cx.globalAlpha = 1;
+}
+function drawLabels() {
+  cx.textAlign = "left"; cx.font = "600 12px system-ui";
+  for (const r of ROOMS) { const [a, b] = P(r.x + 4, r.y + r.d - 4, 0); cx.fillStyle = dark() ? "rgba(255,255,255,.75)" : "rgba(40,35,30,.72)"; cx.fillText(r.name, a - 14, b + 3); }
+}
+let hovered = null;
+function frame(now) {
+  const t = now / 1000;
+  cx.clearRect(0, 0, W, H);
+  drawFloor(); drawLabels(); drawWalls();
+  activeDesk.clear(); people.forEach((p) => { if (p.a && p.desk != null) activeDesk.add(p.desk); });
+  const items = [];
+  furniture.forEach((o, i) => items.push({ d: (o.x + (o.w || 0) * 0.5) + (o.y + (o.d || 0) * 0.5), f: () => drawFurniture(o, i, t) }));
+  PARTS.forEach((g) => items.push({ d: g.depth - 0.5, f: () => drawGlass(g) }));
+  people.forEach((p) => items.push({ d: p.x + p.y + (p.seated ? 2.5 : 0.5), f: () => drawPerson(p, t, p === hovered) }));
+  items.sort((a, b) => a.d - b.d).forEach((i) => i.f());
+  if (!matchMedia("(prefers-reduced-motion: reduce)").matches) requestAnimationFrame(frame);
+}
+const tip = document.getElementById("tip");
+cv.addEventListener("pointermove", (e) => {
+  const r = cv.getBoundingClientRect(), mx = (e.clientX - r.left) * W / r.width, my = (e.clientY - r.top) * H / r.height;
+  let best = null, bd = 14;
+  for (const p of people) { const [a, b] = P(p.x, p.y, (p.seated ? 4.4 : 5.2) + 6); const d = Math.hypot(a - mx, b - my); if (d < bd) { bd = d; best = p; } }
+  hovered = best;
+  if (best) { tip.style.display = "block"; tip.style.left = e.clientX + 14 + "px"; tip.style.top = e.clientY + 10 + "px"; tip.innerHTML = `<b>${esc(best.l)}</b><br>${best.a ? "🟢 работает" : "⏳ ждёт очереди к компьютеру"}${best["$"] != null ? " · 💰 " + best["$"] + " кр." : ""}`; }
+  else tip.style.display = "none";
+});
+cv.addEventListener("pointerleave", () => { hovered = null; tip.style.display = "none"; });
+poll(); setInterval(poll, 30000); requestAnimationFrame(frame);
+</script>
+</body>
+</html>
