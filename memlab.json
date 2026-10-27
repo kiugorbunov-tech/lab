@@ -1,0 +1,5880 @@
+{
+  "updated": "03.11 12:14:56",
+  "timestamp": 1793697296.2485347,
+  "fresh": true,
+  "controller": {
+    "status": "complete",
+    "updated": "2026-11-03T12:14:56.169553+03:00",
+    "timestamp": 1793697296.1695535,
+    "controller_pid": 44784,
+    "boot_time": 1793444114.9248614,
+    "sensors": {
+      "uuid": "GPU-849ba2b6-f113-8276-8d0b-3a15861c4115",
+      "gpu_c": 56.0,
+      "margin_c": 33.0,
+      "operating_margin_c": 0.0,
+      "gpu_w": 35.81,
+      "limit_w": 600.0,
+      "default_w": 600.0,
+      "max_w": 600.0,
+      "free_mib": 94809.0,
+      "gpu_util": 2.0,
+      "cpu_c": 49.0,
+      "cards": [
+        {
+          "uuid": "GPU-849ba2b6-f113-8276-8d0b-3a15861c4115",
+          "gpu_c": 56.0,
+          "margin_c": 33.0,
+          "operating_margin_c": 0.0,
+          "gpu_w": 35.81,
+          "limit_w": 600.0,
+          "default_w": 600.0,
+          "max_w": 600.0,
+          "free_mib": 94809.0,
+          "gpu_util": 2.0
+        },
+        {
+          "uuid": "GPU-21215885-d1a1-1866-5770-2a9b6d43dc14",
+          "gpu_c": 66.0,
+          "margin_c": 27.0,
+          "operating_margin_c": 0.0,
+          "gpu_w": 115.51,
+          "limit_w": 600.0,
+          "default_w": 600.0,
+          "max_w": 600.0,
+          "free_mib": 42497.0,
+          "gpu_util": 0.0
+        }
+      ],
+      "sampled_at": 1793697293.9602005
+    },
+    "peaks": {
+      "gpu_w": 632.16,
+      "gpu_c": 83.0,
+      "cpu_c": 50.6
+    },
+    "reason": "Очередь завершена"
+  },
+  "cards": [
+    {
+      "uuid": "GPU-849ba2b6-f113-8276-8d0b-3a15861c4115",
+      "gpu_c": 56.0,
+      "margin_c": 33.0,
+      "operating_margin_c": 0.0,
+      "gpu_w": 35.81,
+      "limit_w": 600.0,
+      "default_w": 600.0,
+      "max_w": 600.0,
+      "free_mib": 94809.0,
+      "gpu_util": 2.0
+    },
+    {
+      "uuid": "GPU-21215885-d1a1-1866-5770-2a9b6d43dc14",
+      "gpu_c": 66.0,
+      "margin_c": 27.0,
+      "operating_margin_c": 0.0,
+      "gpu_w": 115.51,
+      "limit_w": 600.0,
+      "default_w": 600.0,
+      "max_w": 600.0,
+      "free_mib": 42497.0,
+      "gpu_util": 0.0
+    }
+  ],
+  "policy": {
+    "enabled": true,
+    "mode": "one training job per GPU; inference benchmarks serial",
+    "cpu_model": "AMD Ryzen 9 9950X",
+    "cpu_manufacturer_tjmax_c": 95,
+    "cpu_stop_c": 92,
+    "cpu_start_c": 85,
+    "gpu_margin_stop_c": 2,
+    "gpu_margin_start_c": 15,
+    "gpu_power_policy": "stock: min(default,max); no artificial 340/450W software throttle",
+    "stable_seconds": 20,
+    "free_gpu_mib": 26000,
+    "auto_resume_after_protection": false,
+    "auto_start_after_reboot": false,
+    "sources": [
+      "https://www.amd.com/en/products/processors/desktops/ryzen/9000-series/amd-ryzen-9-9950x.html",
+      "https://docs.nvidia.com/deploy/nvidia-smi/index.html"
+    ],
+    "margin_note": "User requested 2 C below GPU manufacturer operating threshold on 2026-11-02. CPU remains 92 C (AMD maximum 95 C). Hardware thermal protection unchanged.",
+    "gpu_start_spacing_s": 60,
+    "max_training_per_gpu": 1
+  },
+  "gpu": {
+    "w": 35.81,
+    "c": 56.0,
+    "util": 2.0,
+    "cpu_c": 49.0,
+    "margin_c": 33.0
+  },
+  "runs": [
+    {
+      "name": "L_base",
+      "label": "Большая сеть на нашем языке",
+      "status": "готово",
+      "rows": [
+        {
+          "step": 0.0,
+          "train_bits": 15.153689929403967,
+          "val_bits": 15.130705136046757,
+          "val_bits_no_mem": null,
+          "qa_test": 0.0,
+          "qa_train": 0.0,
+          "qa_test_no_mem": null,
+          "steps_per_s": 0.0,
+          "gpu_c": 36.0,
+          "gpu_w": 511.66,
+          "peak_vram_gb": 5.402153968811035,
+          "time": "2026-11-02 17:01:48"
+        },
+        {
+          "step": 1000.0,
+          "train_bits": 2.607757478092021,
+          "val_bits": 4.511342540495525,
+          "val_bits_no_mem": null,
+          "qa_test": 0.04083333333333333,
+          "qa_train": 0.05,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.5405572622555455,
+          "gpu_c": 80.0,
+          "gpu_w": 602.52,
+          "peak_vram_gb": 33.546998023986816,
+          "time": "2026-11-02 17:06:35"
+        },
+        {
+          "step": 2000.0,
+          "train_bits": 2.2013244659373634,
+          "val_bits": 3.709490600448991,
+          "val_bits_no_mem": null,
+          "qa_test": 0.0425,
+          "qa_train": 0.06,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.5074855734833776,
+          "gpu_c": 83.0,
+          "gpu_w": 503.14,
+          "peak_vram_gb": 33.546998023986816,
+          "time": "2026-11-02 17:11:26"
+        },
+        {
+          "step": 3000.0,
+          "train_bits": 1.985199458034225,
+          "val_bits": 3.315873463130766,
+          "val_bits_no_mem": null,
+          "qa_test": 0.049166666666666664,
+          "qa_train": 0.06,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.5812787734462916,
+          "gpu_c": 75.0,
+          "gpu_w": 558.18,
+          "peak_vram_gb": 33.54642581939697,
+          "time": "2026-11-02 17:24:38"
+        },
+        {
+          "step": 4000.0,
+          "train_bits": 1.89425991226569,
+          "val_bits": 3.1367815654292412,
+          "val_bits_no_mem": null,
+          "qa_test": 0.051666666666666666,
+          "qa_train": 0.06,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.5217972675193328,
+          "gpu_c": 84.0,
+          "gpu_w": 548.86,
+          "peak_vram_gb": 33.54642581939697,
+          "time": "2026-11-02 17:29:30"
+        },
+        {
+          "step": 5000.0,
+          "train_bits": 1.830159140575382,
+          "val_bits": 3.02353702356075,
+          "val_bits_no_mem": null,
+          "qa_test": 0.05333333333333334,
+          "qa_train": 0.051666666666666666,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.497688631402215,
+          "gpu_c": 88.0,
+          "gpu_w": 600.71,
+          "peak_vram_gb": 33.54642581939697,
+          "time": "2026-11-02 17:34:24"
+        },
+        {
+          "step": 6000.0,
+          "train_bits": 1.7847830659890878,
+          "val_bits": 2.940321648599091,
+          "val_bits_no_mem": null,
+          "qa_test": 0.0425,
+          "qa_train": 0.055,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.4836449349504153,
+          "gpu_c": 81.0,
+          "gpu_w": 569.64,
+          "peak_vram_gb": 33.54642581939697,
+          "time": "2026-11-02 17:39:18"
+        },
+        {
+          "step": 7000.0,
+          "train_bits": 1.7463794690384107,
+          "val_bits": 2.8812706816650233,
+          "val_bits_no_mem": null,
+          "qa_test": 0.059166666666666666,
+          "qa_train": 0.07,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.4783965060034294,
+          "gpu_c": 85.0,
+          "gpu_w": 595.36,
+          "peak_vram_gb": 33.54642581939697,
+          "time": "2026-11-02 17:44:11"
+        },
+        {
+          "step": 8000.0,
+          "train_bits": 1.7097231513270057,
+          "val_bits": 2.8363100813334943,
+          "val_bits_no_mem": null,
+          "qa_test": 0.05333333333333334,
+          "qa_train": 0.04833333333333333,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.475753819015841,
+          "gpu_c": 80.0,
+          "gpu_w": 576.81,
+          "peak_vram_gb": 33.54642581939697,
+          "time": "2026-11-02 17:49:04"
+        },
+        {
+          "step": 9000.0,
+          "train_bits": 1.6915859577072552,
+          "val_bits": 2.802663832641265,
+          "val_bits_no_mem": null,
+          "qa_test": 0.05,
+          "qa_train": 0.055,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.475909962331822,
+          "gpu_c": 82.0,
+          "gpu_w": 598.73,
+          "peak_vram_gb": 33.54642581939697,
+          "time": "2026-11-02 17:54:04"
+        },
+        {
+          "step": 10000.0,
+          "train_bits": 1.6635871391511272,
+          "val_bits": 2.7684970354605376,
+          "val_bits_no_mem": null,
+          "qa_test": 0.0475,
+          "qa_train": 0.06333333333333334,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.471826823487341,
+          "gpu_c": 91.0,
+          "gpu_w": 601.11,
+          "peak_vram_gb": 33.54642581939697,
+          "time": "2026-11-02 17:58:59"
+        },
+        {
+          "step": 11000.0,
+          "train_bits": 1.636916230889058,
+          "val_bits": 2.7368061005216306,
+          "val_bits_no_mem": null,
+          "qa_test": 0.0475,
+          "qa_train": 0.04666666666666667,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.467503585109469,
+          "gpu_c": 81.0,
+          "gpu_w": 560.8,
+          "peak_vram_gb": 33.54642581939697,
+          "time": "2026-11-02 18:03:54"
+        },
+        {
+          "step": 12000.0,
+          "train_bits": 1.6216093235078095,
+          "val_bits": 2.7164443865553793,
+          "val_bits_no_mem": null,
+          "qa_test": 0.0725,
+          "qa_train": 0.07833333333333334,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.4687058821834023,
+          "gpu_c": 85.0,
+          "gpu_w": 601.18,
+          "peak_vram_gb": 33.54642581939697,
+          "time": "2026-11-02 18:08:46"
+        },
+        {
+          "step": 13000.0,
+          "train_bits": 1.6076308746153194,
+          "val_bits": 2.6843873578803357,
+          "val_bits_no_mem": null,
+          "qa_test": 0.056666666666666664,
+          "qa_train": 0.056666666666666664,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.471590347788649,
+          "gpu_c": 84.0,
+          "gpu_w": 590.44,
+          "peak_vram_gb": 33.54642581939697,
+          "time": "2026-11-02 18:13:36"
+        },
+        {
+          "step": 14000.0,
+          "train_bits": 1.584923532269613,
+          "val_bits": 2.663971046588379,
+          "val_bits_no_mem": null,
+          "qa_test": 0.0575,
+          "qa_train": 0.05333333333333334,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.4752515861420155,
+          "gpu_c": 78.0,
+          "gpu_w": 587.2,
+          "peak_vram_gb": 33.54642581939697,
+          "time": "2026-11-02 18:18:24"
+        },
+        {
+          "step": 15000.0,
+          "train_bits": 1.5545299627893772,
+          "val_bits": 2.6458201481011376,
+          "val_bits_no_mem": null,
+          "qa_test": 0.0575,
+          "qa_train": 0.06833333333333333,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.4792632290449306,
+          "gpu_c": 79.0,
+          "gpu_w": 564.36,
+          "peak_vram_gb": 33.54642581939697,
+          "time": "2026-11-02 18:23:20"
+        },
+        {
+          "step": 16000.0,
+          "train_bits": 1.5378897169116519,
+          "val_bits": 2.629965827108137,
+          "val_bits_no_mem": null,
+          "qa_test": 0.06166666666666667,
+          "qa_train": 0.09333333333333334,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.4827126826933252,
+          "gpu_c": 74.0,
+          "gpu_w": 479.84,
+          "peak_vram_gb": 33.54642581939697,
+          "time": "2026-11-02 18:28:07"
+        },
+        {
+          "step": 17000.0,
+          "train_bits": 1.5164247772357784,
+          "val_bits": 2.6084466555696912,
+          "val_bits_no_mem": null,
+          "qa_test": 0.065,
+          "qa_train": 0.09666666666666666,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.48557036066315,
+          "gpu_c": 80.0,
+          "gpu_w": 496.79,
+          "peak_vram_gb": 33.54642581939697,
+          "time": "2026-11-02 18:32:55"
+        },
+        {
+          "step": 18000.0,
+          "train_bits": 1.4984281901820238,
+          "val_bits": 2.5915097754489467,
+          "val_bits_no_mem": null,
+          "qa_test": 0.0625,
+          "qa_train": 0.06666666666666667,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.486898727858273,
+          "gpu_c": 85.0,
+          "gpu_w": 602.54,
+          "peak_vram_gb": 33.54642581939697,
+          "time": "2026-11-02 18:37:44"
+        },
+        {
+          "step": 19000.0,
+          "train_bits": 1.4847104024947475,
+          "val_bits": 2.5733944272088274,
+          "val_bits_no_mem": null,
+          "qa_test": 0.0725,
+          "qa_train": 0.08666666666666667,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.488896617361193,
+          "gpu_c": 82.0,
+          "gpu_w": 600.0,
+          "peak_vram_gb": 33.54642581939697,
+          "time": "2026-11-02 18:42:32"
+        },
+        {
+          "step": 20000.0,
+          "train_bits": 1.4588625172083824,
+          "val_bits": 2.5673649519457222,
+          "val_bits_no_mem": null,
+          "qa_test": 0.09916666666666667,
+          "qa_train": 0.10333333333333333,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.490777954106988,
+          "gpu_c": 75.0,
+          "gpu_w": 566.21,
+          "peak_vram_gb": 33.54642581939697,
+          "time": "2026-11-02 18:47:20"
+        },
+        {
+          "step": 21000.0,
+          "train_bits": 1.4403119417894517,
+          "val_bits": 2.5474071320690785,
+          "val_bits_no_mem": null,
+          "qa_test": 0.09666666666666666,
+          "qa_train": 0.125,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.4930995251972816,
+          "gpu_c": 81.0,
+          "gpu_w": 593.99,
+          "peak_vram_gb": 33.54642581939697,
+          "time": "2026-11-02 18:52:15"
+        },
+        {
+          "step": 22000.0,
+          "train_bits": 1.4136088297760083,
+          "val_bits": 2.5308155501156038,
+          "val_bits_no_mem": null,
+          "qa_test": 0.12333333333333334,
+          "qa_train": 0.15166666666666667,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.4947739076762003,
+          "gpu_c": 79.0,
+          "gpu_w": 586.3,
+          "peak_vram_gb": 33.54642581939697,
+          "time": "2026-11-02 18:57:02"
+        },
+        {
+          "step": 23000.0,
+          "train_bits": 1.3943416241487636,
+          "val_bits": 2.5247483676562967,
+          "val_bits_no_mem": null,
+          "qa_test": 0.15666666666666668,
+          "qa_train": 0.16333333333333333,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.4962759412496593,
+          "gpu_c": 81.0,
+          "gpu_w": 602.0,
+          "peak_vram_gb": 33.54642581939697,
+          "time": "2026-11-02 19:01:50"
+        },
+        {
+          "step": 24000.0,
+          "train_bits": 1.3699615140472714,
+          "val_bits": 2.5151097433075664,
+          "val_bits_no_mem": null,
+          "qa_test": 0.17666666666666667,
+          "qa_train": 0.205,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.4973060114528693,
+          "gpu_c": 82.0,
+          "gpu_w": 600.41,
+          "peak_vram_gb": 33.54642581939697,
+          "time": "2026-11-02 19:06:38"
+        },
+        {
+          "step": 25000.0,
+          "train_bits": 1.3439460531654717,
+          "val_bits": 2.5126095383547047,
+          "val_bits_no_mem": null,
+          "qa_test": 0.23583333333333334,
+          "qa_train": 0.24166666666666667,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.498584093727076,
+          "gpu_c": 78.0,
+          "gpu_w": 585.04,
+          "peak_vram_gb": 33.54642581939697,
+          "time": "2026-11-02 19:11:25"
+        },
+        {
+          "step": 26000.0,
+          "train_bits": 1.323547620903261,
+          "val_bits": 2.507718387593885,
+          "val_bits_no_mem": null,
+          "qa_test": 0.2833333333333333,
+          "qa_train": 0.31166666666666665,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.4995373452925067,
+          "gpu_c": 83.0,
+          "gpu_w": 600.94,
+          "peak_vram_gb": 33.54642581939697,
+          "time": "2026-11-02 19:16:13"
+        },
+        {
+          "step": 27000.0,
+          "train_bits": 1.3059441969382946,
+          "val_bits": 2.5071448039554265,
+          "val_bits_no_mem": null,
+          "qa_test": 0.3225,
+          "qa_train": 0.38166666666666665,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.5006471439009608,
+          "gpu_c": 78.0,
+          "gpu_w": 530.81,
+          "peak_vram_gb": 33.54642581939697,
+          "time": "2026-11-02 19:21:00"
+        },
+        {
+          "step": 28000.0,
+          "train_bits": 1.2925086865256625,
+          "val_bits": 2.503840243310423,
+          "val_bits_no_mem": null,
+          "qa_test": 0.3641666666666667,
+          "qa_train": 0.4166666666666667,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.501730822797964,
+          "gpu_c": 79.0,
+          "gpu_w": 582.94,
+          "peak_vram_gb": 33.54642581939697,
+          "time": "2026-11-02 19:25:55"
+        },
+        {
+          "step": 29000.0,
+          "train_bits": 1.2816831203290306,
+          "val_bits": 2.507749394632647,
+          "val_bits_no_mem": null,
+          "qa_test": 0.41583333333333333,
+          "qa_train": 0.465,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.502708123846117,
+          "gpu_c": 76.0,
+          "gpu_w": 552.36,
+          "peak_vram_gb": 33.54642581939697,
+          "time": "2026-11-02 19:30:43"
+        },
+        {
+          "step": 30000.0,
+          "train_bits": 1.270024814136921,
+          "val_bits": 2.508829861304805,
+          "val_bits_no_mem": null,
+          "qa_test": 0.45166666666666666,
+          "qa_train": 0.51,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.5034809537847953,
+          "gpu_c": 79.0,
+          "gpu_w": 523.6,
+          "peak_vram_gb": 33.54642581939697,
+          "time": "2026-11-02 19:35:30"
+        }
+      ],
+      "summary": {
+        "name": "L_base",
+        "steps_done": 30000,
+        "finished": true,
+        "params_brain": 268285952,
+        "params_memory": 0,
+        "memory_bytes_with_adam": 0,
+        "seconds": 8730.110000000015,
+        "train_seconds": 8564.78800000067,
+        "best_val_bits": [
+          2.503840243310423,
+          28000
+        ],
+        "measured_steps": 27683,
+        "measured_training_seconds": 7901.570000000764,
+        "training_steps_per_s": 3.5034809537847953,
+        "peak_rss_gb": 4.575634002685547,
+        "peak_vram_gb": 33.54642581939697,
+        "process_read_bytes": 16102676676,
+        "process_write_bytes": 16098784802,
+        "storage_note": "SSD mmap uses Windows page cache; process I/O is not physical disk I/O",
+        "reason": null,
+        "last_evaluation": {
+          "step": 30000,
+          "val_bits": 2.508829861304805,
+          "qa_test": 0.45166666666666666,
+          "qa_train": 0.51,
+          "val_bits_no_mem": null,
+          "qa_test_no_mem": null,
+          "qa_test_by_attr": {
+            "spr": 0.3333,
+            "dn": 0.3883,
+            "year": 0.3247,
+            "kva": 0.4218,
+            "city": 0.715,
+            "fire": 0.5323
+          }
+        },
+        "val_bits": 2.508829861304805,
+        "qa_test": 0.45166666666666666,
+        "qa_train": 0.51,
+        "val_bits_no_mem": null,
+        "qa_test_no_mem": null,
+        "qa_test_by_attr": {
+          "spr": 0.3333,
+          "dn": 0.3883,
+          "year": 0.3247,
+          "kva": 0.4218,
+          "city": 0.715,
+          "fire": 0.5323
+        }
+      },
+      "live": {
+        "steps": 30000,
+        "step": 30000,
+        "phase": "завершён",
+        "time": "02.11 19:35:38",
+        "timestamp": 1793637338.820941,
+        "backend": "none",
+        "reason": null,
+        "checkpoint_step": 30000
+      },
+      "checkpoint": {
+        "step": 30000,
+        "saved_at": 1793637338.2512724,
+        "manifest": "D:\\memlab\\ckpt\\L_base\\manifest.json",
+        "bytes": 3219609297,
+        "generations": 2,
+        "version": 2
+      },
+      "backend": "none"
+    },
+    {
+      "name": "L_tern",
+      "label": "Большая сеть на нашем языке, веса −1/0/+1",
+      "status": "готово",
+      "rows": [
+        {
+          "step": 0.0,
+          "train_bits": 15.127864842567757,
+          "val_bits": 15.12080931164366,
+          "val_bits_no_mem": null,
+          "qa_test": 0.0,
+          "qa_train": 0.0,
+          "qa_test_no_mem": null,
+          "steps_per_s": 0.0,
+          "gpu_c": 34.0,
+          "gpu_w": 438.13,
+          "peak_vram_gb": 5.027153968811035,
+          "time": "2026-11-02 17:03:11"
+        },
+        {
+          "step": 1000.0,
+          "train_bits": 2.809376071862352,
+          "val_bits": 4.757673405981427,
+          "val_bits_no_mem": null,
+          "qa_test": 0.041666666666666664,
+          "qa_train": 0.051666666666666666,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.6062814866617363,
+          "gpu_c": 73.0,
+          "gpu_w": 573.02,
+          "peak_vram_gb": 33.54757022857666,
+          "time": "2026-11-02 17:07:53"
+        },
+        {
+          "step": 2000.0,
+          "train_bits": 2.279909594985506,
+          "val_bits": 3.87617668728129,
+          "val_bits_no_mem": null,
+          "qa_test": 0.049166666666666664,
+          "qa_train": 0.058333333333333334,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.5903662714848825,
+          "gpu_c": 73.0,
+          "gpu_w": 482.3,
+          "peak_vram_gb": 33.54757022857666,
+          "time": "2026-11-02 17:12:37"
+        },
+        {
+          "step": 3000.0,
+          "train_bits": 2.0473398854786735,
+          "val_bits": 3.4300508102337623,
+          "val_bits_no_mem": null,
+          "qa_test": 0.05333333333333334,
+          "qa_train": 0.06333333333333334,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.5899372734371493,
+          "gpu_c": 78.0,
+          "gpu_w": 581.2,
+          "peak_vram_gb": 33.54642581939697,
+          "time": "2026-11-02 17:27:08"
+        },
+        {
+          "step": 4000.0,
+          "train_bits": 1.9594612224367005,
+          "val_bits": 3.2601113275950917,
+          "val_bits_no_mem": null,
+          "qa_test": 0.06416666666666666,
+          "qa_train": 0.07,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.5646590576081385,
+          "gpu_c": 72.0,
+          "gpu_w": 514.59,
+          "peak_vram_gb": 33.546998023986816,
+          "time": "2026-11-02 17:31:54"
+        },
+        {
+          "step": 5000.0,
+          "train_bits": 1.8977961335414057,
+          "val_bits": 3.1425461515802993,
+          "val_bits_no_mem": null,
+          "qa_test": 0.05333333333333334,
+          "qa_train": 0.04666666666666667,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.559095975005075,
+          "gpu_c": 73.0,
+          "gpu_w": 463.68,
+          "peak_vram_gb": 33.546998023986816,
+          "time": "2026-11-02 17:36:40"
+        },
+        {
+          "step": 6000.0,
+          "train_bits": 1.8563283431981374,
+          "val_bits": 3.0676681587331114,
+          "val_bits_no_mem": null,
+          "qa_test": 0.05416666666666667,
+          "qa_train": 0.055,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.5577988092895647,
+          "gpu_c": 73.0,
+          "gpu_w": 533.34,
+          "peak_vram_gb": 33.546998023986816,
+          "time": "2026-11-02 17:41:26"
+        },
+        {
+          "step": 7000.0,
+          "train_bits": 1.8139967699909105,
+          "val_bits": 2.999165978378147,
+          "val_bits_no_mem": null,
+          "qa_test": 0.0575,
+          "qa_train": 0.058333333333333334,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.5583252303477355,
+          "gpu_c": 70.0,
+          "gpu_w": 459.63,
+          "peak_vram_gb": 33.546998023986816,
+          "time": "2026-11-02 17:46:11"
+        },
+        {
+          "step": 8000.0,
+          "train_bits": 1.7885452294723745,
+          "val_bits": 2.9623927912895365,
+          "val_bits_no_mem": null,
+          "qa_test": 0.05,
+          "qa_train": 0.05333333333333334,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.558203545826257,
+          "gpu_c": 72.0,
+          "gpu_w": 536.96,
+          "peak_vram_gb": 33.546998023986816,
+          "time": "2026-11-02 17:50:57"
+        },
+        {
+          "step": 9000.0,
+          "train_bits": 1.7678378948713829,
+          "val_bits": 2.9204171075144956,
+          "val_bits_no_mem": null,
+          "qa_test": 0.050833333333333335,
+          "qa_train": 0.04833333333333333,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.5573599886934013,
+          "gpu_c": 78.0,
+          "gpu_w": 551.37,
+          "peak_vram_gb": 33.546998023986816,
+          "time": "2026-11-02 17:55:50"
+        },
+        {
+          "step": 10000.0,
+          "train_bits": 1.7454039189492228,
+          "val_bits": 2.888395557427136,
+          "val_bits_no_mem": null,
+          "qa_test": 0.055,
+          "qa_train": 0.07833333333333334,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.5552691314495397,
+          "gpu_c": 74.0,
+          "gpu_w": 572.5,
+          "peak_vram_gb": 33.546998023986816,
+          "time": "2026-11-02 18:00:37"
+        },
+        {
+          "step": 11000.0,
+          "train_bits": 1.7194969898690333,
+          "val_bits": 2.8533782128806227,
+          "val_bits_no_mem": null,
+          "qa_test": 0.0575,
+          "qa_train": 0.07166666666666667,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.5546241588544865,
+          "gpu_c": 74.0,
+          "gpu_w": 564.37,
+          "peak_vram_gb": 33.546998023986816,
+          "time": "2026-11-02 18:05:23"
+        },
+        {
+          "step": 12000.0,
+          "train_bits": 1.7023463854748728,
+          "val_bits": 2.829348431438938,
+          "val_bits_no_mem": null,
+          "qa_test": 0.0675,
+          "qa_train": 0.07166666666666667,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.5557345806476324,
+          "gpu_c": 71.0,
+          "gpu_w": 485.94,
+          "peak_vram_gb": 33.546998023986816,
+          "time": "2026-11-02 18:10:08"
+        },
+        {
+          "step": 13000.0,
+          "train_bits": 1.6920689279865406,
+          "val_bits": 2.796785895591402,
+          "val_bits_no_mem": null,
+          "qa_test": 0.0525,
+          "qa_train": 0.04666666666666667,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.556482358258431,
+          "gpu_c": 75.0,
+          "gpu_w": 573.66,
+          "peak_vram_gb": 33.546998023986816,
+          "time": "2026-11-02 18:14:53"
+        },
+        {
+          "step": 14000.0,
+          "train_bits": 1.6718268387028798,
+          "val_bits": 2.7801710959800605,
+          "val_bits_no_mem": null,
+          "qa_test": 0.050833333333333335,
+          "qa_train": 0.051666666666666666,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.557654776782489,
+          "gpu_c": 70.0,
+          "gpu_w": 540.85,
+          "peak_vram_gb": 33.546998023986816,
+          "time": "2026-11-02 18:19:37"
+        },
+        {
+          "step": 15000.0,
+          "train_bits": 1.646022164057544,
+          "val_bits": 2.7545401273950683,
+          "val_bits_no_mem": null,
+          "qa_test": 0.05,
+          "qa_train": 0.07,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.5584836596696783,
+          "gpu_c": 77.0,
+          "gpu_w": 575.48,
+          "peak_vram_gb": 33.546998023986816,
+          "time": "2026-11-02 18:24:29"
+        },
+        {
+          "step": 16000.0,
+          "train_bits": 1.6333451831265426,
+          "val_bits": 2.73640839064151,
+          "val_bits_no_mem": null,
+          "qa_test": 0.05583333333333333,
+          "qa_train": 0.06333333333333334,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.559426728272451,
+          "gpu_c": 72.0,
+          "gpu_w": 528.72,
+          "peak_vram_gb": 33.546998023986816,
+          "time": "2026-11-02 18:29:13"
+        },
+        {
+          "step": 17000.0,
+          "train_bits": 1.615598099903527,
+          "val_bits": 2.71150014331705,
+          "val_bits_no_mem": null,
+          "qa_test": 0.0575,
+          "qa_train": 0.06833333333333333,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.5600458926702654,
+          "gpu_c": 73.0,
+          "gpu_w": 566.53,
+          "peak_vram_gb": 33.546998023986816,
+          "time": "2026-11-02 18:33:57"
+        },
+        {
+          "step": 18000.0,
+          "train_bits": 1.602838320075051,
+          "val_bits": 2.6924508934530267,
+          "val_bits_no_mem": null,
+          "qa_test": 0.051666666666666666,
+          "qa_train": 0.058333333333333334,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.5601758488062782,
+          "gpu_c": 69.0,
+          "gpu_w": 444.57,
+          "peak_vram_gb": 33.546998023986816,
+          "time": "2026-11-02 18:38:42"
+        },
+        {
+          "step": 19000.0,
+          "train_bits": 1.5963386227466556,
+          "val_bits": 2.6677347507495797,
+          "val_bits_no_mem": null,
+          "qa_test": 0.0525,
+          "qa_train": 0.07166666666666667,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.5608141264284603,
+          "gpu_c": 70.0,
+          "gpu_w": 505.61,
+          "peak_vram_gb": 33.546998023986816,
+          "time": "2026-11-02 18:43:26"
+        },
+        {
+          "step": 20000.0,
+          "train_bits": 1.5769810939809608,
+          "val_bits": 2.653163363004465,
+          "val_bits_no_mem": null,
+          "qa_test": 0.06,
+          "qa_train": 0.07666666666666666,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.5616227104421014,
+          "gpu_c": 74.0,
+          "gpu_w": 567.41,
+          "peak_vram_gb": 33.546998023986816,
+          "time": "2026-11-02 18:48:10"
+        },
+        {
+          "step": 21000.0,
+          "train_bits": 1.5648222215345993,
+          "val_bits": 2.6351290615885645,
+          "val_bits_no_mem": null,
+          "qa_test": 0.050833333333333335,
+          "qa_train": 0.06833333333333333,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.5624876563998673,
+          "gpu_c": 72.0,
+          "gpu_w": 556.42,
+          "peak_vram_gb": 33.546998023986816,
+          "time": "2026-11-02 18:52:54"
+        },
+        {
+          "step": 22000.0,
+          "train_bits": 1.5489492332580357,
+          "val_bits": 2.6186417512831195,
+          "val_bits_no_mem": null,
+          "qa_test": 0.049166666666666664,
+          "qa_train": 0.058333333333333334,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.562968520434322,
+          "gpu_c": 69.0,
+          "gpu_w": 470.97,
+          "peak_vram_gb": 33.546998023986816,
+          "time": "2026-11-02 18:57:45"
+        },
+        {
+          "step": 23000.0,
+          "train_bits": 1.5402704297518832,
+          "val_bits": 2.6028643925263797,
+          "val_bits_no_mem": null,
+          "qa_test": 0.05,
+          "qa_train": 0.065,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.563417488030723,
+          "gpu_c": 68.0,
+          "gpu_w": 433.88,
+          "peak_vram_gb": 33.546998023986816,
+          "time": "2026-11-02 19:02:29"
+        },
+        {
+          "step": 24000.0,
+          "train_bits": 1.5258561553242753,
+          "val_bits": 2.5872861681815076,
+          "val_bits_no_mem": null,
+          "qa_test": 0.06583333333333333,
+          "qa_train": 0.08666666666666667,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.5638412362539964,
+          "gpu_c": 69.0,
+          "gpu_w": 514.93,
+          "peak_vram_gb": 33.546998023986816,
+          "time": "2026-11-02 19:07:13"
+        },
+        {
+          "step": 25000.0,
+          "train_bits": 1.5118933998486765,
+          "val_bits": 2.575847609238566,
+          "val_bits_no_mem": null,
+          "qa_test": 0.049166666666666664,
+          "qa_train": 0.07166666666666667,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.5642502681507096,
+          "gpu_c": 69.0,
+          "gpu_w": 475.62,
+          "peak_vram_gb": 33.546998023986816,
+          "time": "2026-11-02 19:11:57"
+        },
+        {
+          "step": 26000.0,
+          "train_bits": 1.5025965766866483,
+          "val_bits": 2.5667687024270682,
+          "val_bits_no_mem": null,
+          "qa_test": 0.050833333333333335,
+          "qa_train": 0.08,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.564615624406801,
+          "gpu_c": 71.0,
+          "gpu_w": 549.82,
+          "peak_vram_gb": 33.546998023986816,
+          "time": "2026-11-02 19:16:41"
+        },
+        {
+          "step": 27000.0,
+          "train_bits": 1.4949631267281025,
+          "val_bits": 2.55665535580035,
+          "val_bits_no_mem": null,
+          "qa_test": 0.049166666666666664,
+          "qa_train": 0.07666666666666666,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.5650603486813437,
+          "gpu_c": 69.0,
+          "gpu_w": 472.1,
+          "peak_vram_gb": 33.546998023986816,
+          "time": "2026-11-02 19:21:25"
+        },
+        {
+          "step": 28000.0,
+          "train_bits": 1.4881854516913344,
+          "val_bits": 2.5470330339737326,
+          "val_bits_no_mem": null,
+          "qa_test": 0.056666666666666664,
+          "qa_train": 0.07166666666666667,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.5655282386069804,
+          "gpu_c": 70.0,
+          "gpu_w": 526.5,
+          "peak_vram_gb": 33.546998023986816,
+          "time": "2026-11-02 19:26:16"
+        },
+        {
+          "step": 29000.0,
+          "train_bits": 1.4869164024595336,
+          "val_bits": 2.5470800425649687,
+          "val_bits_no_mem": null,
+          "qa_test": 0.055,
+          "qa_train": 0.095,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.565778696558617,
+          "gpu_c": 68.0,
+          "gpu_w": 450.1,
+          "peak_vram_gb": 33.546998023986816,
+          "time": "2026-11-02 19:31:00"
+        },
+        {
+          "step": 30000.0,
+          "train_bits": 1.480507468975131,
+          "val_bits": 2.5448017238954947,
+          "val_bits_no_mem": null,
+          "qa_test": 0.06416666666666666,
+          "qa_train": 0.07166666666666667,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.5661410476351083,
+          "gpu_c": 72.0,
+          "gpu_w": 522.91,
+          "peak_vram_gb": 33.546998023986816,
+          "time": "2026-11-02 19:35:43"
+        }
+      ],
+      "summary": {
+        "name": "L_tern",
+        "steps_done": 30000,
+        "finished": true,
+        "params_brain": 268285952,
+        "params_memory": 0,
+        "memory_bytes_with_adam": 0,
+        "seconds": 8577.140000000014,
+        "train_seconds": 8409.624999999156,
+        "best_val_bits": [
+          2.5448017238954947,
+          30000
+        ],
+        "measured_steps": 27922,
+        "measured_training_seconds": 7829.751999999135,
+        "training_steps_per_s": 3.5661410476351083,
+        "peak_rss_gb": 4.6251678466796875,
+        "peak_vram_gb": 33.546998023986816,
+        "process_read_bytes": 16102716705,
+        "process_write_bytes": 16098791332,
+        "storage_note": "SSD mmap uses Windows page cache; process I/O is not physical disk I/O",
+        "reason": null,
+        "last_evaluation": {
+          "step": 30000,
+          "val_bits": 2.5448017238954947,
+          "qa_test": 0.06416666666666666,
+          "qa_train": 0.07166666666666667,
+          "val_bits_no_mem": null,
+          "qa_test_no_mem": null,
+          "qa_test_by_attr": {
+            "spr": 0.0051,
+            "dn": 0.0922,
+            "year": 0.0206,
+            "kva": 0.0758,
+            "city": 0.0777,
+            "fire": 0.1095
+          }
+        },
+        "val_bits": 2.5448017238954947,
+        "qa_test": 0.06416666666666666,
+        "qa_train": 0.07166666666666667,
+        "val_bits_no_mem": null,
+        "qa_test_no_mem": null,
+        "qa_test_by_attr": {
+          "spr": 0.0051,
+          "dn": 0.0922,
+          "year": 0.0206,
+          "kva": 0.0758,
+          "city": 0.0777,
+          "fire": 0.1095
+        }
+      },
+      "live": {
+        "steps": 30000,
+        "step": 30000,
+        "phase": "завершён",
+        "time": "02.11 19:35:51",
+        "timestamp": 1793637351.3820803,
+        "backend": "none",
+        "reason": null,
+        "checkpoint_step": 30000
+      },
+      "checkpoint": {
+        "step": 30000,
+        "saved_at": 1793637350.920135,
+        "manifest": "D:\\memlab\\ckpt\\L_tern\\manifest.json",
+        "bytes": 3219609361,
+        "generations": 2,
+        "version": 2
+      },
+      "backend": "none"
+    },
+    {
+      "name": "F_base",
+      "label": "Быстрый старт: обычный старт",
+      "status": "готово",
+      "rows": [],
+      "summary": {
+        "name": "F_base",
+        "mode": "base",
+        "finished": true,
+        "steps_done": 20000,
+        "seconds": 1593,
+        "train_seconds": 1576,
+        "svd_seconds": 0,
+        "switch_step": null,
+        "final_bits": 1.3085,
+        "time_to_goal": {
+          "2.2": 78,
+          "2.0": 118,
+          "1.9": 118,
+          "1.8": 157
+        },
+        "log": [
+          {
+            "step": 0,
+            "seconds": 0,
+            "bits": 7.7602
+          },
+          {
+            "step": 500,
+            "seconds": 39,
+            "bits": 2.5476
+          },
+          {
+            "step": 1000,
+            "seconds": 78,
+            "bits": 2.1538
+          },
+          {
+            "step": 1500,
+            "seconds": 118,
+            "bits": 1.8851
+          },
+          {
+            "step": 2000,
+            "seconds": 157,
+            "bits": 1.7681
+          },
+          {
+            "step": 2500,
+            "seconds": 197,
+            "bits": 1.694
+          },
+          {
+            "step": 3000,
+            "seconds": 236,
+            "bits": 1.6436
+          },
+          {
+            "step": 3500,
+            "seconds": 275,
+            "bits": 1.6029
+          },
+          {
+            "step": 4000,
+            "seconds": 315,
+            "bits": 1.5735
+          },
+          {
+            "step": 4500,
+            "seconds": 354,
+            "bits": 1.5487
+          },
+          {
+            "step": 5000,
+            "seconds": 394,
+            "bits": 1.5238
+          },
+          {
+            "step": 5500,
+            "seconds": 433,
+            "bits": 1.5061
+          },
+          {
+            "step": 6000,
+            "seconds": 472,
+            "bits": 1.4932
+          },
+          {
+            "step": 6500,
+            "seconds": 512,
+            "bits": 1.4766
+          },
+          {
+            "step": 7000,
+            "seconds": 551,
+            "bits": 1.4601
+          },
+          {
+            "step": 7500,
+            "seconds": 591,
+            "bits": 1.4499
+          },
+          {
+            "step": 8000,
+            "seconds": 630,
+            "bits": 1.4391
+          },
+          {
+            "step": 8500,
+            "seconds": 670,
+            "bits": 1.4303
+          },
+          {
+            "step": 9000,
+            "seconds": 709,
+            "bits": 1.4205
+          },
+          {
+            "step": 9500,
+            "seconds": 748,
+            "bits": 1.4092
+          },
+          {
+            "step": 10000,
+            "seconds": 788,
+            "bits": 1.4034
+          },
+          {
+            "step": 10500,
+            "seconds": 827,
+            "bits": 1.393
+          },
+          {
+            "step": 11000,
+            "seconds": 867,
+            "bits": 1.3859
+          },
+          {
+            "step": 11500,
+            "seconds": 906,
+            "bits": 1.3789
+          },
+          {
+            "step": 12000,
+            "seconds": 945,
+            "bits": 1.3707
+          },
+          {
+            "step": 12500,
+            "seconds": 985,
+            "bits": 1.364
+          },
+          {
+            "step": 13000,
+            "seconds": 1024,
+            "bits": 1.3602
+          },
+          {
+            "step": 13500,
+            "seconds": 1063,
+            "bits": 1.3536
+          },
+          {
+            "step": 14000,
+            "seconds": 1103,
+            "bits": 1.3478
+          },
+          {
+            "step": 14500,
+            "seconds": 1142,
+            "bits": 1.3422
+          },
+          {
+            "step": 15000,
+            "seconds": 1182,
+            "bits": 1.3362
+          },
+          {
+            "step": 15500,
+            "seconds": 1221,
+            "bits": 1.3313
+          },
+          {
+            "step": 16000,
+            "seconds": 1260,
+            "bits": 1.3279
+          },
+          {
+            "step": 16500,
+            "seconds": 1300,
+            "bits": 1.323
+          },
+          {
+            "step": 17000,
+            "seconds": 1339,
+            "bits": 1.3204
+          },
+          {
+            "step": 17500,
+            "seconds": 1379,
+            "bits": 1.317
+          },
+          {
+            "step": 18000,
+            "seconds": 1418,
+            "bits": 1.3144
+          },
+          {
+            "step": 18500,
+            "seconds": 1457,
+            "bits": 1.3134
+          },
+          {
+            "step": 19000,
+            "seconds": 1497,
+            "bits": 1.3109
+          },
+          {
+            "step": 19500,
+            "seconds": 1536,
+            "bits": 1.3091
+          },
+          {
+            "step": 20000,
+            "seconds": 1576,
+            "bits": 1.3085
+          }
+        ]
+      },
+      "live": {
+        "steps": 20000,
+        "step": 20000,
+        "phase": "обучение",
+        "bits": 1.3084556085998584,
+        "time": "02.11 20:02:53",
+        "timestamp": 1793638973.3275807
+      },
+      "checkpoint": {},
+      "backend": "none"
+    },
+    {
+      "name": "F_svd",
+      "label": "Быстрый старт: готовые значения слов",
+      "status": "готово",
+      "rows": [],
+      "summary": {
+        "name": "F_svd",
+        "mode": "svd",
+        "finished": true,
+        "steps_done": 20000,
+        "seconds": 1601,
+        "train_seconds": 1584,
+        "svd_seconds": 1,
+        "switch_step": null,
+        "final_bits": 1.3055,
+        "time_to_goal": {
+          "2.2": 95,
+          "2.0": 142,
+          "1.9": 184,
+          "1.8": 184
+        },
+        "log": [
+          {
+            "step": 0,
+            "seconds": 1,
+            "bits": 14.3559
+          },
+          {
+            "step": 500,
+            "seconds": 48,
+            "bits": 2.5573
+          },
+          {
+            "step": 1000,
+            "seconds": 95,
+            "bits": 2.1798
+          },
+          {
+            "step": 1500,
+            "seconds": 142,
+            "bits": 1.9515
+          },
+          {
+            "step": 2000,
+            "seconds": 184,
+            "bits": 1.7924
+          },
+          {
+            "step": 2500,
+            "seconds": 222,
+            "bits": 1.703
+          },
+          {
+            "step": 3000,
+            "seconds": 262,
+            "bits": 1.6534
+          },
+          {
+            "step": 3500,
+            "seconds": 301,
+            "bits": 1.6099
+          },
+          {
+            "step": 4000,
+            "seconds": 340,
+            "bits": 1.5753
+          },
+          {
+            "step": 4500,
+            "seconds": 378,
+            "bits": 1.5514
+          },
+          {
+            "step": 5000,
+            "seconds": 417,
+            "bits": 1.5239
+          },
+          {
+            "step": 5500,
+            "seconds": 456,
+            "bits": 1.508
+          },
+          {
+            "step": 6000,
+            "seconds": 495,
+            "bits": 1.4939
+          },
+          {
+            "step": 6500,
+            "seconds": 534,
+            "bits": 1.4759
+          },
+          {
+            "step": 7000,
+            "seconds": 573,
+            "bits": 1.4586
+          },
+          {
+            "step": 7500,
+            "seconds": 612,
+            "bits": 1.4476
+          },
+          {
+            "step": 8000,
+            "seconds": 651,
+            "bits": 1.4382
+          },
+          {
+            "step": 8500,
+            "seconds": 690,
+            "bits": 1.4305
+          },
+          {
+            "step": 9000,
+            "seconds": 728,
+            "bits": 1.4201
+          },
+          {
+            "step": 9500,
+            "seconds": 767,
+            "bits": 1.4098
+          },
+          {
+            "step": 10000,
+            "seconds": 806,
+            "bits": 1.4014
+          },
+          {
+            "step": 10500,
+            "seconds": 845,
+            "bits": 1.3921
+          },
+          {
+            "step": 11000,
+            "seconds": 884,
+            "bits": 1.3861
+          },
+          {
+            "step": 11500,
+            "seconds": 923,
+            "bits": 1.3774
+          },
+          {
+            "step": 12000,
+            "seconds": 962,
+            "bits": 1.3703
+          },
+          {
+            "step": 12500,
+            "seconds": 1001,
+            "bits": 1.366
+          },
+          {
+            "step": 13000,
+            "seconds": 1039,
+            "bits": 1.3587
+          },
+          {
+            "step": 13500,
+            "seconds": 1078,
+            "bits": 1.3512
+          },
+          {
+            "step": 14000,
+            "seconds": 1117,
+            "bits": 1.3445
+          },
+          {
+            "step": 14500,
+            "seconds": 1156,
+            "bits": 1.3401
+          },
+          {
+            "step": 15000,
+            "seconds": 1195,
+            "bits": 1.334
+          },
+          {
+            "step": 15500,
+            "seconds": 1234,
+            "bits": 1.3298
+          },
+          {
+            "step": 16000,
+            "seconds": 1273,
+            "bits": 1.3258
+          },
+          {
+            "step": 16500,
+            "seconds": 1312,
+            "bits": 1.3224
+          },
+          {
+            "step": 17000,
+            "seconds": 1350,
+            "bits": 1.3186
+          },
+          {
+            "step": 17500,
+            "seconds": 1389,
+            "bits": 1.3151
+          },
+          {
+            "step": 18000,
+            "seconds": 1428,
+            "bits": 1.3124
+          },
+          {
+            "step": 18500,
+            "seconds": 1467,
+            "bits": 1.3106
+          },
+          {
+            "step": 19000,
+            "seconds": 1506,
+            "bits": 1.3079
+          },
+          {
+            "step": 19500,
+            "seconds": 1545,
+            "bits": 1.3069
+          },
+          {
+            "step": 20000,
+            "seconds": 1584,
+            "bits": 1.3055
+          }
+        ]
+      },
+      "live": {
+        "steps": 20000,
+        "step": 20000,
+        "phase": "обучение",
+        "bits": 1.3054920526139506,
+        "time": "02.11 20:04:22",
+        "timestamp": 1793639062.3403213
+      },
+      "checkpoint": {},
+      "backend": "none"
+    },
+    {
+      "name": "F_grow",
+      "label": "Быстрый старт: рост сети",
+      "status": "готово",
+      "rows": [],
+      "summary": {
+        "name": "F_grow",
+        "mode": "grow",
+        "finished": true,
+        "steps_done": 38000,
+        "seconds": 2386,
+        "train_seconds": 2360,
+        "svd_seconds": 0,
+        "switch_step": 24000,
+        "final_bits": 1.3602,
+        "time_to_goal": {
+          "2.2": 79,
+          "2.0": 105,
+          "1.9": 132,
+          "1.8": 158
+        },
+        "log": [
+          {
+            "step": 0,
+            "seconds": 0,
+            "bits": 7.5273
+          },
+          {
+            "step": 500,
+            "seconds": 27,
+            "bits": 2.7114
+          },
+          {
+            "step": 1000,
+            "seconds": 53,
+            "bits": 2.3091
+          },
+          {
+            "step": 1500,
+            "seconds": 79,
+            "bits": 2.0747
+          },
+          {
+            "step": 2000,
+            "seconds": 105,
+            "bits": 1.9064
+          },
+          {
+            "step": 2500,
+            "seconds": 132,
+            "bits": 1.8156
+          },
+          {
+            "step": 3000,
+            "seconds": 158,
+            "bits": 1.7633
+          },
+          {
+            "step": 3500,
+            "seconds": 184,
+            "bits": 1.7173
+          },
+          {
+            "step": 4000,
+            "seconds": 211,
+            "bits": 1.6868
+          },
+          {
+            "step": 4500,
+            "seconds": 237,
+            "bits": 1.6582
+          },
+          {
+            "step": 5000,
+            "seconds": 263,
+            "bits": 1.6332
+          },
+          {
+            "step": 5500,
+            "seconds": 290,
+            "bits": 1.6205
+          },
+          {
+            "step": 6000,
+            "seconds": 316,
+            "bits": 1.608
+          },
+          {
+            "step": 6500,
+            "seconds": 342,
+            "bits": 1.5925
+          },
+          {
+            "step": 7000,
+            "seconds": 368,
+            "bits": 1.5774
+          },
+          {
+            "step": 7500,
+            "seconds": 395,
+            "bits": 1.5679
+          },
+          {
+            "step": 8000,
+            "seconds": 421,
+            "bits": 1.5581
+          },
+          {
+            "step": 8500,
+            "seconds": 447,
+            "bits": 1.5493
+          },
+          {
+            "step": 9000,
+            "seconds": 474,
+            "bits": 1.543
+          },
+          {
+            "step": 9500,
+            "seconds": 500,
+            "bits": 1.5314
+          },
+          {
+            "step": 10000,
+            "seconds": 526,
+            "bits": 1.53
+          },
+          {
+            "step": 10500,
+            "seconds": 553,
+            "bits": 1.5219
+          },
+          {
+            "step": 11000,
+            "seconds": 579,
+            "bits": 1.5131
+          },
+          {
+            "step": 11500,
+            "seconds": 605,
+            "bits": 1.5094
+          },
+          {
+            "step": 12000,
+            "seconds": 632,
+            "bits": 1.5049
+          },
+          {
+            "step": 12500,
+            "seconds": 658,
+            "bits": 1.499
+          },
+          {
+            "step": 13000,
+            "seconds": 684,
+            "bits": 1.4989
+          },
+          {
+            "step": 13500,
+            "seconds": 711,
+            "bits": 1.4927
+          },
+          {
+            "step": 14000,
+            "seconds": 737,
+            "bits": 1.4855
+          },
+          {
+            "step": 14500,
+            "seconds": 763,
+            "bits": 1.4833
+          },
+          {
+            "step": 15000,
+            "seconds": 790,
+            "bits": 1.481
+          },
+          {
+            "step": 15500,
+            "seconds": 816,
+            "bits": 1.476
+          },
+          {
+            "step": 16000,
+            "seconds": 842,
+            "bits": 1.4744
+          },
+          {
+            "step": 16500,
+            "seconds": 869,
+            "bits": 1.4698
+          },
+          {
+            "step": 17000,
+            "seconds": 895,
+            "bits": 1.4645
+          },
+          {
+            "step": 17500,
+            "seconds": 921,
+            "bits": 1.4618
+          },
+          {
+            "step": 18000,
+            "seconds": 948,
+            "bits": 1.4575
+          },
+          {
+            "step": 18500,
+            "seconds": 974,
+            "bits": 1.4564
+          },
+          {
+            "step": 19000,
+            "seconds": 1000,
+            "bits": 1.453
+          },
+          {
+            "step": 19500,
+            "seconds": 1027,
+            "bits": 1.4503
+          },
+          {
+            "step": 20000,
+            "seconds": 1053,
+            "bits": 1.4468
+          },
+          {
+            "step": 20500,
+            "seconds": 1079,
+            "bits": 1.4425
+          },
+          {
+            "step": 21000,
+            "seconds": 1105,
+            "bits": 1.4404
+          },
+          {
+            "step": 21500,
+            "seconds": 1131,
+            "bits": 1.4357
+          },
+          {
+            "step": 22000,
+            "seconds": 1158,
+            "bits": 1.4333
+          },
+          {
+            "step": 22500,
+            "seconds": 1184,
+            "bits": 1.4305
+          },
+          {
+            "step": 23000,
+            "seconds": 1210,
+            "bits": 1.4276
+          },
+          {
+            "step": 23500,
+            "seconds": 1236,
+            "bits": 1.4251
+          },
+          {
+            "step": 24000,
+            "seconds": 1262,
+            "bits": 4.3902
+          },
+          {
+            "step": 24500,
+            "seconds": 1302,
+            "bits": 1.8061
+          },
+          {
+            "step": 25000,
+            "seconds": 1341,
+            "bits": 1.5417
+          },
+          {
+            "step": 25500,
+            "seconds": 1380,
+            "bits": 1.4837
+          },
+          {
+            "step": 26000,
+            "seconds": 1419,
+            "bits": 1.4623
+          },
+          {
+            "step": 26500,
+            "seconds": 1458,
+            "bits": 1.4466
+          },
+          {
+            "step": 27000,
+            "seconds": 1497,
+            "bits": 1.4358
+          },
+          {
+            "step": 27500,
+            "seconds": 1537,
+            "bits": 1.4287
+          },
+          {
+            "step": 28000,
+            "seconds": 1576,
+            "bits": 1.4222
+          },
+          {
+            "step": 28500,
+            "seconds": 1615,
+            "bits": 1.4152
+          },
+          {
+            "step": 29000,
+            "seconds": 1654,
+            "bits": 1.4136
+          },
+          {
+            "step": 29500,
+            "seconds": 1693,
+            "bits": 1.4073
+          },
+          {
+            "step": 30000,
+            "seconds": 1732,
+            "bits": 1.4009
+          },
+          {
+            "step": 30500,
+            "seconds": 1772,
+            "bits": 1.3971
+          },
+          {
+            "step": 31000,
+            "seconds": 1811,
+            "bits": 1.3935
+          },
+          {
+            "step": 31500,
+            "seconds": 1850,
+            "bits": 1.3908
+          },
+          {
+            "step": 32000,
+            "seconds": 1889,
+            "bits": 1.3869
+          },
+          {
+            "step": 32500,
+            "seconds": 1929,
+            "bits": 1.3841
+          },
+          {
+            "step": 33000,
+            "seconds": 1968,
+            "bits": 1.3809
+          },
+          {
+            "step": 33500,
+            "seconds": 2007,
+            "bits": 1.3763
+          },
+          {
+            "step": 34000,
+            "seconds": 2046,
+            "bits": 1.3757
+          },
+          {
+            "step": 34500,
+            "seconds": 2085,
+            "bits": 1.373
+          },
+          {
+            "step": 35000,
+            "seconds": 2125,
+            "bits": 1.3708
+          },
+          {
+            "step": 35500,
+            "seconds": 2164,
+            "bits": 1.3664
+          },
+          {
+            "step": 36000,
+            "seconds": 2203,
+            "bits": 1.3672
+          },
+          {
+            "step": 36500,
+            "seconds": 2242,
+            "bits": 1.3638
+          },
+          {
+            "step": 37000,
+            "seconds": 2282,
+            "bits": 1.3629
+          },
+          {
+            "step": 37500,
+            "seconds": 2321,
+            "bits": 1.3614
+          },
+          {
+            "step": 38000,
+            "seconds": 2360,
+            "bits": 1.3602
+          }
+        ]
+      },
+      "live": {
+        "steps": 38000,
+        "step": 38000,
+        "phase": "обучение",
+        "bits": 1.3601846075417374,
+        "time": "02.11 20:43:04",
+        "timestamp": 1793641384.722352
+      },
+      "checkpoint": {},
+      "backend": "none"
+    },
+    {
+      "name": "F_svd_grow",
+      "label": "Быстрый старт: готовые значения и рост",
+      "status": "готово",
+      "rows": [],
+      "summary": {
+        "name": "F_svd_grow",
+        "mode": "svd_grow",
+        "finished": true,
+        "steps_done": 38000,
+        "seconds": 2363,
+        "train_seconds": 2338,
+        "svd_seconds": 1,
+        "switch_step": 24000,
+        "final_bits": 1.3621,
+        "time_to_goal": {
+          "2.2": 79,
+          "2.0": 105,
+          "1.9": 132,
+          "1.8": 132
+        },
+        "log": [
+          {
+            "step": 0,
+            "seconds": 1,
+            "bits": 10.1347
+          },
+          {
+            "step": 500,
+            "seconds": 27,
+            "bits": 2.6065
+          },
+          {
+            "step": 1000,
+            "seconds": 53,
+            "bits": 2.2925
+          },
+          {
+            "step": 1500,
+            "seconds": 79,
+            "bits": 2.0696
+          },
+          {
+            "step": 2000,
+            "seconds": 105,
+            "bits": 1.9034
+          },
+          {
+            "step": 2500,
+            "seconds": 132,
+            "bits": 1.7974
+          },
+          {
+            "step": 3000,
+            "seconds": 158,
+            "bits": 1.7439
+          },
+          {
+            "step": 3500,
+            "seconds": 184,
+            "bits": 1.7062
+          },
+          {
+            "step": 4000,
+            "seconds": 210,
+            "bits": 1.677
+          },
+          {
+            "step": 4500,
+            "seconds": 236,
+            "bits": 1.647
+          },
+          {
+            "step": 5000,
+            "seconds": 262,
+            "bits": 1.6279
+          },
+          {
+            "step": 5500,
+            "seconds": 288,
+            "bits": 1.6119
+          },
+          {
+            "step": 6000,
+            "seconds": 314,
+            "bits": 1.6022
+          },
+          {
+            "step": 6500,
+            "seconds": 341,
+            "bits": 1.5874
+          },
+          {
+            "step": 7000,
+            "seconds": 367,
+            "bits": 1.5702
+          },
+          {
+            "step": 7500,
+            "seconds": 393,
+            "bits": 1.5618
+          },
+          {
+            "step": 8000,
+            "seconds": 419,
+            "bits": 1.5538
+          },
+          {
+            "step": 8500,
+            "seconds": 445,
+            "bits": 1.5474
+          },
+          {
+            "step": 9000,
+            "seconds": 471,
+            "bits": 1.536
+          },
+          {
+            "step": 9500,
+            "seconds": 497,
+            "bits": 1.528
+          },
+          {
+            "step": 10000,
+            "seconds": 523,
+            "bits": 1.5228
+          },
+          {
+            "step": 10500,
+            "seconds": 550,
+            "bits": 1.5178
+          },
+          {
+            "step": 11000,
+            "seconds": 576,
+            "bits": 1.5109
+          },
+          {
+            "step": 11500,
+            "seconds": 602,
+            "bits": 1.5075
+          },
+          {
+            "step": 12000,
+            "seconds": 628,
+            "bits": 1.4999
+          },
+          {
+            "step": 12500,
+            "seconds": 654,
+            "bits": 1.4983
+          },
+          {
+            "step": 13000,
+            "seconds": 680,
+            "bits": 1.4957
+          },
+          {
+            "step": 13500,
+            "seconds": 706,
+            "bits": 1.4895
+          },
+          {
+            "step": 14000,
+            "seconds": 732,
+            "bits": 1.484
+          },
+          {
+            "step": 14500,
+            "seconds": 758,
+            "bits": 1.4794
+          },
+          {
+            "step": 15000,
+            "seconds": 785,
+            "bits": 1.4775
+          },
+          {
+            "step": 15500,
+            "seconds": 811,
+            "bits": 1.4729
+          },
+          {
+            "step": 16000,
+            "seconds": 837,
+            "bits": 1.4727
+          },
+          {
+            "step": 16500,
+            "seconds": 863,
+            "bits": 1.4677
+          },
+          {
+            "step": 17000,
+            "seconds": 889,
+            "bits": 1.4677
+          },
+          {
+            "step": 17500,
+            "seconds": 915,
+            "bits": 1.4591
+          },
+          {
+            "step": 18000,
+            "seconds": 941,
+            "bits": 1.4576
+          },
+          {
+            "step": 18500,
+            "seconds": 968,
+            "bits": 1.4562
+          },
+          {
+            "step": 19000,
+            "seconds": 993,
+            "bits": 1.4527
+          },
+          {
+            "step": 19500,
+            "seconds": 1019,
+            "bits": 1.45
+          },
+          {
+            "step": 20000,
+            "seconds": 1045,
+            "bits": 1.4483
+          },
+          {
+            "step": 20500,
+            "seconds": 1072,
+            "bits": 1.4442
+          },
+          {
+            "step": 21000,
+            "seconds": 1098,
+            "bits": 1.4426
+          },
+          {
+            "step": 21500,
+            "seconds": 1124,
+            "bits": 1.4365
+          },
+          {
+            "step": 22000,
+            "seconds": 1150,
+            "bits": 1.4361
+          },
+          {
+            "step": 22500,
+            "seconds": 1176,
+            "bits": 1.4309
+          },
+          {
+            "step": 23000,
+            "seconds": 1202,
+            "bits": 1.4279
+          },
+          {
+            "step": 23500,
+            "seconds": 1228,
+            "bits": 1.4269
+          },
+          {
+            "step": 24000,
+            "seconds": 1254,
+            "bits": 4.5931
+          },
+          {
+            "step": 24500,
+            "seconds": 1292,
+            "bits": 1.8003
+          },
+          {
+            "step": 25000,
+            "seconds": 1331,
+            "bits": 1.5361
+          },
+          {
+            "step": 25500,
+            "seconds": 1370,
+            "bits": 1.4853
+          },
+          {
+            "step": 26000,
+            "seconds": 1409,
+            "bits": 1.4638
+          },
+          {
+            "step": 26500,
+            "seconds": 1447,
+            "bits": 1.4488
+          },
+          {
+            "step": 27000,
+            "seconds": 1486,
+            "bits": 1.4361
+          },
+          {
+            "step": 27500,
+            "seconds": 1525,
+            "bits": 1.4304
+          },
+          {
+            "step": 28000,
+            "seconds": 1563,
+            "bits": 1.4229
+          },
+          {
+            "step": 28500,
+            "seconds": 1602,
+            "bits": 1.415
+          },
+          {
+            "step": 29000,
+            "seconds": 1641,
+            "bits": 1.4141
+          },
+          {
+            "step": 29500,
+            "seconds": 1680,
+            "bits": 1.4059
+          },
+          {
+            "step": 30000,
+            "seconds": 1718,
+            "bits": 1.4036
+          },
+          {
+            "step": 30500,
+            "seconds": 1757,
+            "bits": 1.397
+          },
+          {
+            "step": 31000,
+            "seconds": 1796,
+            "bits": 1.396
+          },
+          {
+            "step": 31500,
+            "seconds": 1835,
+            "bits": 1.3913
+          },
+          {
+            "step": 32000,
+            "seconds": 1873,
+            "bits": 1.3881
+          },
+          {
+            "step": 32500,
+            "seconds": 1912,
+            "bits": 1.3854
+          },
+          {
+            "step": 33000,
+            "seconds": 1951,
+            "bits": 1.3796
+          },
+          {
+            "step": 33500,
+            "seconds": 1990,
+            "bits": 1.3771
+          },
+          {
+            "step": 34000,
+            "seconds": 2028,
+            "bits": 1.3748
+          },
+          {
+            "step": 34500,
+            "seconds": 2067,
+            "bits": 1.3722
+          },
+          {
+            "step": 35000,
+            "seconds": 2106,
+            "bits": 1.3716
+          },
+          {
+            "step": 35500,
+            "seconds": 2145,
+            "bits": 1.368
+          },
+          {
+            "step": 36000,
+            "seconds": 2183,
+            "bits": 1.368
+          },
+          {
+            "step": 36500,
+            "seconds": 2222,
+            "bits": 1.3642
+          },
+          {
+            "step": 37000,
+            "seconds": 2261,
+            "bits": 1.3655
+          },
+          {
+            "step": 37500,
+            "seconds": 2299,
+            "bits": 1.3618
+          },
+          {
+            "step": 38000,
+            "seconds": 2338,
+            "bits": 1.3621
+          }
+        ]
+      },
+      "live": {
+        "steps": 38000,
+        "step": 38000,
+        "phase": "обучение",
+        "bits": 1.3621107985068588,
+        "time": "02.11 20:44:10",
+        "timestamp": 1793641450.9715905
+      },
+      "checkpoint": {},
+      "backend": "none"
+    },
+    {
+      "name": "L_long",
+      "label": "Наш язык, окно 1024",
+      "status": "готово",
+      "rows": [
+        {
+          "step": 0.0,
+          "train_bits": 15.208323314138253,
+          "val_bits": 15.211460736310395,
+          "val_bits_no_mem": null,
+          "qa_test": 0.0,
+          "qa_train": 0.0,
+          "qa_test_no_mem": null,
+          "steps_per_s": 0.0,
+          "gpu_c": 62.0,
+          "gpu_w": 526.97,
+          "peak_vram_gb": 9.358941078186035,
+          "time": "2026-11-02 20:43:40"
+        },
+        {
+          "step": 1000.0,
+          "train_bits": 2.6946383837850134,
+          "val_bits": 4.4508965864505905,
+          "val_bits_no_mem": null,
+          "qa_test": 0.043333333333333335,
+          "qa_train": 0.058333333333333334,
+          "qa_test_no_mem": null,
+          "steps_per_s": 1.714567764393887,
+          "gpu_c": 74.0,
+          "gpu_w": 555.48,
+          "peak_vram_gb": 63.647786140441895,
+          "time": "2026-11-02 20:53:29"
+        },
+        {
+          "step": 2000.0,
+          "train_bits": 2.1109177224212017,
+          "val_bits": 3.43029843658723,
+          "val_bits_no_mem": null,
+          "qa_test": 0.05583333333333333,
+          "qa_train": 0.05333333333333334,
+          "qa_test_no_mem": null,
+          "steps_per_s": 1.706563666830648,
+          "gpu_c": 75.0,
+          "gpu_w": 557.42,
+          "peak_vram_gb": 63.647786140441895,
+          "time": "2026-11-02 21:03:24"
+        },
+        {
+          "step": 3000.0,
+          "train_bits": 1.8892386422976055,
+          "val_bits": 3.0507367820571942,
+          "val_bits_no_mem": null,
+          "qa_test": 0.04666666666666667,
+          "qa_train": 0.04833333333333333,
+          "qa_test_no_mem": null,
+          "steps_per_s": 1.7033242166561706,
+          "gpu_c": 82.0,
+          "gpu_w": 600.26,
+          "peak_vram_gb": 63.647786140441895,
+          "time": "2026-11-02 21:13:19"
+        },
+        {
+          "step": 4000.0,
+          "train_bits": 1.7753110355014932,
+          "val_bits": 2.875566439926587,
+          "val_bits_no_mem": null,
+          "qa_test": 0.05416666666666667,
+          "qa_train": 0.03833333333333333,
+          "qa_test_no_mem": null,
+          "steps_per_s": 1.7028163045301767,
+          "gpu_c": 78.0,
+          "gpu_w": 548.22,
+          "peak_vram_gb": 63.647786140441895,
+          "time": "2026-11-02 21:23:20"
+        },
+        {
+          "step": 5000.0,
+          "train_bits": 1.7071914807149797,
+          "val_bits": 2.7783432643666908,
+          "val_bits_no_mem": null,
+          "qa_test": 0.05416666666666667,
+          "qa_train": 0.051666666666666666,
+          "qa_test_no_mem": null,
+          "steps_per_s": 1.7025812359851742,
+          "gpu_c": 79.0,
+          "gpu_w": 561.18,
+          "peak_vram_gb": 63.647786140441895,
+          "time": "2026-11-02 21:33:13"
+        },
+        {
+          "step": 6000.0,
+          "train_bits": 1.6674026280050969,
+          "val_bits": 2.7057906561077627,
+          "val_bits_no_mem": null,
+          "qa_test": 0.0525,
+          "qa_train": 0.055,
+          "qa_test_no_mem": null,
+          "steps_per_s": 1.7022548767186132,
+          "gpu_c": 71.0,
+          "gpu_w": 506.85,
+          "peak_vram_gb": 63.647786140441895,
+          "time": "2026-11-02 21:43:07"
+        },
+        {
+          "step": 7000.0,
+          "train_bits": 1.6213137068288077,
+          "val_bits": 2.6520566904758818,
+          "val_bits_no_mem": null,
+          "qa_test": 0.05416666666666667,
+          "qa_train": 0.051666666666666666,
+          "qa_test_no_mem": null,
+          "steps_per_s": 1.7021512854529022,
+          "gpu_c": 81.0,
+          "gpu_w": 599.8,
+          "peak_vram_gb": 63.647786140441895,
+          "time": "2026-11-02 21:53:08"
+        },
+        {
+          "step": 8000.0,
+          "train_bits": 1.590728204710209,
+          "val_bits": 2.620950582541234,
+          "val_bits_no_mem": null,
+          "qa_test": 0.056666666666666664,
+          "qa_train": 0.06666666666666667,
+          "qa_test_no_mem": null,
+          "steps_per_s": 1.7021544929955568,
+          "gpu_c": 74.0,
+          "gpu_w": 505.34,
+          "peak_vram_gb": 63.647786140441895,
+          "time": "2026-11-02 22:03:02"
+        },
+        {
+          "step": 9000.0,
+          "train_bits": 1.5581768334030917,
+          "val_bits": 2.5935284576431674,
+          "val_bits_no_mem": null,
+          "qa_test": 0.0525,
+          "qa_train": 0.06,
+          "qa_test_no_mem": null,
+          "steps_per_s": 1.701948816587112,
+          "gpu_c": 81.0,
+          "gpu_w": 599.14,
+          "peak_vram_gb": 63.647786140441895,
+          "time": "2026-11-02 22:12:56"
+        },
+        {
+          "step": 10000.0,
+          "train_bits": 1.5305642663829702,
+          "val_bits": 2.57134287483046,
+          "val_bits_no_mem": null,
+          "qa_test": 0.06916666666666667,
+          "qa_train": 0.05333333333333334,
+          "qa_test_no_mem": null,
+          "steps_per_s": 1.7023562211918635,
+          "gpu_c": 77.0,
+          "gpu_w": 570.57,
+          "peak_vram_gb": 63.647786140441895,
+          "time": "2026-11-02 22:22:55"
+        },
+        {
+          "step": 11000.0,
+          "train_bits": 1.508204683706224,
+          "val_bits": 2.5459342726470893,
+          "val_bits_no_mem": null,
+          "qa_test": 0.0725,
+          "qa_train": 0.06333333333333334,
+          "qa_test_no_mem": null,
+          "steps_per_s": 1.7024300911567343,
+          "gpu_c": 73.0,
+          "gpu_w": 538.39,
+          "peak_vram_gb": 63.647786140441895,
+          "time": "2026-11-02 22:32:48"
+        },
+        {
+          "step": 12000.0,
+          "train_bits": 1.4834179206267666,
+          "val_bits": 2.531583875442389,
+          "val_bits_no_mem": null,
+          "qa_test": 0.08666666666666667,
+          "qa_train": 0.095,
+          "qa_test_no_mem": null,
+          "steps_per_s": 1.7026062371621664,
+          "gpu_c": 72.0,
+          "gpu_w": 551.72,
+          "peak_vram_gb": 63.647786140441895,
+          "time": "2026-11-02 22:42:41"
+        },
+        {
+          "step": 13000.0,
+          "train_bits": 1.4556817733230845,
+          "val_bits": 2.5111170012510793,
+          "val_bits_no_mem": null,
+          "qa_test": 0.09666666666666666,
+          "qa_train": 0.10333333333333333,
+          "qa_test_no_mem": null,
+          "steps_per_s": 1.7029912470969495,
+          "gpu_c": 77.0,
+          "gpu_w": 568.18,
+          "peak_vram_gb": 63.647786140441895,
+          "time": "2026-11-02 22:52:39"
+        },
+        {
+          "step": 14000.0,
+          "train_bits": 1.4366121972595125,
+          "val_bits": 2.507615742615095,
+          "val_bits_no_mem": null,
+          "qa_test": 0.13083333333333333,
+          "qa_train": 0.13833333333333334,
+          "qa_test_no_mem": null,
+          "steps_per_s": 1.703116898705693,
+          "gpu_c": 74.0,
+          "gpu_w": 508.97,
+          "peak_vram_gb": 63.647786140441895,
+          "time": "2026-11-02 23:02:32"
+        },
+        {
+          "step": 15000.0,
+          "train_bits": 1.394792659399567,
+          "val_bits": 2.4918312465783443,
+          "val_bits_no_mem": null,
+          "qa_test": 0.165,
+          "qa_train": 0.20166666666666666,
+          "qa_test_no_mem": null,
+          "steps_per_s": 1.7032002553323013,
+          "gpu_c": 83.0,
+          "gpu_w": 597.63,
+          "peak_vram_gb": 63.647786140441895,
+          "time": "2026-11-02 23:12:25"
+        },
+        {
+          "step": 16000.0,
+          "train_bits": 1.3625873494327325,
+          "val_bits": 2.487282319794911,
+          "val_bits_no_mem": null,
+          "qa_test": 0.24,
+          "qa_train": 0.2683333333333333,
+          "qa_test_no_mem": null,
+          "steps_per_s": 1.7032594036376199,
+          "gpu_c": 82.0,
+          "gpu_w": 601.65,
+          "peak_vram_gb": 63.647786140441895,
+          "time": "2026-11-02 23:22:25"
+        },
+        {
+          "step": 17000.0,
+          "train_bits": 1.323261420274394,
+          "val_bits": 2.485016964317746,
+          "val_bits_no_mem": null,
+          "qa_test": 0.2991666666666667,
+          "qa_train": 0.375,
+          "qa_test_no_mem": null,
+          "steps_per_s": 1.7035667513904376,
+          "gpu_c": 82.0,
+          "gpu_w": 600.2,
+          "peak_vram_gb": 63.647786140441895,
+          "time": "2026-11-02 23:32:17"
+        },
+        {
+          "step": 18000.0,
+          "train_bits": 1.2942984454796977,
+          "val_bits": 2.485941729363323,
+          "val_bits_no_mem": null,
+          "qa_test": 0.3908333333333333,
+          "qa_train": 0.45166666666666666,
+          "qa_test_no_mem": null,
+          "steps_per_s": 1.7035649297816886,
+          "gpu_c": 77.0,
+          "gpu_w": 523.9,
+          "peak_vram_gb": 63.647786140441895,
+          "time": "2026-11-02 23:42:10"
+        },
+        {
+          "step": 19000.0,
+          "train_bits": 1.2624719595481357,
+          "val_bits": 2.4810075542760126,
+          "val_bits_no_mem": null,
+          "qa_test": 0.5158333333333334,
+          "qa_train": 0.5516666666666666,
+          "qa_test_no_mem": null,
+          "steps_per_s": 1.7037011584360575,
+          "gpu_c": 77.0,
+          "gpu_w": 527.79,
+          "peak_vram_gb": 63.647786140441895,
+          "time": "2026-11-02 23:52:10"
+        },
+        {
+          "step": 20000.0,
+          "train_bits": 1.2324750788010308,
+          "val_bits": 2.4797246138621825,
+          "val_bits_no_mem": null,
+          "qa_test": 0.6283333333333333,
+          "qa_train": 0.6633333333333333,
+          "qa_test_no_mem": null,
+          "steps_per_s": 1.7037983623250594,
+          "gpu_c": 75.0,
+          "gpu_w": 548.79,
+          "peak_vram_gb": 63.647786140441895,
+          "time": "2026-11-03 00:02:02"
+        },
+        {
+          "step": 21000.0,
+          "train_bits": 1.201462737240822,
+          "val_bits": 2.492311880759956,
+          "val_bits_no_mem": null,
+          "qa_test": 0.7191666666666666,
+          "qa_train": 0.7416666666666667,
+          "qa_test_no_mem": null,
+          "steps_per_s": 1.7039474512023234,
+          "gpu_c": 79.0,
+          "gpu_w": 516.33,
+          "peak_vram_gb": 63.647786140441895,
+          "time": "2026-11-03 00:11:54"
+        },
+        {
+          "step": 22000.0,
+          "train_bits": 1.1713780271037044,
+          "val_bits": 2.495116222698981,
+          "val_bits_no_mem": null,
+          "qa_test": 0.7808333333333334,
+          "qa_train": 0.8333333333333334,
+          "qa_test_no_mem": null,
+          "steps_per_s": 1.7041541838729446,
+          "gpu_c": 81.0,
+          "gpu_w": 599.92,
+          "peak_vram_gb": 63.64835453033447,
+          "time": "2026-11-03 00:21:53"
+        },
+        {
+          "step": 23000.0,
+          "train_bits": 1.1368939147661907,
+          "val_bits": 2.5065546598208783,
+          "val_bits_no_mem": null,
+          "qa_test": 0.8608333333333333,
+          "qa_train": 0.8833333333333333,
+          "qa_test_no_mem": null,
+          "steps_per_s": 1.7041490507023043,
+          "gpu_c": 82.0,
+          "gpu_w": 599.56,
+          "peak_vram_gb": 63.64835453033447,
+          "time": "2026-11-03 00:31:45"
+        },
+        {
+          "step": 24000.0,
+          "train_bits": 1.113100523478117,
+          "val_bits": 2.519659572999917,
+          "val_bits_no_mem": null,
+          "qa_test": 0.8858333333333334,
+          "qa_train": 0.93,
+          "qa_test_no_mem": null,
+          "steps_per_s": 1.704283691127603,
+          "gpu_c": 80.0,
+          "gpu_w": 599.64,
+          "peak_vram_gb": 63.64835453033447,
+          "time": "2026-11-03 00:41:37"
+        },
+        {
+          "step": 25000.0,
+          "train_bits": 1.0885386062168314,
+          "val_bits": 2.5292499490491367,
+          "val_bits_no_mem": null,
+          "qa_test": 0.9266666666666666,
+          "qa_train": 0.955,
+          "qa_test_no_mem": null,
+          "steps_per_s": 1.7044883700897244,
+          "gpu_c": 76.0,
+          "gpu_w": 535.18,
+          "peak_vram_gb": 63.64835453033447,
+          "time": "2026-11-03 00:51:35"
+        },
+        {
+          "step": 26000.0,
+          "train_bits": 1.0685439032275212,
+          "val_bits": 2.5551720627642087,
+          "val_bits_no_mem": null,
+          "qa_test": 0.9458333333333333,
+          "qa_train": 0.9483333333333334,
+          "qa_test_no_mem": null,
+          "steps_per_s": 1.7045162400589344,
+          "gpu_c": 75.0,
+          "gpu_w": 529.24,
+          "peak_vram_gb": 63.64835453033447,
+          "time": "2026-11-03 01:01:28"
+        },
+        {
+          "step": 27000.0,
+          "train_bits": 1.0554057723160626,
+          "val_bits": 2.5634534358620487,
+          "val_bits_no_mem": null,
+          "qa_test": 0.9575,
+          "qa_train": 0.9583333333333334,
+          "qa_test_no_mem": null,
+          "steps_per_s": 1.7046345216849292,
+          "gpu_c": 79.0,
+          "gpu_w": 543.23,
+          "peak_vram_gb": 63.64835453033447,
+          "time": "2026-11-03 01:11:20"
+        },
+        {
+          "step": 28000.0,
+          "train_bits": 1.0360497698963942,
+          "val_bits": 2.5788106625005622,
+          "val_bits_no_mem": null,
+          "qa_test": 0.9575,
+          "qa_train": 0.9583333333333334,
+          "qa_test_no_mem": null,
+          "steps_per_s": 1.7047576564266593,
+          "gpu_c": 79.0,
+          "gpu_w": 599.83,
+          "peak_vram_gb": 63.64835453033447,
+          "time": "2026-11-03 01:21:18"
+        },
+        {
+          "step": 29000.0,
+          "train_bits": 1.0212751810663132,
+          "val_bits": 2.600471848712958,
+          "val_bits_no_mem": null,
+          "qa_test": 0.9408333333333333,
+          "qa_train": 0.9566666666666667,
+          "qa_test_no_mem": null,
+          "steps_per_s": 1.7047752642814176,
+          "gpu_c": 74.0,
+          "gpu_w": 503.91,
+          "peak_vram_gb": 63.64835453033447,
+          "time": "2026-11-03 01:31:11"
+        },
+        {
+          "step": 30000.0,
+          "train_bits": 1.0154175702159984,
+          "val_bits": 2.612676726518425,
+          "val_bits_no_mem": null,
+          "qa_test": 0.9333333333333333,
+          "qa_train": 0.96,
+          "qa_test_no_mem": null,
+          "steps_per_s": 1.7050997321305694,
+          "gpu_c": 75.0,
+          "gpu_w": 599.86,
+          "peak_vram_gb": 63.64835453033447,
+          "time": "2026-11-03 01:41:00"
+        }
+      ],
+      "summary": {
+        "name": "L_long",
+        "steps_done": 30000,
+        "finished": true,
+        "params_brain": 268810240,
+        "params_memory": 0,
+        "memory_bytes_with_adam": 0,
+        "seconds": 17853.640000000014,
+        "train_seconds": 17594.663999999088,
+        "best_val_bits": [
+          2.4797246138621825,
+          20000
+        ],
+        "measured_steps": 29990,
+        "measured_training_seconds": 17588.413999999088,
+        "training_steps_per_s": 1.7050997321305694,
+        "peak_rss_gb": 4.086383819580078,
+        "peak_vram_gb": 63.64835453033447,
+        "process_read_bytes": 32264027965,
+        "process_write_bytes": 32259809215,
+        "storage_note": "SSD mmap uses Windows page cache; process I/O is not physical disk I/O",
+        "reason": null,
+        "last_evaluation": {
+          "step": 30000,
+          "val_bits": 2.612676726518425,
+          "qa_test": 0.9333333333333333,
+          "qa_train": 0.96,
+          "val_bits_no_mem": null,
+          "qa_test_no_mem": null,
+          "qa_test_by_attr": {
+            "spr": 0.9179,
+            "dn": 0.9466,
+            "year": 0.933,
+            "kva": 0.8863,
+            "city": 0.9637,
+            "fire": 0.9552
+          }
+        },
+        "val_bits": 2.612676726518425,
+        "qa_test": 0.9333333333333333,
+        "qa_train": 0.96,
+        "val_bits_no_mem": null,
+        "qa_test_no_mem": null,
+        "qa_test_by_attr": {
+          "spr": 0.9179,
+          "dn": 0.9466,
+          "year": 0.933,
+          "kva": 0.8863,
+          "city": 0.9637,
+          "fire": 0.9552
+        }
+      },
+      "live": {
+        "steps": 30000,
+        "step": 30000,
+        "phase": "завершён",
+        "time": "03.11 01:41:07",
+        "timestamp": 1793659267.842078,
+        "backend": "none",
+        "reason": null,
+        "checkpoint_step": 30000
+      },
+      "checkpoint": {
+        "step": 30000,
+        "saved_at": 1793659267.4601057,
+        "manifest": "D:\\memlab\\ckpt\\L_long\\manifest.json",
+        "bytes": 3225900369,
+        "generations": 2,
+        "version": 2
+      },
+      "backend": "none"
+    },
+    {
+      "name": "L_long_tern",
+      "label": "Наш язык, окно 1024, веса −1/0/+1",
+      "status": "готово",
+      "rows": [
+        {
+          "step": 0.0,
+          "train_bits": 15.236189663057555,
+          "val_bits": 15.21892461137519,
+          "val_bits_no_mem": null,
+          "qa_test": 0.0,
+          "qa_train": 0.0,
+          "qa_test_no_mem": null,
+          "steps_per_s": 0.0,
+          "gpu_c": 57.0,
+          "gpu_w": 573.42,
+          "peak_vram_gb": 8.983941078186035,
+          "time": "2026-11-02 20:45:03"
+        },
+        {
+          "step": 1000.0,
+          "train_bits": 2.9800931668909554,
+          "val_bits": 4.779437022194299,
+          "val_bits_no_mem": null,
+          "qa_test": 0.04416666666666667,
+          "qa_train": 0.058333333333333334,
+          "qa_test_no_mem": null,
+          "steps_per_s": 1.768264475210068,
+          "gpu_c": 70.0,
+          "gpu_w": 571.21,
+          "peak_vram_gb": 63.647786140441895,
+          "time": "2026-11-02 20:54:35"
+        },
+        {
+          "step": 2000.0,
+          "train_bits": 2.20860201929778,
+          "val_bits": 3.596018109908668,
+          "val_bits_no_mem": null,
+          "qa_test": 0.055,
+          "qa_train": 0.045,
+          "qa_test_no_mem": null,
+          "steps_per_s": 1.7643908684356153,
+          "gpu_c": 77.0,
+          "gpu_w": 597.11,
+          "peak_vram_gb": 63.647786140441895,
+          "time": "2026-11-02 21:04:09"
+        },
+        {
+          "step": 3000.0,
+          "train_bits": 1.970524500903572,
+          "val_bits": 3.1870307684277335,
+          "val_bits_no_mem": null,
+          "qa_test": 0.04833333333333333,
+          "qa_train": 0.06166666666666667,
+          "qa_test_no_mem": null,
+          "steps_per_s": 1.762274477492023,
+          "gpu_c": 69.0,
+          "gpu_w": 552.38,
+          "peak_vram_gb": 63.647786140441895,
+          "time": "2026-11-02 21:13:44"
+        },
+        {
+          "step": 4000.0,
+          "train_bits": 1.8478692045327993,
+          "val_bits": 2.992416146615959,
+          "val_bits_no_mem": null,
+          "qa_test": 0.055,
+          "qa_train": 0.04666666666666667,
+          "qa_test_no_mem": null,
+          "steps_per_s": 1.7617877509391906,
+          "gpu_c": 72.0,
+          "gpu_w": 523.52,
+          "peak_vram_gb": 63.64790439605713,
+          "time": "2026-11-02 21:23:25"
+        },
+        {
+          "step": 5000.0,
+          "train_bits": 1.7905140223659577,
+          "val_bits": 2.900742399744947,
+          "val_bits_no_mem": null,
+          "qa_test": 0.05333333333333334,
+          "qa_train": 0.05333333333333334,
+          "qa_test_no_mem": null,
+          "steps_per_s": 1.7614371632887522,
+          "gpu_c": 75.0,
+          "gpu_w": 597.4,
+          "peak_vram_gb": 63.64790439605713,
+          "time": "2026-11-02 21:32:59"
+        },
+        {
+          "step": 6000.0,
+          "train_bits": 1.749328735024563,
+          "val_bits": 2.8188608004023354,
+          "val_bits_no_mem": null,
+          "qa_test": 0.050833333333333335,
+          "qa_train": 0.051666666666666666,
+          "qa_test_no_mem": null,
+          "steps_per_s": 1.7610297349432644,
+          "gpu_c": 70.0,
+          "gpu_w": 518.92,
+          "peak_vram_gb": 63.64790439605713,
+          "time": "2026-11-02 21:42:34"
+        },
+        {
+          "step": 7000.0,
+          "train_bits": 1.705954860961782,
+          "val_bits": 2.7627740762769326,
+          "val_bits_no_mem": null,
+          "qa_test": 0.06833333333333333,
+          "qa_train": 0.07333333333333333,
+          "qa_test_no_mem": null,
+          "steps_per_s": 1.7607607292423886,
+          "gpu_c": 72.0,
+          "gpu_w": 544.57,
+          "peak_vram_gb": 63.64790439605713,
+          "time": "2026-11-02 21:52:15"
+        },
+        {
+          "step": 8000.0,
+          "train_bits": 1.6798640394321576,
+          "val_bits": 2.7291571291288443,
+          "val_bits_no_mem": null,
+          "qa_test": 0.056666666666666664,
+          "qa_train": 0.058333333333333334,
+          "qa_test_no_mem": null,
+          "steps_per_s": 1.76074339952647,
+          "gpu_c": 70.0,
+          "gpu_w": 533.7,
+          "peak_vram_gb": 63.64790439605713,
+          "time": "2026-11-02 22:01:49"
+        },
+        {
+          "step": 9000.0,
+          "train_bits": 1.657657962020222,
+          "val_bits": 2.708032822590836,
+          "val_bits_no_mem": null,
+          "qa_test": 0.050833333333333335,
+          "qa_train": 0.075,
+          "qa_test_no_mem": null,
+          "steps_per_s": 1.7606926827455882,
+          "gpu_c": 70.0,
+          "gpu_w": 548.82,
+          "peak_vram_gb": 63.64790439605713,
+          "time": "2026-11-02 22:11:23"
+        },
+        {
+          "step": 10000.0,
+          "train_bits": 1.634213480535086,
+          "val_bits": 2.675424489196564,
+          "val_bits_no_mem": null,
+          "qa_test": 0.055,
+          "qa_train": 0.045,
+          "qa_test_no_mem": null,
+          "steps_per_s": 1.7606694985424813,
+          "gpu_c": 72.0,
+          "gpu_w": 508.67,
+          "peak_vram_gb": 63.64790439605713,
+          "time": "2026-11-02 22:21:04"
+        },
+        {
+          "step": 11000.0,
+          "train_bits": 1.619004990225794,
+          "val_bits": 2.652666053671664,
+          "val_bits_no_mem": null,
+          "qa_test": 0.05583333333333333,
+          "qa_train": 0.055,
+          "qa_test_no_mem": null,
+          "steps_per_s": 1.7607029995235457,
+          "gpu_c": 76.0,
+          "gpu_w": 598.82,
+          "peak_vram_gb": 63.64790439605713,
+          "time": "2026-11-02 22:30:38"
+        },
+        {
+          "step": 12000.0,
+          "train_bits": 1.6004266503576645,
+          "val_bits": 2.629505995661336,
+          "val_bits_no_mem": null,
+          "qa_test": 0.058333333333333334,
+          "qa_train": 0.055,
+          "qa_test_no_mem": null,
+          "steps_per_s": 1.7606748068876588,
+          "gpu_c": 69.0,
+          "gpu_w": 463.01,
+          "peak_vram_gb": 63.64790439605713,
+          "time": "2026-11-02 22:40:12"
+        },
+        {
+          "step": 13000.0,
+          "train_bits": 1.5800464912521082,
+          "val_bits": 2.6034880159502958,
+          "val_bits_no_mem": null,
+          "qa_test": 0.0575,
+          "qa_train": 0.04,
+          "qa_test_no_mem": null,
+          "steps_per_s": 1.7608056058414023,
+          "gpu_c": 71.0,
+          "gpu_w": 513.93,
+          "peak_vram_gb": 63.64790439605713,
+          "time": "2026-11-02 22:49:53"
+        },
+        {
+          "step": 14000.0,
+          "train_bits": 1.5690814363767107,
+          "val_bits": 2.5906737677831027,
+          "val_bits_no_mem": null,
+          "qa_test": 0.056666666666666664,
+          "qa_train": 0.051666666666666666,
+          "qa_test_no_mem": null,
+          "steps_per_s": 1.760866744175211,
+          "gpu_c": 72.0,
+          "gpu_w": 542.9,
+          "peak_vram_gb": 63.64790439605713,
+          "time": "2026-11-02 22:59:27"
+        },
+        {
+          "step": 15000.0,
+          "train_bits": 1.5451468580811942,
+          "val_bits": 2.568046203889565,
+          "val_bits_no_mem": null,
+          "qa_test": 0.055,
+          "qa_train": 0.051666666666666666,
+          "qa_test_no_mem": null,
+          "steps_per_s": 1.7608738069024499,
+          "gpu_c": 69.0,
+          "gpu_w": 548.25,
+          "peak_vram_gb": 63.64790439605713,
+          "time": "2026-11-02 23:09:01"
+        },
+        {
+          "step": 16000.0,
+          "train_bits": 1.5292667647713671,
+          "val_bits": 2.5521470097565766,
+          "val_bits_no_mem": null,
+          "qa_test": 0.06,
+          "qa_train": 0.06666666666666667,
+          "qa_test_no_mem": null,
+          "steps_per_s": 1.7608635036758598,
+          "gpu_c": 70.0,
+          "gpu_w": 578.37,
+          "peak_vram_gb": 63.64790439605713,
+          "time": "2026-11-02 23:18:42"
+        },
+        {
+          "step": 17000.0,
+          "train_bits": 1.5151629512753138,
+          "val_bits": 2.5393256243093725,
+          "val_bits_no_mem": null,
+          "qa_test": 0.06166666666666667,
+          "qa_train": 0.08,
+          "qa_test_no_mem": null,
+          "steps_per_s": 1.7609244946878908,
+          "gpu_c": 69.0,
+          "gpu_w": 508.31,
+          "peak_vram_gb": 63.64790439605713,
+          "time": "2026-11-02 23:28:16"
+        },
+        {
+          "step": 18000.0,
+          "train_bits": 1.5049794500589309,
+          "val_bits": 2.5276236954344653,
+          "val_bits_no_mem": null,
+          "qa_test": 0.060833333333333336,
+          "qa_train": 0.07333333333333333,
+          "qa_test_no_mem": null,
+          "steps_per_s": 1.7609306170825014,
+          "gpu_c": 72.0,
+          "gpu_w": 516.46,
+          "peak_vram_gb": 63.64790439605713,
+          "time": "2026-11-02 23:37:50"
+        },
+        {
+          "step": 19000.0,
+          "train_bits": 1.4896052759633638,
+          "val_bits": 2.509772096921332,
+          "val_bits_no_mem": null,
+          "qa_test": 0.06583333333333333,
+          "qa_train": 0.07833333333333334,
+          "qa_test_no_mem": null,
+          "steps_per_s": 1.760918622748475,
+          "gpu_c": 76.0,
+          "gpu_w": 597.4,
+          "peak_vram_gb": 63.64790439605713,
+          "time": "2026-11-02 23:47:31"
+        },
+        {
+          "step": 20000.0,
+          "train_bits": 1.4762487593320563,
+          "val_bits": 2.4987855227167457,
+          "val_bits_no_mem": null,
+          "qa_test": 0.06416666666666666,
+          "qa_train": 0.09,
+          "qa_test_no_mem": null,
+          "steps_per_s": 1.7608943334791154,
+          "gpu_c": 71.0,
+          "gpu_w": 569.3,
+          "peak_vram_gb": 63.64790439605713,
+          "time": "2026-11-02 23:57:05"
+        },
+        {
+          "step": 21000.0,
+          "train_bits": 1.463677096276877,
+          "val_bits": 2.484582321163353,
+          "val_bits_no_mem": null,
+          "qa_test": 0.06333333333333334,
+          "qa_train": 0.08333333333333333,
+          "qa_test_no_mem": null,
+          "steps_per_s": 1.760873097760112,
+          "gpu_c": 68.0,
+          "gpu_w": 533.63,
+          "peak_vram_gb": 63.64790439605713,
+          "time": "2026-11-03 00:06:39"
+        },
+        {
+          "step": 22000.0,
+          "train_bits": 1.4460303219349773,
+          "val_bits": 2.4756340710049045,
+          "val_bits_no_mem": null,
+          "qa_test": 0.0675,
+          "qa_train": 0.08833333333333333,
+          "qa_test_no_mem": null,
+          "steps_per_s": 1.760868317078455,
+          "gpu_c": 70.0,
+          "gpu_w": 509.0,
+          "peak_vram_gb": 63.64790439605713,
+          "time": "2026-11-03 00:16:19"
+        },
+        {
+          "step": 23000.0,
+          "train_bits": 1.4239475453347947,
+          "val_bits": 2.4638269389092766,
+          "val_bits_no_mem": null,
+          "qa_test": 0.0725,
+          "qa_train": 0.10166666666666667,
+          "qa_test_no_mem": null,
+          "steps_per_s": 1.7608767649746424,
+          "gpu_c": 70.0,
+          "gpu_w": 512.12,
+          "peak_vram_gb": 63.64790439605713,
+          "time": "2026-11-03 00:25:53"
+        },
+        {
+          "step": 24000.0,
+          "train_bits": 1.410377082285814,
+          "val_bits": 2.456251705078048,
+          "val_bits_no_mem": null,
+          "qa_test": 0.095,
+          "qa_train": 0.10333333333333333,
+          "qa_test_no_mem": null,
+          "steps_per_s": 1.7608294497589303,
+          "gpu_c": 72.0,
+          "gpu_w": 546.43,
+          "peak_vram_gb": 63.64790439605713,
+          "time": "2026-11-03 00:35:28"
+        },
+        {
+          "step": 25000.0,
+          "train_bits": 1.3958727319448168,
+          "val_bits": 2.446000643343651,
+          "val_bits_no_mem": null,
+          "qa_test": 0.10083333333333333,
+          "qa_train": 0.10333333333333333,
+          "qa_test_no_mem": null,
+          "steps_per_s": 1.7609191786719227,
+          "gpu_c": 69.0,
+          "gpu_w": 494.87,
+          "peak_vram_gb": 63.64847660064697,
+          "time": "2026-11-03 00:45:01"
+        },
+        {
+          "step": 26000.0,
+          "train_bits": 1.3836991227350595,
+          "val_bits": 2.4458601406838403,
+          "val_bits_no_mem": null,
+          "qa_test": 0.09416666666666666,
+          "qa_train": 0.11333333333333333,
+          "qa_test_no_mem": null,
+          "steps_per_s": 1.761023846661627,
+          "gpu_c": 76.0,
+          "gpu_w": 597.7,
+          "peak_vram_gb": 63.64847660064697,
+          "time": "2026-11-03 00:54:41"
+        },
+        {
+          "step": 27000.0,
+          "train_bits": 1.3736567977772036,
+          "val_bits": 2.4360501356235247,
+          "val_bits_no_mem": null,
+          "qa_test": 0.11083333333333334,
+          "qa_train": 0.14333333333333334,
+          "qa_test_no_mem": null,
+          "steps_per_s": 1.7610967528547967,
+          "gpu_c": 71.0,
+          "gpu_w": 574.13,
+          "peak_vram_gb": 63.64847660064697,
+          "time": "2026-11-03 01:04:15"
+        },
+        {
+          "step": 28000.0,
+          "train_bits": 1.3631476151646653,
+          "val_bits": 2.435235697448477,
+          "val_bits_no_mem": null,
+          "qa_test": 0.11666666666666667,
+          "qa_train": 0.14833333333333334,
+          "qa_test_no_mem": null,
+          "steps_per_s": 1.7611861749340252,
+          "gpu_c": 76.0,
+          "gpu_w": 596.43,
+          "peak_vram_gb": 63.64847660064697,
+          "time": "2026-11-03 01:13:48"
+        },
+        {
+          "step": 29000.0,
+          "train_bits": 1.3521833879557752,
+          "val_bits": 2.4330537750548116,
+          "val_bits_no_mem": null,
+          "qa_test": 0.1425,
+          "qa_train": 0.145,
+          "qa_test_no_mem": null,
+          "steps_per_s": 1.7612493193310446,
+          "gpu_c": 71.0,
+          "gpu_w": 505.2,
+          "peak_vram_gb": 63.64847660064697,
+          "time": "2026-11-03 01:23:29"
+        },
+        {
+          "step": 30000.0,
+          "train_bits": 1.3456919995391996,
+          "val_bits": 2.4355761156080282,
+          "val_bits_no_mem": null,
+          "qa_test": 0.14,
+          "qa_train": 0.17833333333333334,
+          "qa_test_no_mem": null,
+          "steps_per_s": 1.7612777421066634,
+          "gpu_c": 67.0,
+          "gpu_w": 493.35,
+          "peak_vram_gb": 63.64847660064697,
+          "time": "2026-11-03 01:33:02"
+        }
+      ],
+      "summary": {
+        "name": "L_long_tern",
+        "steps_done": 30000,
+        "finished": true,
+        "params_brain": 268810240,
+        "params_memory": 0,
+        "memory_bytes_with_adam": 0,
+        "seconds": 17292.516000000003,
+        "train_seconds": 17033.426999998774,
+        "best_val_bits": [
+          2.4330537750548116,
+          29000
+        ],
+        "measured_steps": 29990,
+        "measured_training_seconds": 17027.41099999877,
+        "training_steps_per_s": 1.7612777421066634,
+        "peak_rss_gb": 4.108551025390625,
+        "peak_vram_gb": 63.64847660064697,
+        "process_read_bytes": 32264026738,
+        "process_write_bytes": 32259808239,
+        "storage_note": "SSD mmap uses Windows page cache; process I/O is not physical disk I/O",
+        "reason": null,
+        "last_evaluation": {
+          "step": 30000,
+          "val_bits": 2.4355761156080282,
+          "qa_test": 0.14,
+          "qa_train": 0.17833333333333334,
+          "val_bits_no_mem": null,
+          "qa_test_no_mem": null,
+          "qa_test_by_attr": {
+            "spr": 0.0154,
+            "dn": 0.1068,
+            "year": 0.0155,
+            "kva": 0.1327,
+            "city": 0.3472,
+            "fire": 0.2239
+          }
+        },
+        "val_bits": 2.4355761156080282,
+        "qa_test": 0.14,
+        "qa_train": 0.17833333333333334,
+        "val_bits_no_mem": null,
+        "qa_test_no_mem": null,
+        "qa_test_by_attr": {
+          "spr": 0.0154,
+          "dn": 0.1068,
+          "year": 0.0155,
+          "kva": 0.1327,
+          "city": 0.3472,
+          "fire": 0.2239
+        }
+      },
+      "live": {
+        "steps": 30000,
+        "step": 30000,
+        "phase": "завершён",
+        "time": "03.11 01:33:09",
+        "timestamp": 1793658789.8348038,
+        "backend": "none",
+        "reason": null,
+        "checkpoint_step": 30000
+      },
+      "checkpoint": {
+        "step": 30000,
+        "saved_at": 1793658789.347418,
+        "manifest": "D:\\memlab\\ckpt\\L_long_tern\\manifest.json",
+        "bytes": 3225900305,
+        "generations": 2,
+        "version": 2
+      },
+      "backend": "none"
+    },
+    {
+      "name": "L2_base",
+      "label": "Наш язык, 40 000 корней",
+      "status": "готово",
+      "rows": [
+        {
+          "step": 0.0,
+          "train_bits": 16.54255594841673,
+          "val_bits": 16.535714306582754,
+          "val_bits_no_mem": null,
+          "qa_test": 0.0,
+          "qa_train": 0.0,
+          "qa_test_no_mem": null,
+          "steps_per_s": 0.0,
+          "gpu_c": 57.0,
+          "gpu_w": 573.05,
+          "peak_vram_gb": 11.719536781311035,
+          "time": "2026-11-03 01:33:45"
+        },
+        {
+          "step": 1000.0,
+          "train_bits": 2.7545368668906454,
+          "val_bits": 4.92620618519114,
+          "val_bits_no_mem": null,
+          "qa_test": 0.04833333333333333,
+          "qa_train": 0.051666666666666666,
+          "qa_test_no_mem": null,
+          "steps_per_s": 2.779423283705339,
+          "gpu_c": 68.0,
+          "gpu_w": 507.3,
+          "peak_vram_gb": 52.315999031066895,
+          "time": "2026-11-03 01:39:49"
+        },
+        {
+          "step": 2000.0,
+          "train_bits": 2.4566166952588415,
+          "val_bits": 4.248051763545551,
+          "val_bits_no_mem": null,
+          "qa_test": 0.04666666666666667,
+          "qa_train": 0.055,
+          "qa_test_no_mem": null,
+          "steps_per_s": 2.6013445944978284,
+          "gpu_c": 67.0,
+          "gpu_w": 453.89,
+          "peak_vram_gb": 52.31608295440674,
+          "time": "2026-11-03 01:46:43"
+        },
+        {
+          "step": 3000.0,
+          "train_bits": 2.152101418923076,
+          "val_bits": 3.756492699339755,
+          "val_bits_no_mem": null,
+          "qa_test": 0.05416666666666667,
+          "qa_train": 0.06333333333333334,
+          "qa_test_no_mem": null,
+          "steps_per_s": 2.626350286615421,
+          "gpu_c": 76.0,
+          "gpu_w": 587.75,
+          "peak_vram_gb": 52.31608295440674,
+          "time": "2026-11-03 01:53:01"
+        },
+        {
+          "step": 4000.0,
+          "train_bits": 2.05573646545476,
+          "val_bits": 3.5602775066558388,
+          "val_bits_no_mem": null,
+          "qa_test": 0.060833333333333336,
+          "qa_train": 0.058333333333333334,
+          "qa_test_no_mem": null,
+          "steps_per_s": 2.6611797897074045,
+          "gpu_c": 70.0,
+          "gpu_w": 578.02,
+          "peak_vram_gb": 52.31608295440674,
+          "time": "2026-11-03 01:59:06"
+        },
+        {
+          "step": 5000.0,
+          "train_bits": 1.987603710999793,
+          "val_bits": 3.4377250057486752,
+          "val_bits_no_mem": null,
+          "qa_test": 0.05,
+          "qa_train": 0.075,
+          "qa_test_no_mem": null,
+          "steps_per_s": 2.6830943013558337,
+          "gpu_c": 74.0,
+          "gpu_w": 589.83,
+          "peak_vram_gb": 52.31608295440674,
+          "time": "2026-11-03 02:05:20"
+        },
+        {
+          "step": 6000.0,
+          "train_bits": 1.945599420777158,
+          "val_bits": 3.3522640461487563,
+          "val_bits_no_mem": null,
+          "qa_test": 0.05416666666666667,
+          "qa_train": 0.03333333333333333,
+          "qa_test_no_mem": null,
+          "steps_per_s": 2.6980341285559417,
+          "gpu_c": 70.0,
+          "gpu_w": 494.8,
+          "peak_vram_gb": 52.31608295440674,
+          "time": "2026-11-03 02:11:25"
+        },
+        {
+          "step": 7000.0,
+          "train_bits": 1.9065309388982454,
+          "val_bits": 3.295440218713644,
+          "val_bits_no_mem": null,
+          "qa_test": 0.0625,
+          "qa_train": 0.06333333333333334,
+          "qa_test_no_mem": null,
+          "steps_per_s": 2.7084530470878057,
+          "gpu_c": 68.0,
+          "gpu_w": 552.42,
+          "peak_vram_gb": 52.31608295440674,
+          "time": "2026-11-03 02:17:30"
+        },
+        {
+          "step": 8000.0,
+          "train_bits": 1.8672362353399543,
+          "val_bits": 3.248335345857101,
+          "val_bits_no_mem": null,
+          "qa_test": 0.05416666666666667,
+          "qa_train": 0.045,
+          "qa_test_no_mem": null,
+          "steps_per_s": 2.7167195899970316,
+          "gpu_c": 70.0,
+          "gpu_w": 561.07,
+          "peak_vram_gb": 52.31608295440674,
+          "time": "2026-11-03 02:23:34"
+        },
+        {
+          "step": 9000.0,
+          "train_bits": 1.8402839097164951,
+          "val_bits": 3.199847001561355,
+          "val_bits_no_mem": null,
+          "qa_test": 0.04666666666666667,
+          "qa_train": 0.043333333333333335,
+          "qa_test_no_mem": null,
+          "steps_per_s": 2.7228306777914235,
+          "gpu_c": 71.0,
+          "gpu_w": 518.92,
+          "peak_vram_gb": 52.31608295440674,
+          "time": "2026-11-03 02:29:39"
+        },
+        {
+          "step": 10000.0,
+          "train_bits": 1.811798229773606,
+          "val_bits": 3.165573410320386,
+          "val_bits_no_mem": null,
+          "qa_test": 0.056666666666666664,
+          "qa_train": 0.06,
+          "qa_test_no_mem": null,
+          "steps_per_s": 2.728084524196452,
+          "gpu_c": 70.0,
+          "gpu_w": 560.18,
+          "peak_vram_gb": 52.31608295440674,
+          "time": "2026-11-03 02:35:53"
+        },
+        {
+          "step": 11000.0,
+          "train_bits": 1.7907723403075537,
+          "val_bits": 3.143601236479567,
+          "val_bits_no_mem": null,
+          "qa_test": 0.07166666666666667,
+          "qa_train": 0.07166666666666667,
+          "qa_test_no_mem": null,
+          "steps_per_s": 2.7320774229474507,
+          "gpu_c": 75.0,
+          "gpu_w": 583.49,
+          "peak_vram_gb": 52.31608295440674,
+          "time": "2026-11-03 02:41:59"
+        },
+        {
+          "step": 12000.0,
+          "train_bits": 1.764222669065427,
+          "val_bits": 3.114246033751747,
+          "val_bits_no_mem": null,
+          "qa_test": 0.05333333333333334,
+          "qa_train": 0.06166666666666667,
+          "qa_test_no_mem": null,
+          "steps_per_s": 2.7356104381221473,
+          "gpu_c": 68.0,
+          "gpu_w": 501.91,
+          "peak_vram_gb": 52.31608295440674,
+          "time": "2026-11-03 02:48:03"
+        },
+        {
+          "step": 13000.0,
+          "train_bits": 1.7505028175863406,
+          "val_bits": 3.0808947997992417,
+          "val_bits_no_mem": null,
+          "qa_test": 0.06,
+          "qa_train": 0.065,
+          "qa_test_no_mem": null,
+          "steps_per_s": 2.738391297354734,
+          "gpu_c": 74.0,
+          "gpu_w": 592.05,
+          "peak_vram_gb": 52.31608295440674,
+          "time": "2026-11-03 02:54:08"
+        },
+        {
+          "step": 14000.0,
+          "train_bits": 1.728837346139561,
+          "val_bits": 3.0593478315648506,
+          "val_bits_no_mem": null,
+          "qa_test": 0.04416666666666667,
+          "qa_train": 0.065,
+          "qa_test_no_mem": null,
+          "steps_per_s": 2.741143207588366,
+          "gpu_c": 67.0,
+          "gpu_w": 513.09,
+          "peak_vram_gb": 52.31608295440674,
+          "time": "2026-11-03 03:00:13"
+        },
+        {
+          "step": 15000.0,
+          "train_bits": 1.6917687000227124,
+          "val_bits": 3.035262607216094,
+          "val_bits_no_mem": null,
+          "qa_test": 0.059166666666666666,
+          "qa_train": 0.051666666666666666,
+          "qa_test_no_mem": null,
+          "steps_per_s": 2.743282389536313,
+          "gpu_c": 67.0,
+          "gpu_w": 566.24,
+          "peak_vram_gb": 52.31608295440674,
+          "time": "2026-11-03 03:06:27"
+        },
+        {
+          "step": 16000.0,
+          "train_bits": 1.6768708641254568,
+          "val_bits": 3.01942338486665,
+          "val_bits_no_mem": null,
+          "qa_test": 0.05416666666666667,
+          "qa_train": 0.065,
+          "qa_test_no_mem": null,
+          "steps_per_s": 2.7452854143966117,
+          "gpu_c": 75.0,
+          "gpu_w": 588.83,
+          "peak_vram_gb": 52.31608295440674,
+          "time": "2026-11-03 03:12:32"
+        },
+        {
+          "step": 17000.0,
+          "train_bits": 1.65914030198584,
+          "val_bits": 2.9927250561206837,
+          "val_bits_no_mem": null,
+          "qa_test": 0.05583333333333333,
+          "qa_train": 0.08,
+          "qa_test_no_mem": null,
+          "steps_per_s": 2.7468330179352933,
+          "gpu_c": 73.0,
+          "gpu_w": 516.91,
+          "peak_vram_gb": 52.31608295440674,
+          "time": "2026-11-03 03:18:37"
+        },
+        {
+          "step": 18000.0,
+          "train_bits": 1.6445551842924313,
+          "val_bits": 2.982206174403231,
+          "val_bits_no_mem": null,
+          "qa_test": 0.075,
+          "qa_train": 0.08166666666666667,
+          "qa_test_no_mem": null,
+          "steps_per_s": 2.7481861055132497,
+          "gpu_c": 67.0,
+          "gpu_w": 555.29,
+          "peak_vram_gb": 52.31608295440674,
+          "time": "2026-11-03 03:24:43"
+        },
+        {
+          "step": 19000.0,
+          "train_bits": 1.6108361582751123,
+          "val_bits": 2.9636222737627236,
+          "val_bits_no_mem": null,
+          "qa_test": 0.08333333333333333,
+          "qa_train": 0.09,
+          "qa_test_no_mem": null,
+          "steps_per_s": 2.749570189620386,
+          "gpu_c": 75.0,
+          "gpu_w": 594.02,
+          "peak_vram_gb": 52.31608295440674,
+          "time": "2026-11-03 03:30:47"
+        },
+        {
+          "step": 20000.0,
+          "train_bits": 1.6058496825470803,
+          "val_bits": 2.9452628319794236,
+          "val_bits_no_mem": null,
+          "qa_test": 0.09083333333333334,
+          "qa_train": 0.09166666666666666,
+          "qa_test_no_mem": null,
+          "steps_per_s": 2.7507390116988093,
+          "gpu_c": 72.0,
+          "gpu_w": 594.49,
+          "peak_vram_gb": 52.31608295440674,
+          "time": "2026-11-03 03:37:02"
+        },
+        {
+          "step": 21000.0,
+          "train_bits": 1.5875590051603503,
+          "val_bits": 2.9349741705379824,
+          "val_bits_no_mem": null,
+          "qa_test": 0.09833333333333333,
+          "qa_train": 0.12166666666666667,
+          "qa_test_no_mem": null,
+          "steps_per_s": 2.751839530653182,
+          "gpu_c": 69.0,
+          "gpu_w": 574.96,
+          "peak_vram_gb": 52.31608295440674,
+          "time": "2026-11-03 03:43:07"
+        },
+        {
+          "step": 22000.0,
+          "train_bits": 1.5572960994991074,
+          "val_bits": 2.9179178627981006,
+          "val_bits_no_mem": null,
+          "qa_test": 0.13083333333333333,
+          "qa_train": 0.165,
+          "qa_test_no_mem": null,
+          "steps_per_s": 2.75286587859656,
+          "gpu_c": 73.0,
+          "gpu_w": 567.83,
+          "peak_vram_gb": 52.31608295440674,
+          "time": "2026-11-03 03:49:12"
+        },
+        {
+          "step": 23000.0,
+          "train_bits": 1.5320843135447897,
+          "val_bits": 2.914687183033531,
+          "val_bits_no_mem": null,
+          "qa_test": 0.16166666666666665,
+          "qa_train": 0.18,
+          "qa_test_no_mem": null,
+          "steps_per_s": 2.7538082269030895,
+          "gpu_c": 68.0,
+          "gpu_w": 516.68,
+          "peak_vram_gb": 52.31608295440674,
+          "time": "2026-11-03 03:55:17"
+        },
+        {
+          "step": 24000.0,
+          "train_bits": 1.513330261152057,
+          "val_bits": 2.9072569305769793,
+          "val_bits_no_mem": null,
+          "qa_test": 0.1975,
+          "qa_train": 0.235,
+          "qa_test_no_mem": null,
+          "steps_per_s": 2.7545837007642024,
+          "gpu_c": 76.0,
+          "gpu_w": 591.5,
+          "peak_vram_gb": 52.31608295440674,
+          "time": "2026-11-03 04:01:22"
+        },
+        {
+          "step": 25000.0,
+          "train_bits": 1.4796818447618327,
+          "val_bits": 2.908123837792428,
+          "val_bits_no_mem": null,
+          "qa_test": 0.23833333333333334,
+          "qa_train": 0.24166666666666667,
+          "qa_test_no_mem": null,
+          "steps_per_s": 2.755404435263913,
+          "gpu_c": 67.0,
+          "gpu_w": 551.19,
+          "peak_vram_gb": 52.31608295440674,
+          "time": "2026-11-03 04:07:36"
+        },
+        {
+          "step": 26000.0,
+          "train_bits": 1.456713819713081,
+          "val_bits": 2.894397286155902,
+          "val_bits_no_mem": null,
+          "qa_test": 0.2991666666666667,
+          "qa_train": 0.3283333333333333,
+          "qa_test_no_mem": null,
+          "steps_per_s": 2.7561995666647734,
+          "gpu_c": 76.0,
+          "gpu_w": 595.19,
+          "peak_vram_gb": 52.31608295440674,
+          "time": "2026-11-03 04:13:41"
+        },
+        {
+          "step": 27000.0,
+          "train_bits": 1.4369990399858814,
+          "val_bits": 2.9004224045251856,
+          "val_bits_no_mem": null,
+          "qa_test": 0.3775,
+          "qa_train": 0.4116666666666667,
+          "qa_test_no_mem": null,
+          "steps_per_s": 2.756822138905789,
+          "gpu_c": 75.0,
+          "gpu_w": 591.42,
+          "peak_vram_gb": 52.31608295440674,
+          "time": "2026-11-03 04:19:46"
+        },
+        {
+          "step": 28000.0,
+          "train_bits": 1.4221891947123735,
+          "val_bits": 2.9013121567694244,
+          "val_bits_no_mem": null,
+          "qa_test": 0.3875,
+          "qa_train": 0.4166666666666667,
+          "qa_test_no_mem": null,
+          "steps_per_s": 2.757603409142549,
+          "gpu_c": 71.0,
+          "gpu_w": 527.69,
+          "peak_vram_gb": 52.31608295440674,
+          "time": "2026-11-03 04:25:50"
+        },
+        {
+          "step": 29000.0,
+          "train_bits": 1.4073884215236985,
+          "val_bits": 2.905923477425402,
+          "val_bits_no_mem": null,
+          "qa_test": 0.46416666666666667,
+          "qa_train": 0.49166666666666664,
+          "qa_test_no_mem": null,
+          "steps_per_s": 2.7581372422070447,
+          "gpu_c": 66.0,
+          "gpu_w": 464.49,
+          "peak_vram_gb": 52.31608295440674,
+          "time": "2026-11-03 04:31:55"
+        },
+        {
+          "step": 30000.0,
+          "train_bits": 1.3925261537884244,
+          "val_bits": 2.9017019697794924,
+          "val_bits_no_mem": null,
+          "qa_test": 0.49,
+          "qa_train": 0.5033333333333333,
+          "qa_test_no_mem": null,
+          "steps_per_s": 2.7587602596857814,
+          "gpu_c": 66.0,
+          "gpu_w": 512.99,
+          "peak_vram_gb": 52.31608295440674,
+          "time": "2026-11-03 04:38:09"
+        }
+      ],
+      "summary": {
+        "name": "L2_base",
+        "steps_done": 30000,
+        "finished": true,
+        "params_brain": 366589952,
+        "params_memory": 0,
+        "memory_bytes_with_adam": 0,
+        "seconds": 11078.921999999991,
+        "train_seconds": 10874.810000000463,
+        "best_val_bits": [
+          2.894397286155902,
+          26000
+        ],
+        "measured_steps": 29990,
+        "measured_training_seconds": 10870.825000000477,
+        "training_steps_per_s": 2.7587602596857814,
+        "peak_rss_gb": 3.9627723693847656,
+        "peak_vram_gb": 52.31608295440674,
+        "process_read_bytes": 30799835514,
+        "process_write_bytes": 30795615821,
+        "storage_note": "SSD mmap uses Windows page cache; process I/O is not physical disk I/O",
+        "reason": null,
+        "last_evaluation": {
+          "step": 30000,
+          "val_bits": 2.9017019697794924,
+          "qa_test": 0.49,
+          "qa_train": 0.5033333333333333,
+          "val_bits_no_mem": null,
+          "qa_test_no_mem": null,
+          "qa_test_by_attr": {
+            "spr": 0.3077,
+            "dn": 0.4417,
+            "year": 0.3557,
+            "kva": 0.455,
+            "city": 0.8446,
+            "fire": 0.5423
+          }
+        },
+        "val_bits": 2.9017019697794924,
+        "qa_test": 0.49,
+        "qa_train": 0.5033333333333333,
+        "val_bits_no_mem": null,
+        "qa_test_no_mem": null,
+        "qa_test_by_attr": {
+          "spr": 0.3077,
+          "dn": 0.4417,
+          "year": 0.3557,
+          "kva": 0.455,
+          "city": 0.8446,
+          "fire": 0.5423
+        }
+      },
+      "live": {
+        "steps": 30000,
+        "step": 30000,
+        "phase": "завершён",
+        "time": "03.11 04:38:19",
+        "timestamp": 1793669899.2931957,
+        "backend": "none",
+        "reason": null,
+        "checkpoint_step": 30000
+      },
+      "checkpoint": {
+        "step": 30000,
+        "saved_at": 1793669898.7814205,
+        "manifest": "D:\\memlab\\ckpt\\L2_base\\manifest.json",
+        "bytes": 4399259393,
+        "generations": 2,
+        "version": 2
+      },
+      "backend": "none"
+    },
+    {
+      "name": "L2_tern",
+      "label": "Наш язык, 40 000 корней, веса −1/0/+1",
+      "status": "готово",
+      "rows": [
+        {
+          "step": 0.0,
+          "train_bits": 16.5547089304573,
+          "val_bits": 16.567720621873626,
+          "val_bits_no_mem": null,
+          "qa_test": 0.0,
+          "qa_train": 0.0,
+          "qa_test_no_mem": null,
+          "steps_per_s": 0.0,
+          "gpu_c": 58.0,
+          "gpu_w": 518.86,
+          "peak_vram_gb": 11.344536781311035,
+          "time": "2026-11-03 01:41:42"
+        },
+        {
+          "step": 1000.0,
+          "train_bits": 2.9746282891728018,
+          "val_bits": 5.169992137400899,
+          "val_bits_no_mem": null,
+          "qa_test": 0.0475,
+          "qa_train": 0.03333333333333333,
+          "qa_test_no_mem": null,
+          "steps_per_s": 2.707129594942956,
+          "gpu_c": 74.0,
+          "gpu_w": 507.15,
+          "peak_vram_gb": 52.31616687774658,
+          "time": "2026-11-03 01:47:57"
+        },
+        {
+          "step": 2000.0,
+          "train_bits": 2.4259737724326857,
+          "val_bits": 4.279719674307074,
+          "val_bits_no_mem": null,
+          "qa_test": 0.051666666666666666,
+          "qa_train": 0.06666666666666667,
+          "qa_test_no_mem": null,
+          "steps_per_s": 2.7022879824227983,
+          "gpu_c": 70.0,
+          "gpu_w": 506.36,
+          "peak_vram_gb": 52.31616687774658,
+          "time": "2026-11-03 01:54:12"
+        },
+        {
+          "step": 3000.0,
+          "train_bits": 2.2030105193529286,
+          "val_bits": 3.8544063924088094,
+          "val_bits_no_mem": null,
+          "qa_test": 0.049166666666666664,
+          "qa_train": 0.041666666666666664,
+          "qa_test_no_mem": null,
+          "steps_per_s": 2.698872611407487,
+          "gpu_c": 71.0,
+          "gpu_w": 465.35,
+          "peak_vram_gb": 52.31616687774658,
+          "time": "2026-11-03 02:00:28"
+        },
+        {
+          "step": 4000.0,
+          "train_bits": 2.1252550346125485,
+          "val_bits": 3.660833741819175,
+          "val_bits_no_mem": null,
+          "qa_test": 0.055,
+          "qa_train": 0.041666666666666664,
+          "qa_test_no_mem": null,
+          "steps_per_s": 2.698956741608398,
+          "gpu_c": 78.0,
+          "gpu_w": 561.54,
+          "peak_vram_gb": 52.31668186187744,
+          "time": "2026-11-03 02:06:43"
+        },
+        {
+          "step": 5000.0,
+          "train_bits": 2.0422863472657204,
+          "val_bits": 3.5458246436209437,
+          "val_bits_no_mem": null,
+          "qa_test": 0.0525,
+          "qa_train": 0.058333333333333334,
+          "qa_test_no_mem": null,
+          "steps_per_s": 2.698506519948751,
+          "gpu_c": 72.0,
+          "gpu_w": 504.3,
+          "peak_vram_gb": 52.31668186187744,
+          "time": "2026-11-03 02:13:08"
+        },
+        {
+          "step": 6000.0,
+          "train_bits": 2.0053830409698454,
+          "val_bits": 3.4704358766325805,
+          "val_bits_no_mem": null,
+          "qa_test": 0.06416666666666666,
+          "qa_train": 0.06333333333333334,
+          "qa_test_no_mem": null,
+          "steps_per_s": 2.6981811826414788,
+          "gpu_c": 73.0,
+          "gpu_w": 521.29,
+          "peak_vram_gb": 52.31668186187744,
+          "time": "2026-11-03 02:19:24"
+        },
+        {
+          "step": 7000.0,
+          "train_bits": 1.9671471915972536,
+          "val_bits": 3.4140601069986274,
+          "val_bits_no_mem": null,
+          "qa_test": 0.05333333333333334,
+          "qa_train": 0.07,
+          "qa_test_no_mem": null,
+          "steps_per_s": 2.6973274462910446,
+          "gpu_c": 74.0,
+          "gpu_w": 480.7,
+          "peak_vram_gb": 52.31668186187744,
+          "time": "2026-11-03 02:25:40"
+        },
+        {
+          "step": 8000.0,
+          "train_bits": 1.9385277736454871,
+          "val_bits": 3.3678438398353183,
+          "val_bits_no_mem": null,
+          "qa_test": 0.050833333333333335,
+          "qa_train": 0.06333333333333334,
+          "qa_test_no_mem": null,
+          "steps_per_s": 2.69724944696288,
+          "gpu_c": 74.0,
+          "gpu_w": 558.59,
+          "peak_vram_gb": 52.31668186187744,
+          "time": "2026-11-03 02:31:55"
+        },
+        {
+          "step": 9000.0,
+          "train_bits": 1.9083379391130297,
+          "val_bits": 3.3218531279186148,
+          "val_bits_no_mem": null,
+          "qa_test": 0.04666666666666667,
+          "qa_train": 0.041666666666666664,
+          "qa_test_no_mem": null,
+          "steps_per_s": 2.6970318249757748,
+          "gpu_c": 76.0,
+          "gpu_w": 538.43,
+          "peak_vram_gb": 52.31668186187744,
+          "time": "2026-11-03 02:38:11"
+        },
+        {
+          "step": 10000.0,
+          "train_bits": 1.8868496312944703,
+          "val_bits": 3.286472412694603,
+          "val_bits_no_mem": null,
+          "qa_test": 0.0625,
+          "qa_train": 0.04833333333333333,
+          "qa_test_no_mem": null,
+          "steps_per_s": 2.6968716289106855,
+          "gpu_c": 69.0,
+          "gpu_w": 462.09,
+          "peak_vram_gb": 52.31668186187744,
+          "time": "2026-11-03 02:44:36"
+        },
+        {
+          "step": 11000.0,
+          "train_bits": 1.8714817990591535,
+          "val_bits": 3.262166419949689,
+          "val_bits_no_mem": null,
+          "qa_test": 0.06833333333333333,
+          "qa_train": 0.08,
+          "qa_test_no_mem": null,
+          "steps_per_s": 2.6964157298935176,
+          "gpu_c": 71.0,
+          "gpu_w": 493.09,
+          "peak_vram_gb": 52.31668186187744,
+          "time": "2026-11-03 02:50:52"
+        },
+        {
+          "step": 12000.0,
+          "train_bits": 1.8470756765817182,
+          "val_bits": 3.230363832440654,
+          "val_bits_no_mem": null,
+          "qa_test": 0.06,
+          "qa_train": 0.07,
+          "qa_test_no_mem": null,
+          "steps_per_s": 2.6966320437708,
+          "gpu_c": 72.0,
+          "gpu_w": 537.86,
+          "peak_vram_gb": 52.31668186187744,
+          "time": "2026-11-03 02:57:07"
+        },
+        {
+          "step": 13000.0,
+          "train_bits": 1.8351440147149778,
+          "val_bits": 3.19068120051551,
+          "val_bits_no_mem": null,
+          "qa_test": 0.058333333333333334,
+          "qa_train": 0.05333333333333334,
+          "qa_test_no_mem": null,
+          "steps_per_s": 2.696445611405319,
+          "gpu_c": 75.0,
+          "gpu_w": 555.7,
+          "peak_vram_gb": 52.316765785217285,
+          "time": "2026-11-03 03:03:23"
+        },
+        {
+          "step": 14000.0,
+          "train_bits": 1.818588190820995,
+          "val_bits": 3.170272893582762,
+          "val_bits_no_mem": null,
+          "qa_test": 0.043333333333333335,
+          "qa_train": 0.075,
+          "qa_test_no_mem": null,
+          "steps_per_s": 2.696468262626684,
+          "gpu_c": 71.0,
+          "gpu_w": 550.46,
+          "peak_vram_gb": 52.316765785217285,
+          "time": "2026-11-03 03:09:39"
+        },
+        {
+          "step": 15000.0,
+          "train_bits": 1.7879586181481126,
+          "val_bits": 3.1477922100390052,
+          "val_bits_no_mem": null,
+          "qa_test": 0.06,
+          "qa_train": 0.05,
+          "qa_test_no_mem": null,
+          "steps_per_s": 2.696641179600063,
+          "gpu_c": 75.0,
+          "gpu_w": 562.55,
+          "peak_vram_gb": 52.31693363189697,
+          "time": "2026-11-03 03:16:04"
+        },
+        {
+          "step": 16000.0,
+          "train_bits": 1.7710381050429753,
+          "val_bits": 3.1241034630280375,
+          "val_bits_no_mem": null,
+          "qa_test": 0.05583333333333333,
+          "qa_train": 0.06166666666666667,
+          "qa_test_no_mem": null,
+          "steps_per_s": 2.695932682274563,
+          "gpu_c": 71.0,
+          "gpu_w": 518.18,
+          "peak_vram_gb": 52.31693363189697,
+          "time": "2026-11-03 03:22:21"
+        },
+        {
+          "step": 17000.0,
+          "train_bits": 1.7599739666628496,
+          "val_bits": 3.0984176534752508,
+          "val_bits_no_mem": null,
+          "qa_test": 0.06416666666666666,
+          "qa_train": 0.058333333333333334,
+          "qa_test_no_mem": null,
+          "steps_per_s": 2.6959190545148806,
+          "gpu_c": 76.0,
+          "gpu_w": 510.74,
+          "peak_vram_gb": 52.31693363189697,
+          "time": "2026-11-03 03:28:37"
+        },
+        {
+          "step": 18000.0,
+          "train_bits": 1.7465191404487428,
+          "val_bits": 3.082909963515064,
+          "val_bits_no_mem": null,
+          "qa_test": 0.06916666666666667,
+          "qa_train": 0.06,
+          "qa_test_no_mem": null,
+          "steps_per_s": 2.6955809553835923,
+          "gpu_c": 74.0,
+          "gpu_w": 560.99,
+          "peak_vram_gb": 52.31693363189697,
+          "time": "2026-11-03 03:34:53"
+        },
+        {
+          "step": 19000.0,
+          "train_bits": 1.72107652153022,
+          "val_bits": 3.058136801396912,
+          "val_bits_no_mem": null,
+          "qa_test": 0.060833333333333336,
+          "qa_train": 0.075,
+          "qa_test_no_mem": null,
+          "steps_per_s": 2.69554825734032,
+          "gpu_c": 71.0,
+          "gpu_w": 478.92,
+          "peak_vram_gb": 52.31693363189697,
+          "time": "2026-11-03 03:41:09"
+        },
+        {
+          "step": 20000.0,
+          "train_bits": 1.7222957280400177,
+          "val_bits": 3.0365264217259593,
+          "val_bits_no_mem": null,
+          "qa_test": 0.0575,
+          "qa_train": 0.06333333333333334,
+          "qa_test_no_mem": null,
+          "steps_per_s": 2.695261517220719,
+          "gpu_c": 75.0,
+          "gpu_w": 541.98,
+          "peak_vram_gb": 52.31693363189697,
+          "time": "2026-11-03 03:47:35"
+        },
+        {
+          "step": 21000.0,
+          "train_bits": 1.7107993972582738,
+          "val_bits": 3.0215286961552996,
+          "val_bits_no_mem": null,
+          "qa_test": 0.04833333333333333,
+          "qa_train": 0.06833333333333333,
+          "qa_test_no_mem": null,
+          "steps_per_s": 2.695192131631328,
+          "gpu_c": 76.0,
+          "gpu_w": 542.88,
+          "peak_vram_gb": 52.31693363189697,
+          "time": "2026-11-03 03:53:51"
+        },
+        {
+          "step": 22000.0,
+          "train_bits": 1.691327209809032,
+          "val_bits": 2.9999055181087444,
+          "val_bits_no_mem": null,
+          "qa_test": 0.07083333333333333,
+          "qa_train": 0.085,
+          "qa_test_no_mem": null,
+          "steps_per_s": 2.6948813431123035,
+          "gpu_c": 70.0,
+          "gpu_w": 474.12,
+          "peak_vram_gb": 52.31693363189697,
+          "time": "2026-11-03 04:00:07"
+        },
+        {
+          "step": 23000.0,
+          "train_bits": 1.6729837874930655,
+          "val_bits": 2.9892431240350907,
+          "val_bits_no_mem": null,
+          "qa_test": 0.05,
+          "qa_train": 0.065,
+          "qa_test_no_mem": null,
+          "steps_per_s": 2.6948007459171546,
+          "gpu_c": 77.0,
+          "gpu_w": 565.66,
+          "peak_vram_gb": 52.31693363189697,
+          "time": "2026-11-03 04:06:23"
+        },
+        {
+          "step": 24000.0,
+          "train_bits": 1.6633466644095583,
+          "val_bits": 2.9716158195624574,
+          "val_bits_no_mem": null,
+          "qa_test": 0.0575,
+          "qa_train": 0.07333333333333333,
+          "qa_test_no_mem": null,
+          "steps_per_s": 2.6946835880964235,
+          "gpu_c": 71.0,
+          "gpu_w": 499.97,
+          "peak_vram_gb": 52.31693363189697,
+          "time": "2026-11-03 04:12:49"
+        },
+        {
+          "step": 25000.0,
+          "train_bits": 1.642817923042572,
+          "val_bits": 2.9609199748632102,
+          "val_bits_no_mem": null,
+          "qa_test": 0.051666666666666666,
+          "qa_train": 0.08166666666666667,
+          "qa_test_no_mem": null,
+          "steps_per_s": 2.6945720385585448,
+          "gpu_c": 75.0,
+          "gpu_w": 562.7,
+          "peak_vram_gb": 52.31693363189697,
+          "time": "2026-11-03 04:19:06"
+        },
+        {
+          "step": 26000.0,
+          "train_bits": 1.6354394266150147,
+          "val_bits": 2.9446110822261478,
+          "val_bits_no_mem": null,
+          "qa_test": 0.0625,
+          "qa_train": 0.095,
+          "qa_test_no_mem": null,
+          "steps_per_s": 2.6946014970537466,
+          "gpu_c": 74.0,
+          "gpu_w": 505.77,
+          "peak_vram_gb": 52.31693363189697,
+          "time": "2026-11-03 04:25:21"
+        },
+        {
+          "step": 27000.0,
+          "train_bits": 1.6259905815385396,
+          "val_bits": 2.935247909590605,
+          "val_bits_no_mem": null,
+          "qa_test": 0.05416666666666667,
+          "qa_train": 0.09833333333333333,
+          "qa_test_no_mem": null,
+          "steps_per_s": 2.694378601822115,
+          "gpu_c": 71.0,
+          "gpu_w": 486.47,
+          "peak_vram_gb": 52.31693363189697,
+          "time": "2026-11-03 04:31:38"
+        },
+        {
+          "step": 28000.0,
+          "train_bits": 1.619664737172335,
+          "val_bits": 2.9319167561282122,
+          "val_bits_no_mem": null,
+          "qa_test": 0.065,
+          "qa_train": 0.09333333333333334,
+          "qa_test_no_mem": null,
+          "steps_per_s": 2.6944857479127826,
+          "gpu_c": 76.0,
+          "gpu_w": 554.44,
+          "peak_vram_gb": 52.31693363189697,
+          "time": "2026-11-03 04:37:53"
+        },
+        {
+          "step": 29000.0,
+          "train_bits": 1.6136580603593849,
+          "val_bits": 2.930114205964519,
+          "val_bits_no_mem": null,
+          "qa_test": 0.065,
+          "qa_train": 0.10666666666666667,
+          "qa_test_no_mem": null,
+          "steps_per_s": 2.6955899720332965,
+          "gpu_c": 56.0,
+          "gpu_w": 460.02,
+          "peak_vram_gb": 52.31693363189697,
+          "time": "2026-11-03 04:44:14"
+        },
+        {
+          "step": 30000.0,
+          "train_bits": 1.6081793487867522,
+          "val_bits": 2.921512529511335,
+          "val_bits_no_mem": null,
+          "qa_test": 0.065,
+          "qa_train": 0.10833333333333334,
+          "qa_test_no_mem": null,
+          "steps_per_s": 2.697252678612912,
+          "gpu_c": 57.0,
+          "gpu_w": 530.02,
+          "peak_vram_gb": 52.31693363189697,
+          "time": "2026-11-03 04:50:23"
+        }
+      ],
+      "summary": {
+        "name": "L2_tern",
+        "steps_done": 30000,
+        "finished": true,
+        "params_brain": 366589952,
+        "params_memory": 0,
+        "memory_bytes_with_adam": 0,
+        "seconds": 11335.859999999986,
+        "train_seconds": 11122.754000000132,
+        "best_val_bits": [
+          2.921512529511335,
+          30000
+        ],
+        "measured_steps": 29990,
+        "measured_training_seconds": 11118.721000000136,
+        "training_steps_per_s": 2.697252678612912,
+        "peak_rss_gb": 3.9935569763183594,
+        "peak_vram_gb": 52.31693363189697,
+        "process_read_bytes": 30799835812,
+        "process_write_bytes": 30795615633,
+        "storage_note": "SSD mmap uses Windows page cache; process I/O is not physical disk I/O",
+        "reason": null,
+        "last_evaluation": {
+          "step": 30000,
+          "val_bits": 2.921512529511335,
+          "qa_test": 0.065,
+          "qa_train": 0.10833333333333334,
+          "val_bits_no_mem": null,
+          "qa_test_no_mem": null,
+          "qa_test_by_attr": {
+            "spr": 0.0,
+            "dn": 0.0874,
+            "year": 0.0206,
+            "kva": 0.0664,
+            "city": 0.0829,
+            "fire": 0.1294
+          }
+        },
+        "val_bits": 2.921512529511335,
+        "qa_test": 0.065,
+        "qa_train": 0.10833333333333334,
+        "val_bits_no_mem": null,
+        "qa_test_no_mem": null,
+        "qa_test_by_attr": {
+          "spr": 0.0,
+          "dn": 0.0874,
+          "year": 0.0206,
+          "kva": 0.0664,
+          "city": 0.0829,
+          "fire": 0.1294
+        }
+      },
+      "live": {
+        "steps": 30000,
+        "step": 30000,
+        "phase": "завершён",
+        "time": "03.11 04:50:32",
+        "timestamp": 1793670632.9350767,
+        "backend": "none",
+        "reason": null,
+        "checkpoint_step": 30000
+      },
+      "checkpoint": {
+        "step": 30000,
+        "saved_at": 1793670632.3623161,
+        "manifest": "D:\\memlab\\ckpt\\L2_tern\\manifest.json",
+        "bytes": 4399259393,
+        "generations": 2,
+        "version": 2
+      },
+      "backend": "none"
+    },
+    {
+      "name": "L_more",
+      "label": "Наш язык: доучивание ещё 35 000 шагов, обычные веса",
+      "status": "готово",
+      "rows": [
+        {
+          "step": 30000.0,
+          "train_bits": 1.270024814136921,
+          "val_bits": 2.508829861304805,
+          "val_bits_no_mem": null,
+          "qa_test": 0.45166666666666666,
+          "qa_train": 0.51,
+          "qa_test_no_mem": null,
+          "steps_per_s": 0.0,
+          "gpu_c": 46.0,
+          "gpu_w": 599.13,
+          "peak_vram_gb": 7.401040077209473,
+          "time": "2026-11-03 04:51:11"
+        },
+        {
+          "step": 31000.0,
+          "train_bits": 1.2546004318562176,
+          "val_bits": 2.5105376561938164,
+          "val_bits_no_mem": null,
+          "qa_test": 0.48083333333333333,
+          "qa_train": 0.5466666666666666,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.6262407970371853,
+          "gpu_c": 73.0,
+          "gpu_w": 557.87,
+          "peak_vram_gb": 33.54642581939697,
+          "time": "2026-11-03 04:55:51"
+        },
+        {
+          "step": 32000.0,
+          "train_bits": 1.2464956311962352,
+          "val_bits": 2.514968552717152,
+          "val_bits_no_mem": null,
+          "qa_test": 0.5166666666666667,
+          "qa_train": 0.5566666666666666,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.591772494602598,
+          "gpu_c": 81.0,
+          "gpu_w": 599.69,
+          "peak_vram_gb": 33.54642581939697,
+          "time": "2026-11-03 05:00:36"
+        },
+        {
+          "step": 33000.0,
+          "train_bits": 1.2392562472353945,
+          "val_bits": 2.521514563540236,
+          "val_bits_no_mem": null,
+          "qa_test": 0.53,
+          "qa_train": 0.6,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.5814044854999314,
+          "gpu_c": 80.0,
+          "gpu_w": 601.72,
+          "peak_vram_gb": 33.54642581939697,
+          "time": "2026-11-03 05:05:20"
+        },
+        {
+          "step": 34000.0,
+          "train_bits": 1.2264440771918992,
+          "val_bits": 2.517093462862056,
+          "val_bits_no_mem": null,
+          "qa_test": 0.5766666666666667,
+          "qa_train": 0.6033333333333334,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.574291972175899,
+          "gpu_c": 82.0,
+          "gpu_w": 597.86,
+          "peak_vram_gb": 33.54642581939697,
+          "time": "2026-11-03 05:10:05"
+        },
+        {
+          "step": 35000.0,
+          "train_bits": 1.2185031115046951,
+          "val_bits": 2.5343406856762822,
+          "val_bits_no_mem": null,
+          "qa_test": 0.6,
+          "qa_train": 0.6533333333333333,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.56732048478382,
+          "gpu_c": 78.0,
+          "gpu_w": 565.41,
+          "peak_vram_gb": 33.54642581939697,
+          "time": "2026-11-03 05:14:51"
+        },
+        {
+          "step": 36000.0,
+          "train_bits": 1.2155458698231092,
+          "val_bits": 2.526026041101444,
+          "val_bits_no_mem": null,
+          "qa_test": 0.6441666666666667,
+          "qa_train": 0.7333333333333333,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.5629418360156233,
+          "gpu_c": 73.0,
+          "gpu_w": 535.24,
+          "peak_vram_gb": 33.54642581939697,
+          "time": "2026-11-03 05:19:37"
+        },
+        {
+          "step": 37000.0,
+          "train_bits": 1.202691241562682,
+          "val_bits": 2.535799793652146,
+          "val_bits_no_mem": null,
+          "qa_test": 0.6641666666666667,
+          "qa_train": 0.725,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.5612209026858626,
+          "gpu_c": 77.0,
+          "gpu_w": 521.74,
+          "peak_vram_gb": 33.54642581939697,
+          "time": "2026-11-03 05:24:29"
+        },
+        {
+          "step": 38000.0,
+          "train_bits": 1.1931359499742384,
+          "val_bits": 2.541389244137075,
+          "val_bits_no_mem": null,
+          "qa_test": 0.6925,
+          "qa_train": 0.74,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.5600158975432885,
+          "gpu_c": 74.0,
+          "gpu_w": 561.78,
+          "peak_vram_gb": 33.54642581939697,
+          "time": "2026-11-03 05:29:14"
+        },
+        {
+          "step": 39000.0,
+          "train_bits": 1.1882222229075214,
+          "val_bits": 2.5488561288982603,
+          "val_bits_no_mem": null,
+          "qa_test": 0.7291666666666666,
+          "qa_train": 0.7616666666666667,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.5601055913861464,
+          "gpu_c": 75.0,
+          "gpu_w": 537.04,
+          "peak_vram_gb": 33.54642581939697,
+          "time": "2026-11-03 05:33:59"
+        },
+        {
+          "step": 40000.0,
+          "train_bits": 1.1846894305359075,
+          "val_bits": 2.5530848598155065,
+          "val_bits_no_mem": null,
+          "qa_test": 0.7483333333333333,
+          "qa_train": 0.79,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.5585680094358394,
+          "gpu_c": 77.0,
+          "gpu_w": 563.4,
+          "peak_vram_gb": 33.54642581939697,
+          "time": "2026-11-03 05:38:45"
+        },
+        {
+          "step": 41000.0,
+          "train_bits": 1.1781710945877248,
+          "val_bits": 2.5600900786482814,
+          "val_bits_no_mem": null,
+          "qa_test": 0.77,
+          "qa_train": 0.8016666666666666,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.557737317913187,
+          "gpu_c": 76.0,
+          "gpu_w": 537.68,
+          "peak_vram_gb": 33.54642581939697,
+          "time": "2026-11-03 05:43:30"
+        },
+        {
+          "step": 42000.0,
+          "train_bits": 1.1726740561138596,
+          "val_bits": 2.563843678828744,
+          "val_bits_no_mem": null,
+          "qa_test": 0.7658333333333334,
+          "qa_train": 0.8383333333333334,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.5574116996419685,
+          "gpu_c": 74.0,
+          "gpu_w": 535.12,
+          "peak_vram_gb": 33.54642581939697,
+          "time": "2026-11-03 05:48:15"
+        },
+        {
+          "step": 43000.0,
+          "train_bits": 1.1664934295984772,
+          "val_bits": 2.5745008704272094,
+          "val_bits_no_mem": null,
+          "qa_test": 0.7933333333333333,
+          "qa_train": 0.8283333333333334,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.5569862605587534,
+          "gpu_c": 79.0,
+          "gpu_w": 571.5,
+          "peak_vram_gb": 33.54642581939697,
+          "time": "2026-11-03 05:53:07"
+        },
+        {
+          "step": 44000.0,
+          "train_bits": 1.1577557865278982,
+          "val_bits": 2.576381765854314,
+          "val_bits_no_mem": null,
+          "qa_test": 0.7975,
+          "qa_train": 0.87,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.5567754411138934,
+          "gpu_c": 79.0,
+          "gpu_w": 587.71,
+          "peak_vram_gb": 33.54642581939697,
+          "time": "2026-11-03 05:57:52"
+        },
+        {
+          "step": 45000.0,
+          "train_bits": 1.1555838498768989,
+          "val_bits": 2.5707238591083983,
+          "val_bits_no_mem": null,
+          "qa_test": 0.8141666666666667,
+          "qa_train": 0.8733333333333333,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.5568029016298395,
+          "gpu_c": 73.0,
+          "gpu_w": 541.6,
+          "peak_vram_gb": 33.54642581939697,
+          "time": "2026-11-03 06:02:37"
+        },
+        {
+          "step": 46000.0,
+          "train_bits": 1.1533506981511081,
+          "val_bits": 2.5850205045687598,
+          "val_bits_no_mem": null,
+          "qa_test": 0.8333333333333334,
+          "qa_train": 0.87,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.5561885576129293,
+          "gpu_c": 74.0,
+          "gpu_w": 563.95,
+          "peak_vram_gb": 33.54642581939697,
+          "time": "2026-11-03 06:07:23"
+        },
+        {
+          "step": 47000.0,
+          "train_bits": 1.152557739892558,
+          "val_bits": 2.5915630757388266,
+          "val_bits_no_mem": null,
+          "qa_test": 0.8558333333333333,
+          "qa_train": 0.8766666666666667,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.5554874732368766,
+          "gpu_c": 81.0,
+          "gpu_w": 601.81,
+          "peak_vram_gb": 33.54642581939697,
+          "time": "2026-11-03 06:12:09"
+        },
+        {
+          "step": 48000.0,
+          "train_bits": 1.139529323163434,
+          "val_bits": 2.5934215274299937,
+          "val_bits_no_mem": null,
+          "qa_test": 0.8708333333333333,
+          "qa_train": 0.8883333333333333,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.5555952598122453,
+          "gpu_c": 76.0,
+          "gpu_w": 556.1,
+          "peak_vram_gb": 33.54642581939697,
+          "time": "2026-11-03 06:16:53"
+        },
+        {
+          "step": 49000.0,
+          "train_bits": 1.1399503904373247,
+          "val_bits": 2.594982298650349,
+          "val_bits_no_mem": null,
+          "qa_test": 0.835,
+          "qa_train": 0.895,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.5553788163451263,
+          "gpu_c": 79.0,
+          "gpu_w": 601.8,
+          "peak_vram_gb": 33.54642581939697,
+          "time": "2026-11-03 06:21:46"
+        },
+        {
+          "step": 50000.0,
+          "train_bits": 1.1361813798947504,
+          "val_bits": 2.6086646220818284,
+          "val_bits_no_mem": null,
+          "qa_test": 0.8583333333333333,
+          "qa_train": 0.905,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.555513500457133,
+          "gpu_c": 75.0,
+          "gpu_w": 534.36,
+          "peak_vram_gb": 33.54642581939697,
+          "time": "2026-11-03 06:26:31"
+        },
+        {
+          "step": 51000.0,
+          "train_bits": 1.1249704543221133,
+          "val_bits": 2.6177992011105986,
+          "val_bits_no_mem": null,
+          "qa_test": 0.855,
+          "qa_train": 0.895,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.555611870153447,
+          "gpu_c": 77.0,
+          "gpu_w": 518.8,
+          "peak_vram_gb": 33.54642581939697,
+          "time": "2026-11-03 06:31:16"
+        },
+        {
+          "step": 52000.0,
+          "train_bits": 1.1233091126636943,
+          "val_bits": 2.619375465101419,
+          "val_bits_no_mem": null,
+          "qa_test": 0.8691666666666666,
+          "qa_train": 0.885,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.5551603581026487,
+          "gpu_c": 80.0,
+          "gpu_w": 597.58,
+          "peak_vram_gb": 33.54642581939697,
+          "time": "2026-11-03 06:36:01"
+        },
+        {
+          "step": 53000.0,
+          "train_bits": 1.1245102717440671,
+          "val_bits": 2.6291215571091073,
+          "val_bits_no_mem": null,
+          "qa_test": 0.8783333333333333,
+          "qa_train": 0.9083333333333333,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.5551473089745125,
+          "gpu_c": 80.0,
+          "gpu_w": 587.53,
+          "peak_vram_gb": 33.54642581939697,
+          "time": "2026-11-03 06:40:46"
+        },
+        {
+          "step": 54000.0,
+          "train_bits": 1.1207689719061134,
+          "val_bits": 2.6279974928349557,
+          "val_bits_no_mem": null,
+          "qa_test": 0.89,
+          "qa_train": 0.9116666666666666,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.5549520155569283,
+          "gpu_c": 77.0,
+          "gpu_w": 576.64,
+          "peak_vram_gb": 33.54642581939697,
+          "time": "2026-11-03 06:45:32"
+        },
+        {
+          "step": 55000.0,
+          "train_bits": 1.117730694149224,
+          "val_bits": 2.6284302370142454,
+          "val_bits_no_mem": null,
+          "qa_test": 0.8533333333333334,
+          "qa_train": 0.9283333333333333,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.5543759787334572,
+          "gpu_c": 78.0,
+          "gpu_w": 583.94,
+          "peak_vram_gb": 33.54642581939697,
+          "time": "2026-11-03 06:50:18"
+        },
+        {
+          "step": 56000.0,
+          "train_bits": 1.1127726708009942,
+          "val_bits": 2.6462070374061413,
+          "val_bits_no_mem": null,
+          "qa_test": 0.8708333333333333,
+          "qa_train": 0.9233333333333333,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.5541311680893313,
+          "gpu_c": 76.0,
+          "gpu_w": 565.63,
+          "peak_vram_gb": 33.54642581939697,
+          "time": "2026-11-03 06:55:10"
+        },
+        {
+          "step": 57000.0,
+          "train_bits": 1.117251829955728,
+          "val_bits": 2.651404998050156,
+          "val_bits_no_mem": null,
+          "qa_test": 0.8833333333333333,
+          "qa_train": 0.9266666666666666,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.5536204994001914,
+          "gpu_c": 75.0,
+          "gpu_w": 541.36,
+          "peak_vram_gb": 33.54642581939697,
+          "time": "2026-11-03 06:59:57"
+        },
+        {
+          "step": 58000.0,
+          "train_bits": 1.1116618348590712,
+          "val_bits": 2.6560597514914206,
+          "val_bits_no_mem": null,
+          "qa_test": 0.8933333333333333,
+          "qa_train": 0.9433333333333334,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.553667488957387,
+          "gpu_c": 73.0,
+          "gpu_w": 525.15,
+          "peak_vram_gb": 33.54642581939697,
+          "time": "2026-11-03 07:04:42"
+        },
+        {
+          "step": 59000.0,
+          "train_bits": 1.1094235236537544,
+          "val_bits": 2.6569577875666757,
+          "val_bits_no_mem": null,
+          "qa_test": 0.8866666666666667,
+          "qa_train": 0.93,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.5534877746046343,
+          "gpu_c": 73.0,
+          "gpu_w": 529.59,
+          "peak_vram_gb": 33.54642581939697,
+          "time": "2026-11-03 07:09:27"
+        },
+        {
+          "step": 60000.0,
+          "train_bits": 1.1044707887720386,
+          "val_bits": 2.6722213051583004,
+          "val_bits_no_mem": null,
+          "qa_test": 0.8958333333333334,
+          "qa_train": 0.9383333333333334,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.5532771191228196,
+          "gpu_c": 74.0,
+          "gpu_w": 543.98,
+          "peak_vram_gb": 33.54642581939697,
+          "time": "2026-11-03 07:14:13"
+        },
+        {
+          "step": 61000.0,
+          "train_bits": 1.0996298103666367,
+          "val_bits": 2.6712728853322862,
+          "val_bits_no_mem": null,
+          "qa_test": 0.8991666666666667,
+          "qa_train": 0.9183333333333333,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.5536382650815157,
+          "gpu_c": 67.0,
+          "gpu_w": 518.81,
+          "peak_vram_gb": 33.54642581939697,
+          "time": "2026-11-03 07:18:57"
+        },
+        {
+          "step": 62000.0,
+          "train_bits": 1.0987278688520181,
+          "val_bits": 2.6776066695642053,
+          "val_bits_no_mem": null,
+          "qa_test": 0.8958333333333334,
+          "qa_train": 0.935,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.5558660006522484,
+          "gpu_c": 61.0,
+          "gpu_w": 577.74,
+          "peak_vram_gb": 33.54642581939697,
+          "time": "2026-11-03 07:23:43"
+        },
+        {
+          "step": 63000.0,
+          "train_bits": 1.098544610588608,
+          "val_bits": 2.6875158441205746,
+          "val_bits_no_mem": null,
+          "qa_test": 0.9041666666666667,
+          "qa_train": 0.9516666666666667,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.5583522855051477,
+          "gpu_c": 62.0,
+          "gpu_w": 548.64,
+          "peak_vram_gb": 33.54642581939697,
+          "time": "2026-11-03 07:28:22"
+        },
+        {
+          "step": 64000.0,
+          "train_bits": 1.0972187103417812,
+          "val_bits": 2.6892551978260193,
+          "val_bits_no_mem": null,
+          "qa_test": 0.8908333333333334,
+          "qa_train": 0.945,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.5606999294773494,
+          "gpu_c": 60.0,
+          "gpu_w": 555.68,
+          "peak_vram_gb": 33.54642581939697,
+          "time": "2026-11-03 07:33:00"
+        },
+        {
+          "step": 65000.0,
+          "train_bits": 1.0945716393710263,
+          "val_bits": 2.7062764354370117,
+          "val_bits_no_mem": null,
+          "qa_test": 0.9033333333333333,
+          "qa_train": 0.9283333333333333,
+          "qa_test_no_mem": null,
+          "steps_per_s": 3.562931097861358,
+          "gpu_c": 60.0,
+          "gpu_w": 585.85,
+          "peak_vram_gb": 33.54642581939697,
+          "time": "2026-11-03 07:37:39"
+        }
+      ],
+      "summary": {
+        "name": "L_more",
+        "steps_done": 65000,
+        "finished": true,
+        "params_brain": 268285952,
+        "params_memory": 0,
+        "memory_bytes_with_adam": 0,
+        "seconds": 18719.486000000004,
+        "train_seconds": 18388.369000000675,
+        "best_val_bits": [
+          2.503840243310423,
+          28000
+        ],
+        "measured_steps": 34990,
+        "measured_training_seconds": 9820.56600000002,
+        "training_steps_per_s": 3.562931097861358,
+        "peak_rss_gb": 4.567516326904297,
+        "peak_vram_gb": 33.54642581939697,
+        "process_read_bytes": 19323509582,
+        "process_write_bytes": 19318591236,
+        "storage_note": "SSD mmap uses Windows page cache; process I/O is not physical disk I/O",
+        "reason": null,
+        "last_evaluation": {
+          "step": 65000,
+          "val_bits": 2.7062764354370117,
+          "qa_test": 0.9033333333333333,
+          "qa_train": 0.9283333333333333,
+          "val_bits_no_mem": null,
+          "qa_test_no_mem": null,
+          "qa_test_by_attr": {
+            "spr": 0.8667,
+            "dn": 0.932,
+            "year": 0.8505,
+            "kva": 0.9005,
+            "city": 0.9378,
+            "fire": 0.9303
+          }
+        },
+        "val_bits": 2.7062764354370117,
+        "qa_test": 0.9033333333333333,
+        "qa_train": 0.9283333333333333,
+        "val_bits_no_mem": null,
+        "qa_test_no_mem": null,
+        "qa_test_by_attr": {
+          "spr": 0.8667,
+          "dn": 0.932,
+          "year": 0.8505,
+          "kva": 0.9005,
+          "city": 0.9378,
+          "fire": 0.9303
+        }
+      },
+      "live": {
+        "steps": 65000,
+        "step": 65000,
+        "phase": "завершён",
+        "time": "03.11 07:37:46",
+        "timestamp": 1793680666.7608438,
+        "backend": "none",
+        "reason": null,
+        "checkpoint_step": 65000
+      },
+      "checkpoint": {
+        "step": 65000,
+        "saved_at": 1793680666.3596816,
+        "manifest": "D:\\memlab\\ckpt\\L_more\\manifest.json",
+        "bytes": 3219609297,
+        "generations": 2,
+        "version": 2
+      },
+      "backend": "none"
+    },
+    {
+      "name": "L_long_more_tern",
+      "label": "Наш язык, длинное окно: доучивание ещё 15 000 шагов, веса −1/0/+1",
+      "status": "готово",
+      "rows": [
+        {
+          "step": 30000.0,
+          "train_bits": 1.3456919995391996,
+          "val_bits": 2.4355761156080282,
+          "val_bits_no_mem": null,
+          "qa_test": 0.14,
+          "qa_train": 0.17833333333333334,
+          "qa_test_no_mem": null,
+          "steps_per_s": 0.0,
+          "gpu_c": 39.0,
+          "gpu_w": 404.77,
+          "peak_vram_gb": 10.986733436584473,
+          "time": "2026-11-03 04:52:37"
+        },
+        {
+          "step": 31000.0,
+          "train_bits": 1.3410054723031881,
+          "val_bits": 2.436443359622835,
+          "val_bits_no_mem": null,
+          "qa_test": 0.16583333333333333,
+          "qa_train": 0.17333333333333334,
+          "qa_test_no_mem": null,
+          "steps_per_s": 1.7413727293990497,
+          "gpu_c": 75.0,
+          "gpu_w": 596.97,
+          "peak_vram_gb": 63.64847660064697,
+          "time": "2026-11-03 05:02:18"
+        },
+        {
+          "step": 32000.0,
+          "train_bits": 1.335540433351299,
+          "val_bits": 2.4377721477450076,
+          "val_bits_no_mem": null,
+          "qa_test": 0.1625,
+          "qa_train": 0.19166666666666668,
+          "qa_test_no_mem": null,
+          "steps_per_s": 1.7525766840363652,
+          "gpu_c": 76.0,
+          "gpu_w": 596.12,
+          "peak_vram_gb": 63.64847660064697,
+          "time": "2026-11-03 05:11:52"
+        },
+        {
+          "step": 33000.0,
+          "train_bits": 1.3329252651622792,
+          "val_bits": 2.4437834573406154,
+          "val_bits_no_mem": null,
+          "qa_test": 0.16416666666666666,
+          "qa_train": 0.21666666666666667,
+          "qa_test_no_mem": null,
+          "steps_per_s": 1.7547226393841866,
+          "gpu_c": 70.0,
+          "gpu_w": 575.95,
+          "peak_vram_gb": 63.64847660064697,
+          "time": "2026-11-03 05:21:26"
+        },
+        {
+          "step": 34000.0,
+          "train_bits": 1.3309368339997503,
+          "val_bits": 2.4439016165877017,
+          "val_bits_no_mem": null,
+          "qa_test": 0.19083333333333333,
+          "qa_train": 0.20333333333333334,
+          "qa_test_no_mem": null,
+          "steps_per_s": 1.7567442026337647,
+          "gpu_c": 75.0,
+          "gpu_w": 595.8,
+          "peak_vram_gb": 63.64847660064697,
+          "time": "2026-11-03 05:31:06"
+        },
+        {
+          "step": 35000.0,
+          "train_bits": 1.3222655117389102,
+          "val_bits": 2.44236880688,
+          "val_bits_no_mem": null,
+          "qa_test": 0.19333333333333333,
+          "qa_train": 0.205,
+          "qa_test_no_mem": null,
+          "steps_per_s": 1.7575590006214403,
+          "gpu_c": 70.0,
+          "gpu_w": 488.85,
+          "peak_vram_gb": 63.64847660064697,
+          "time": "2026-11-03 05:40:40"
+        },
+        {
+          "step": 36000.0,
+          "train_bits": 1.3163411823689763,
+          "val_bits": 2.4480585590801005,
+          "val_bits_no_mem": null,
+          "qa_test": 0.21166666666666667,
+          "qa_train": 0.215,
+          "qa_test_no_mem": null,
+          "steps_per_s": 1.7586069718929298,
+          "gpu_c": 70.0,
+          "gpu_w": 541.22,
+          "peak_vram_gb": 63.64847660064697,
+          "time": "2026-11-03 05:50:13"
+        },
+        {
+          "step": 37000.0,
+          "train_bits": 1.3189400552018269,
+          "val_bits": 2.4457717989288468,
+          "val_bits_no_mem": null,
+          "qa_test": 0.22333333333333333,
+          "qa_train": 0.23833333333333334,
+          "qa_test_no_mem": null,
+          "steps_per_s": 1.7592203658825005,
+          "gpu_c": 76.0,
+          "gpu_w": 592.61,
+          "peak_vram_gb": 63.64847660064697,
+          "time": "2026-11-03 05:59:54"
+        },
+        {
+          "step": 38000.0,
+          "train_bits": 1.3148177278008866,
+          "val_bits": 2.4505332819368593,
+          "val_bits_no_mem": null,
+          "qa_test": 0.23166666666666666,
+          "qa_train": 0.23333333333333334,
+          "qa_test_no_mem": null,
+          "steps_per_s": 1.7593627715753946,
+          "gpu_c": 71.0,
+          "gpu_w": 551.18,
+          "peak_vram_gb": 63.64847660064697,
+          "time": "2026-11-03 06:09:28"
+        },
+        {
+          "step": 39000.0,
+          "train_bits": 1.3094483864452868,
+          "val_bits": 2.4528775416210515,
+          "val_bits_no_mem": null,
+          "qa_test": 0.25666666666666665,
+          "qa_train": 0.2866666666666667,
+          "qa_test_no_mem": null,
+          "steps_per_s": 1.75970047118464,
+          "gpu_c": 69.0,
+          "gpu_w": 491.11,
+          "peak_vram_gb": 63.64847660064697,
+          "time": "2026-11-03 06:19:01"
+        },
+        {
+          "step": 40000.0,
+          "train_bits": 1.30676154448652,
+          "val_bits": 2.4550032113559968,
+          "val_bits_no_mem": null,
+          "qa_test": 0.2608333333333333,
+          "qa_train": 0.29333333333333333,
+          "qa_test_no_mem": null,
+          "steps_per_s": 1.759963525240364,
+          "gpu_c": 72.0,
+          "gpu_w": 565.95,
+          "peak_vram_gb": 63.649048805236816,
+          "time": "2026-11-03 06:28:41"
+        },
+        {
+          "step": 41000.0,
+          "train_bits": 1.3011478802775385,
+          "val_bits": 2.4540013264233957,
+          "val_bits_no_mem": null,
+          "qa_test": 0.2775,
+          "qa_train": 0.305,
+          "qa_test_no_mem": null,
+          "steps_per_s": 1.7601762290362453,
+          "gpu_c": 72.0,
+          "gpu_w": 588.3,
+          "peak_vram_gb": 63.649048805236816,
+          "time": "2026-11-03 06:38:15"
+        },
+        {
+          "step": 42000.0,
+          "train_bits": 1.3004331096316368,
+          "val_bits": 2.4559309789320203,
+          "val_bits_no_mem": null,
+          "qa_test": 0.2791666666666667,
+          "qa_train": 0.29833333333333334,
+          "qa_test_no_mem": null,
+          "steps_per_s": 1.760408802455138,
+          "gpu_c": 69.0,
+          "gpu_w": 517.19,
+          "peak_vram_gb": 63.649048805236816,
+          "time": "2026-11-03 06:47:49"
+        },
+        {
+          "step": 43000.0,
+          "train_bits": 1.2872496612916757,
+          "val_bits": 2.459776231533505,
+          "val_bits_no_mem": null,
+          "qa_test": 0.31166666666666665,
+          "qa_train": 0.325,
+          "qa_test_no_mem": null,
+          "steps_per_s": 1.7603717948597044,
+          "gpu_c": 75.0,
+          "gpu_w": 594.66,
+          "peak_vram_gb": 63.649048805236816,
+          "time": "2026-11-03 06:57:30"
+        },
+        {
+          "step": 44000.0,
+          "train_bits": 1.2919923408631941,
+          "val_bits": 2.459038440293191,
+          "val_bits_no_mem": null,
+          "qa_test": 0.3025,
+          "qa_train": 0.3433333333333333,
+          "qa_test_no_mem": null,
+          "steps_per_s": 1.7604714388991878,
+          "gpu_c": 72.0,
+          "gpu_w": 586.12,
+          "peak_vram_gb": 63.649048805236816,
+          "time": "2026-11-03 07:07:03"
+        },
+        {
+          "step": 45000.0,
+          "train_bits": 1.291337043967744,
+          "val_bits": 2.463006581664661,
+          "val_bits_no_mem": null,
+          "qa_test": 0.33166666666666667,
+          "qa_train": 0.35,
+          "qa_test_no_mem": null,
+          "steps_per_s": 1.7604378757446573,
+          "gpu_c": 67.0,
+          "gpu_w": 489.8,
+          "peak_vram_gb": 63.649048805236816,
+          "time": "2026-11-03 07:16:38"
+        }
+      ],
+      "summary": {
+        "name": "L_long_more_tern",
+        "steps_done": 45000,
+        "finished": true,
+        "params_brain": 268810240,
+        "params_memory": 0,
+        "memory_bytes_with_adam": 0,
+        "seconds": 25938.467999999993,
+        "train_seconds": 25555.41599999831,
+        "best_val_bits": [
+          2.4330537750548116,
+          29000
+        ],
+        "measured_steps": 14990,
+        "measured_training_seconds": 8514.92699999953,
+        "training_steps_per_s": 1.7604378757446573,
+        "peak_rss_gb": 4.595348358154297,
+        "peak_vram_gb": 63.649048805236816,
+        "process_read_bytes": 16132017152,
+        "process_write_bytes": 16129908545,
+        "storage_note": "SSD mmap uses Windows page cache; process I/O is not physical disk I/O",
+        "reason": null,
+        "last_evaluation": {
+          "step": 45000,
+          "val_bits": 2.463006581664661,
+          "qa_test": 0.33166666666666667,
+          "qa_train": 0.35,
+          "val_bits_no_mem": null,
+          "qa_test_no_mem": null,
+          "qa_test_by_attr": {
+            "spr": 0.0974,
+            "dn": 0.3155,
+            "year": 0.1959,
+            "kva": 0.3081,
+            "city": 0.658,
+            "fire": 0.4179
+          }
+        },
+        "val_bits": 2.463006581664661,
+        "qa_test": 0.33166666666666667,
+        "qa_train": 0.35,
+        "val_bits_no_mem": null,
+        "qa_test_no_mem": null,
+        "qa_test_by_attr": {
+          "spr": 0.0974,
+          "dn": 0.3155,
+          "year": 0.1959,
+          "kva": 0.3081,
+          "city": 0.658,
+          "fire": 0.4179
+        }
+      },
+      "live": {
+        "steps": 45000,
+        "step": 45000,
+        "phase": "завершён",
+        "time": "03.11 07:16:45",
+        "timestamp": 1793679405.3255997,
+        "backend": "none",
+        "reason": null,
+        "checkpoint_step": 45000
+      },
+      "checkpoint": {
+        "step": 45000,
+        "saved_at": 1793679404.821455,
+        "manifest": "D:\\memlab\\ckpt\\L_long_more_tern\\manifest.json",
+        "bytes": 3225900753,
+        "generations": 2,
+        "version": 2
+      },
+      "backend": "none"
+    },
+    {
+      "name": "MEM_tern",
+      "label": "Сеть берёт факты из памяти: основа −1/0/+1, длинное окно",
+      "status": "готово",
+      "rows": [],
+      "summary": {
+        "name": "MEM_tern",
+        "base": "L_long_tern",
+        "base_step": 30000,
+        "ternary": true,
+        "finished": true,
+        "steps_done": 3000,
+        "seconds": 660,
+        "weights": "D:\\memlab\\ckpt\\MEM_tern\\model.pt",
+        "log": [
+          {
+            "step": 0,
+            "объекты_с_памятью": 0.0733,
+            "объекты_без_памяти": 0.0633,
+            "объекты_нет_записи": 0.0,
+            "википедия_с_памятью": 0.0,
+            "википедия_без_памяти": 0.0,
+            "без_памяти_говорит_не_знаю": 0.0,
+            "текст_бит_на_знак": 1.2219
+          },
+          {
+            "step": 1000,
+            "объекты_с_памятью": 0.9933,
+            "объекты_без_памяти": 0.0583,
+            "объекты_нет_записи": 1.0,
+            "википедия_с_памятью": 0.8333,
+            "википедия_без_памяти": 0.0017,
+            "без_памяти_говорит_не_знаю": 0.0,
+            "текст_бит_на_знак": 1.575
+          },
+          {
+            "step": 2000,
+            "объекты_с_памятью": 0.9967,
+            "объекты_без_памяти": 0.0417,
+            "объекты_нет_записи": 1.0,
+            "википедия_с_памятью": 0.8717,
+            "википедия_без_памяти": 0.0033,
+            "без_памяти_говорит_не_знаю": 0.0,
+            "текст_бит_на_знак": 1.6199
+          },
+          {
+            "step": 3000,
+            "объекты_с_памятью": 1.0,
+            "объекты_без_памяти": 0.0383,
+            "объекты_нет_записи": 1.0,
+            "википедия_с_памятью": 0.8883,
+            "википедия_без_памяти": 0.005,
+            "без_памяти_говорит_не_знаю": 0.0,
+            "текст_бит_на_знак": 1.5375
+          }
+        ],
+        "final": {
+          "step": 3000,
+          "объекты_с_памятью": 1.0,
+          "объекты_без_памяти": 0.0383,
+          "объекты_нет_записи": 1.0,
+          "википедия_с_памятью": 0.8883,
+          "википедия_без_памяти": 0.005,
+          "без_памяти_говорит_не_знаю": 0.0,
+          "текст_бит_на_знак": 1.5375
+        },
+        "примеры": {
+          "объекты_с_памятью": [
+            {
+              "вход": "Память: Мостзап-2571 — категория пожарной опасности В4; спринклеров 189; ввод водопровода Ду40; город Махачкала; трансформатор 1000 кВА; год ввода 1961.\nВопрос: какая категория пожарной опасности у объекта Мостзап-2571? Ответ:",
+              "ответ": "В4"
+            },
+            {
+              "вход": "Память: Восвелкам-8413 — спринклеров 490; год ввода 1959; трансформатор 1000 кВА; категория пожарной опасности Б; город Ижевск; ввод водопровода Ду300.\nВопрос: сколько спринклеров в объекте Восвелкам-8413? Ответ:",
+              "ответ": "490"
+            },
+            {
+              "вход": "Память: Красмедзел-1586 — город Омск; год ввода 2009; ввод водопровода Ду50; категория пожарной опасности В2; трансформатор 100 кВА; спринклеров 216.\nВопрос: сколько спринклеров в объекте Красмедзел-1586? Ответ:",
+              "ответ": "216"
+            }
+          ],
+          "объекты_без_памяти": [
+            {
+              "вход": "Вопрос: какая мощность трансформатора у объекта Мостзап-2571? Ответ:",
+              "ответ": "1000 кВА"
+            },
+            {
+              "вход": "Вопрос: какая категория пожарной опасности у объекта Восвелкам-8413? Ответ:",
+              "ответ": "Б"
+            },
+            {
+              "вход": "Вопрос: в каком городе находится объект Красмедзел-1586? Ответ:",
+              "ответ": "Омск"
+            }
+          ],
+          "объекты_нет_записи": [
+            {
+              "вход": "Память: нет записи.\nВопрос: какой диаметр ввода водопровода у объекта Борлесдуб-6729? Ответ:",
+              "ответ": "не знаю"
+            },
+            {
+              "вход": "Память: нет записи.\nВопрос: в каком городе находится объект Радсевсер-9660? Ответ:",
+              "ответ": "не знаю"
+            },
+            {
+              "вход": "Память: нет записи.\nВопрос: какая категория пожарной опасности у объекта Снежновзор-5153? Ответ:",
+              "ответ": "не знаю"
+            }
+          ],
+          "википедия_с_памятью": [
+            {
+              "вход": "Память: Агеносов, Владимир Вениаминович — родился 1997; умер 2013.\nВопрос: Когда скончался Владимир Вениаминович Агеносов? Ответ:",
+              "ответ": "2013"
+            },
+            {
+              "вход": "Память: Юнкеров, Николай Иванович — 3 ноября 1943) — участник Великой Отечественной войны, командир батальона 465-го стрелкового полка 167-й стрелковой дивизии 38-й армии 1-го Украинского фронта, Герой Советского Союза, капитан; родился 1918; умер 1943; место рождения Хонино.\nВопрос: Кто такой Николай Иванович Юнкеров? Ответ:",
+              "ответ": "3 ноября 1943) — участник Великой Отечественной войны, командир батальона 465-го стрелкового полка 167-й стрелковой дивизии 38-й армии 1-го Украинского фронта, Герой Советского Союза, капитан"
+            },
+            {
+              "вход": "Память: Билоконь, Николай Васильевич — министр внутренних дел Украины в 2003—2005 годах; родился 1955 | Femap — независимый от САПР пре- и постпроцессор от Siemens PLM Software для проведения инженерного анализа методом конечных элементов (МКЭ) (Finite Element Analysis — FEA).\nВопрос: Что такое Femap? Ответ:",
+              "ответ": "независимый от САПР пре- и постпроцессор от Siemens PLM Software для проведения инженерного анализа методом конечных элементов (МКЭ) (Finite Element Analysis — FEA)"
+            }
+          ],
+          "википедия_без_памяти": [
+            {
+              "вход": "Вопрос: В каком году умер Владимир Вениаминович Агеносов? Ответ:",
+              "ответ": "2013"
+            },
+            {
+              "вход": "Вопрос: Когда скончался Николай Иванович Юнкеров? Ответ:",
+              "ответ": "1943"
+            },
+            {
+              "вход": "Вопрос: Что такое Femap? Ответ:",
+              "ответ": "независимый от САПР пре- и постпроцессор от Siemens PLM Software для проведения инженерного анализа методом конечных элементов (МКЭ) (Finite Element Analysis — FEA)"
+            }
+          ]
+        }
+      },
+      "live": {
+        "steps": 3000,
+        "step": 3000,
+        "объекты_с_памятью": 1.0,
+        "объекты_без_памяти": 0.0383,
+        "объекты_нет_записи": 1.0,
+        "википедия_с_памятью": 0.8883,
+        "википедия_без_памяти": 0.005,
+        "без_памяти_говорит_не_знаю": 0.0,
+        "текст_бит_на_знак": 1.5375,
+        "phase": "обучение",
+        "time": "03.11 12:14:31",
+        "timestamp": 1793697271.6259022
+      },
+      "checkpoint": {},
+      "backend": "none"
+    },
+    {
+      "name": "MEM_base",
+      "label": "Сеть берёт факты из памяти: основа с обычными весами",
+      "status": "готово",
+      "rows": [],
+      "summary": {
+        "name": "MEM_base",
+        "base": "L_base",
+        "base_step": 30000,
+        "ternary": false,
+        "finished": true,
+        "steps_done": 3000,
+        "seconds": 597,
+        "weights": "D:\\memlab\\ckpt\\MEM_base\\model.pt",
+        "log": [
+          {
+            "step": 0,
+            "объекты_с_памятью": 0.05,
+            "объекты_без_памяти": 0.05,
+            "объекты_нет_записи": 0.0,
+            "википедия_с_памятью": 0.0017,
+            "википедия_без_памяти": 0.0,
+            "без_памяти_говорит_не_знаю": 0.0,
+            "текст_бит_на_знак": 1.246
+          },
+          {
+            "step": 1000,
+            "объекты_с_памятью": 0.9983,
+            "объекты_без_памяти": 0.055,
+            "объекты_нет_записи": 1.0,
+            "википедия_с_памятью": 0.81,
+            "википедия_без_памяти": 0.0017,
+            "без_памяти_говорит_не_знаю": 0.0,
+            "текст_бит_на_знак": 1.2894
+          },
+          {
+            "step": 2000,
+            "объекты_с_памятью": 1.0,
+            "объекты_без_памяти": 0.0433,
+            "объекты_нет_записи": 1.0,
+            "википедия_с_памятью": 0.8517,
+            "википедия_без_памяти": 0.0017,
+            "без_памяти_говорит_не_знаю": 0.0,
+            "текст_бит_на_знак": 1.2872
+          },
+          {
+            "step": 3000,
+            "объекты_с_памятью": 1.0,
+            "объекты_без_памяти": 0.06,
+            "объекты_нет_записи": 1.0,
+            "википедия_с_памятью": 0.8483,
+            "википедия_без_памяти": 0.0033,
+            "без_памяти_говорит_не_знаю": 0.0,
+            "текст_бит_на_знак": 1.2836
+          }
+        ],
+        "final": {
+          "step": 3000,
+          "объекты_с_памятью": 1.0,
+          "объекты_без_памяти": 0.06,
+          "объекты_нет_записи": 1.0,
+          "википедия_с_памятью": 0.8483,
+          "википедия_без_памяти": 0.0033,
+          "без_памяти_говорит_не_знаю": 0.0,
+          "текст_бит_на_знак": 1.2836
+        },
+        "примеры": {
+          "объекты_с_памятью": [
+            {
+              "вход": "Память: Мостзап-2571 — категория пожарной опасности В4; спринклеров 189; ввод водопровода Ду40; город Махачкала; трансформатор 1000 кВА; год ввода 1961.\nВопрос: какая категория пожарной опасности у объекта Мостзап-2571? Ответ:",
+              "ответ": "В4"
+            },
+            {
+              "вход": "Память: Восвелкам-8413 — спринклеров 490; год ввода 1959; трансформатор 1000 кВА; категория пожарной опасности Б; город Ижевск; ввод водопровода Ду300.\nВопрос: сколько спринклеров в объекте Восвелкам-8413? Ответ:",
+              "ответ": "490"
+            },
+            {
+              "вход": "Память: Красмедзел-1586 — город Омск; год ввода 2009; ввод водопровода Ду50; категория пожарной опасности В2; трансформатор 100 кВА; спринклеров 216.\nВопрос: сколько спринклеров в объекте Красмедзел-1586? Ответ:",
+              "ответ": "216"
+            }
+          ],
+          "объекты_без_памяти": [
+            {
+              "вход": "Вопрос: какая мощность трансформатора у объекта Мостзап-2571? Ответ:",
+              "ответ": "1000 кВА"
+            },
+            {
+              "вход": "Вопрос: какая категория пожарной опасности у объекта Восвелкам-8413? Ответ:",
+              "ответ": "Б"
+            },
+            {
+              "вход": "Вопрос: в каком городе находится объект Красмедзел-1586? Ответ:",
+              "ответ": "Омск"
+            }
+          ],
+          "объекты_нет_записи": [
+            {
+              "вход": "Память: нет записи.\nВопрос: какой диаметр ввода водопровода у объекта Борлесдуб-6729? Ответ:",
+              "ответ": "не знаю"
+            },
+            {
+              "вход": "Память: нет записи.\nВопрос: в каком городе находится объект Радсевсер-9660? Ответ:",
+              "ответ": "не знаю"
+            },
+            {
+              "вход": "Память: нет записи.\nВопрос: какая категория пожарной опасности у объекта Снежновзор-5153? Ответ:",
+              "ответ": "не знаю"
+            }
+          ],
+          "википедия_с_памятью": [
+            {
+              "вход": "Память: Агеносов, Владимир Вениаминович — родился 1997; умер 2013.\nВопрос: Когда скончался Владимир Вениаминович Агеносов? Ответ:",
+              "ответ": "2013"
+            },
+            {
+              "вход": "Память: Юнкеров, Николай Иванович — 3 ноября 1943) — участник Великой Отечественной войны, командир батальона 465-го стрелкового полка 167-й стрелковой дивизии 38-й армии 1-го Украинского фронта, Герой Советского Союза, капитан; родился 1918; умер 1943; место рождения Хонино.\nВопрос: Кто такой Николай Иванович Юнкеров? Ответ:",
+              "ответ": "3 ноября 1943) — участник Великой Отечественной войны, командир батальона 465-го стрелкового полка 167-й стрелковой дивизии 38-й армии 1-го Украинского фронта, Герой Советского Союза, капитан"
+            },
+            {
+              "вход": "Память: Билоконь, Николай Васильевич — министр внутренних дел Украины в 2003—2005 годах; родился 1955 | Femap — независимый от САПР пре- и постпроцессор от Siemens PLM Software для проведения инженерного анализа методом конечных элементов (МКЭ) (Finite Element Analysis — FEA).\nВопрос: Что такое Femap? Ответ:",
+              "ответ": "независимый от САПР пре- и постпроцессор от Siemens PLM Software для проведения инженерного анализа методом конечных элементов (МКЭ) (Finite Element Analysis — FEA)"
+            }
+          ],
+          "википедия_без_памяти": [
+            {
+              "вход": "Вопрос: В каком году умер Владимир Вениаминович Агеносов? Ответ:",
+              "ответ": "2013"
+            },
+            {
+              "вход": "Вопрос: Когда скончался Николай Иванович Юнкеров? Ответ:",
+              "ответ": "1943"
+            },
+            {
+              "вход": "Вопрос: Что такое Femap? Ответ:",
+              "ответ": "независимый от САПР пре- и постпроцессор от Siemens PLM Software для проведения инженерного анализа методом конечных элементов (МКЭ) (Finite Element Analysis — FEA)"
+            }
+          ]
+        }
+      },
+      "live": {
+        "steps": 3000,
+        "step": 3000,
+        "объекты_с_памятью": 1.0,
+        "объекты_без_памяти": 0.06,
+        "объекты_нет_записи": 1.0,
+        "википедия_с_памятью": 0.8483,
+        "википедия_без_памяти": 0.0033,
+        "без_памяти_говорит_не_знаю": 0.0,
+        "текст_бит_на_знак": 1.2836,
+        "phase": "обучение",
+        "time": "03.11 12:14:52",
+        "timestamp": 1793697292.0506532
+      },
+      "checkpoint": {},
+      "backend": "none"
+    }
+  ],
+  "queue": [
+    "2026-11-03T04:50:58.668683+03:00 Start L_more, PID 34136, physical GPU 0, stock 600W",
+    "2026-11-03T04:52:21.811888+03:00 Start L_long_more_tern, PID 7360, physical GPU 1, stock 600W",
+    "2026-11-03T07:16:46.975531+03:00 Completed L_long_more_tern",
+    "2026-11-03T07:37:48.352613+03:00 Completed L_more",
+    "2026-11-03T07:37:55.678477+03:00 Auto resume watcher: queue complete",
+    "2026-11-03T11:58:42.606657+03:00 Start MEM_tern, PID 32936, physical GPU 0, stock 600W",
+    "2026-11-03T11:58:49.672080+03:00 PROTECTIVE STOP MEM_tern: exit 1; вся группа остановлена",
+    "2026-11-03T12:00:56.871970+03:00 Start MEM_tern, PID 43596, physical GPU 0, stock 600W",
+    "2026-11-03T12:03:29.084071+03:00 Start MEM_tern, PID 36412, physical GPU 0, stock 600W",
+    "2026-11-03T12:04:51.749389+03:00 Start MEM_base, PID 10932, physical GPU 1, stock 600W",
+    "2026-11-03T12:14:36.125504+03:00 Completed MEM_tern",
+    "2026-11-03T12:14:54.154710+03:00 Completed MEM_base"
+  ],
+  "ssd": {
+    "file_gb": 32.0,
+    "row_bytes": 4096,
+    "rows_in_table": 8388608,
+    "write_seconds": 25.1,
+    "rows_per_token": 128,
+    "results": [
+      {
+        "threads": 1,
+        "rows_per_s": 9842,
+        "mb_per_s": 38,
+        "lat_median_us": 53,
+        "lat_p99_us": 416,
+        "tokens_per_s": 77
+      },
+      {
+        "threads": 4,
+        "rows_per_s": 61063,
+        "mb_per_s": 239,
+        "lat_median_us": 59,
+        "lat_p99_us": 140,
+        "tokens_per_s": 477
+      },
+      {
+        "threads": 16,
+        "rows_per_s": 91398,
+        "mb_per_s": 357,
+        "lat_median_us": 148,
+        "lat_p99_us": 645,
+        "tokens_per_s": 714
+      },
+      {
+        "threads": 32,
+        "rows_per_s": 93226,
+        "mb_per_s": 364,
+        "lat_median_us": 296,
+        "lat_p99_us": 1617,
+        "tokens_per_s": 728
+      },
+      {
+        "threads": 64,
+        "rows_per_s": 90809,
+        "mb_per_s": 355,
+        "lat_median_us": 613,
+        "lat_p99_us": 3533,
+        "tokens_per_s": 709
+      }
+    ]
+  },
+  "storage_training": {
+    "passed": true,
+    "rows": [
+      {
+        "name": "STORAGE2_gpu",
+        "backend": "gpu",
+        "steps": 120,
+        "passed": true,
+        "steps_per_s": 143.60313315865784,
+        "val_bits": 4.2911857289763224,
+        "qa_test": 0.0,
+        "peak_vram_gb": 0.2934708595275879,
+        "peak_rss_gb": 5.509243011474609,
+        "memory_bytes": 201326592,
+        "max_weight_delta": 0.0,
+        "max_memory_delta": 0.0,
+        "identical_batch_rng": true,
+        "peaks": {
+          "gpu_w": 78.36,
+          "gpu_c": 32.0,
+          "cpu_c": 67.6
+        },
+        "disk_io_systemwide": {
+          "PhysicalDrive0": {
+            "read_bytes": 74208256,
+            "write_bytes": 10998272,
+            "read_count": 4051,
+            "write_count": 657
+          },
+          "PhysicalDrive1": {
+            "read_bytes": 612969472,
+            "write_bytes": 431775744,
+            "read_count": 549,
+            "write_count": 1315
+          }
+        }
+      },
+      {
+        "name": "STORAGE2_cpu",
+        "backend": "cpu",
+        "steps": 120,
+        "passed": true,
+        "steps_per_s": 121.41280353360011,
+        "val_bits": 4.2911857289763224,
+        "qa_test": 0.0,
+        "peak_vram_gb": 0.10597085952758789,
+        "peak_rss_gb": 5.672088623046875,
+        "memory_bytes": 201326592,
+        "max_weight_delta": 0.0,
+        "max_memory_delta": 0.0,
+        "identical_batch_rng": true,
+        "peaks": {
+          "gpu_w": 87.63,
+          "gpu_c": 32.0,
+          "cpu_c": 68.9
+        },
+        "disk_io_systemwide": {
+          "PhysicalDrive0": {
+            "read_bytes": 288768,
+            "write_bytes": 27379712,
+            "read_count": 27,
+            "write_count": 819
+          },
+          "PhysicalDrive1": {
+            "read_bytes": 8192,
+            "write_bytes": 431828992,
+            "read_count": 2,
+            "write_count": 1322
+          }
+        }
+      },
+      {
+        "name": "STORAGE2_ssd",
+        "backend": "ssd",
+        "steps": 120,
+        "passed": true,
+        "steps_per_s": 176.0,
+        "val_bits": 4.2911857289763224,
+        "qa_test": 0.0,
+        "peak_vram_gb": 0.10597085952758789,
+        "peak_rss_gb": 5.670436859130859,
+        "memory_bytes": 201326592,
+        "max_weight_delta": 0.0,
+        "max_memory_delta": 0.0,
+        "identical_batch_rng": true,
+        "peaks": {
+          "gpu_w": 117.87,
+          "gpu_c": 33.0,
+          "cpu_c": 62.8
+        },
+        "disk_io_systemwide": {
+          "PhysicalDrive0": {
+            "read_bytes": 1617920,
+            "write_bytes": 10321920,
+            "read_count": 46,
+            "write_count": 533
+          },
+          "PhysicalDrive1": {
+            "read_bytes": 12288,
+            "write_bytes": 695205888,
+            "read_count": 3,
+            "write_count": 10568
+          }
+        }
+      }
+    ],
+    "kind": "real_training",
+    "scope": "120 training updates; dim 256, 2 layers, context 128, batch 8, 65536 x 256 value table, one memory layer; same text batches and initialization",
+    "caveat": "SSD is a real writable mmap table with saved Adam and restart validation. Windows may cache all pages. This does not measure cold-disk-only inference or prove that RAM is unnecessary. Physical disk counters include checkpoint writes and unrelated processes. Training speed excludes evaluations and checkpoint copies.",
+    "timing_warning": "Single short timing window (<1s per backend); throughput is preliminary, not a reliable performance ranking."
+  },
+  "legacy_pending": 0,
+  "legacy_parked": 0,
+  "historical_note": "K1: последний достоверный счётчик 1850; сохранения весов нет. Исторические журналы сохранены; K2 начинается заново. Старые математические модели сохраняют свои checkpoints."
+}

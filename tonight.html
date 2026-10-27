@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Вечер и ночь</title>
+<style>
+:root{--bg:#f6f5f1;--card:#fff;--ink:#1d1d1b;--mute:#6b6a65;--line:#e3e1da;--acc:#2f6fdf;--ok:#1f8a4c;--bad:#c2412d;--warn:#b7791f;--bar:#ecebe6}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#141413;--card:#1e1e1c;--ink:#ecebe6;--mute:#9a988f;--line:#2e2d2a;--acc:#6b9cff;--ok:#4cc27f;--bad:#ff7a63;--warn:#e0a84a;--bar:#2a2926}}
+:root[data-theme="dark"]{--bg:#141413;--card:#1e1e1c;--ink:#ecebe6;--mute:#9a988f;--line:#2e2d2a;--acc:#6b9cff;--ok:#4cc27f;--bad:#ff7a63;--warn:#e0a84a;--bar:#2a2926}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+main{max-width:980px;margin:0 auto;padding:16px}
+h1{font-size:22px;margin:4px 0 2px}
+h2{font-size:16px;margin:22px 0 8px}
+.sub{color:var(--mute);font-size:13px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;margin:10px 0}
+.grid{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.tl{display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.st{border:1px solid var(--line);border-radius:10px;padding:10px;background:var(--card);opacity:.6}
+.st.now{opacity:1;border-color:var(--acc);box-shadow:0 0 0 1px var(--acc) inset}
+.st.done{opacity:.85}
+.st b{display:block;font-size:13px;color:var(--mute)}
+.pill{display:inline-block;font-size:12px;padding:1px 8px;border-radius:99px;border:1px solid var(--line);color:var(--mute)}
+.pill.ok{color:var(--ok);border-color:var(--ok)}.pill.bad{color:var(--bad);border-color:var(--bad)}.pill.warn{color:var(--warn);border-color:var(--warn)}
+.bar{height:8px;background:var(--bar);border-radius:99px;overflow:hidden;margin:8px 0}
+.bar i{display:block;height:100%;background:var(--acc)}
+.big{font-size:26px;font-weight:650;font-variant-numeric:tabular-nums}
+.kv{display:flex;gap:16px;flex-wrap:wrap}.kv div{min-width:90px}.kv small{display:block;color:var(--mute);font-size:12px}
+table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums;font-size:14px}
+th,td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+th{color:var(--mute);font-weight:500;font-size:12px}
+.wrap{overflow-x:auto}
+td.win{color:var(--ok);font-weight:600}
+svg{width:100%;height:110px;display:block}
+.ax{stroke:var(--line)} .l1{fill:none;stroke:var(--acc);stroke-width:2} .l2{fill:none;stroke:var(--ok);stroke-width:2}
+.leg{font-size:12px;color:var(--mute)} .leg i{display:inline-block;width:10px;height:3px;margin:0 4px 2px 8px;vertical-align:middle}
+ul{margin:6px 0;padding-left:18px} li{margin:3px 0}
+a{color:var(--acc)}
+.empty{color:var(--mute);font-size:14px}
+</style>
+</head>
+<body>
+<main>
+  <h1>Вечер и ночь</h1>
+  <div class="sub" id="stamp">загрузка…</div>
+
+  <h2>План</h2>
+  <div class="tl" id="plan"></div>
+
+  <h2>Видеокарты</h2>
+  <div class="grid" id="gpus"></div>
+
+  <h2>Учёба</h2>
+  <div class="grid" id="train"></div>
+
+  <h2>Экзамен: наши сети и DeepSeek</h2>
+  <div class="card"><div class="wrap" id="exam"></div>
+    <div class="sub" style="margin-top:8px">Доля верных ответов на одних и тех же задачах. «Отказ» — честное «не знаю». Строки «+память» — наша сеть сверяется со своей памятью.</div></div>
+
+  <h2>ИИ-компания</h2>
+  <div class="grid" id="company"></div>
+  <p class="sub">Офис с человечками: <a href="company.html?v=5">company.html</a> · Обновляется само раз в минуту, данные с компьютера доходят за 2–5 минут.</p>
+</main>
+<script>
+const $ = id => document.getElementById(id);
+const pct = v => v == null ? "—" : (v * 100).toFixed(1).replace(".", ",") + " %";
+const num = (v, d = 3) => v == null ? "—" : Number(v).toFixed(d).replace(".", ",");
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const hm = s => { if (s == null) return "—"; s = Math.round(s); const h = Math.floor(s / 3600), m = Math.floor(s % 3600 / 60); return h ? `${h} ч ${m} мин` : `${m} мин`; };
+
+function spark(curve) {
+  const pts = curve.filter(p => p.step != null);
+  if (pts.length < 2) return '<div class="empty">кривая появится после первых шагов</div>';
+  const W = 300, H = 100, x0 = pts[0].step, x1 = pts[pts.length - 1].step || 1;
+  const X = s => 4 + (W - 8) * (s - x0) / Math.max(1, x1 - x0);
+  const bits = pts.filter(p => p.bits != null), lo = Math.min(...bits.map(p => p.bits)), hi = Math.max(...bits.map(p => p.bits));
+  const Yb = v => 6 + (H - 12) * (hi === lo ? .5 : (hi - v) / (hi - lo));
+  const acc = pts.filter(p => p.точно != null);
+  const Ya = v => H - 6 - (H - 12) * v;
+  const path = (arr, f, y) => arr.map((p, i) => (i ? "L" : "M") + X(p.step).toFixed(1) + " " + y(f(p)).toFixed(1)).join(" ");
+  return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none"><line class="ax" x1="0" x2="${W}" y1="${H-1}" y2="${H-1}"/>
+    <path class="l1" d="${path(bits, p => p.bits, Yb)}"/>${acc.length > 1 ? `<path class="l2" d="${path(acc, p => p.точно, Ya)}"/>` : ""}</svg>
+    <div class="leg"><i style="background:var(--acc)"></i>биты на знак (ниже — лучше)<i style="background:var(--ok)"></i>точные ответы</div>`;
+}
+
+function trainCard(key, t) {
+  let state = '<span class="pill">ждёт</span>';
+  const fresh = t.свежесть != null && t.свежесть < 900;
+  if (t.ошибка) state = `<span class="pill bad">${esc(t.ошибка)}</span>`;
+  else if (t.закончено) state = '<span class="pill ok">закончено</span>';
+  else if (t.шаг > 0 && fresh) state = '<span class="pill ok">учится</span>';
+  else if (t.шаг === 0) state = '<span class="pill warn">подготовка: проверка ответов и сборка (~25 мин)</span>';
+  const p = t.бюджет ? Math.min(1, (t.прошло || 0) / t.бюджет) : 0;
+  const last = [...(t.кривая || [])].reverse().find(c => c.точно != null);
+  const first = (t.кривая || []).find(c => c.точно != null);
+  return `<div class="card"><div style="display:flex;justify-content:space-between;gap:8px;align-items:baseline"><b>${esc(t.имя)}</b>${state}</div>
+    <div class="bar"><i style="width:${(p * 100).toFixed(1)}%"></i></div>
+    <div class="sub">прошло ${hm(t.прошло)} из ${hm(t.бюджет)} · шаг ${t.шаг ?? "—"}</div>
+    <div class="kv" style="margin-top:8px">
+      <div><small>точные ответы</small><span class="big">${last ? pct(last.точно) : "—"}</span></div>
+      <div><small>было в начале</small>${first ? pct(first.точно) : "—"}</div>
+      <div><small>биты, свой текст</small>${num(t.биты)}</div>
+      <div><small>биты, интернет</small>${num(t.биты_интернет)}</div>
+    </div>${spark(t.кривая || [])}</div>`;
+}
+
+function examTable(d) {
+  const cols = [];
+  const add = (name, it, refuse) => cols.push({name, it: it || {}, refuse: refuse || {}});
+  const ds = d.deepseek || {};
+  if (ds.exam_clean) add("DeepSeek, старый (чистые)", ds.exam_clean.итог);
+  else if (ds.exam) add("DeepSeek, старый", ds.exam.итог);
+  for (const [k, v] of Object.entries(ds)) if (k.startsWith("exam3_")) add("DeepSeek, свежий: " + k.replace("exam3_", ""), v.итог, v.отказ);
+  const lbl = {X_F_mix: "наша «смесь», старый", X3_F_mix: "наша «смесь», свежий", X_F_tools: "наша «инструменты», старый", X3_F_tools: "наша «инструменты», свежий"};
+  for (const [k, v] of Object.entries(d.экзамены || {})) add(lbl[k] || k, k.startsWith("X_") ? Object.fromEntries(Object.entries(v.без_утечки).map(([a, b]) => [a, b ?? v.итог[a]])) : v.итог, v.отказ);
+  if (!cols.length) return '<div class="empty">результатов пока нет — экзамены начнутся после учёбы</div>';
+  const kinds = [...new Set(cols.flatMap(c => Object.keys(c.it)))].sort();
+  let h = "<table><tr><th>вид задач</th>" + cols.map(c => `<th>${esc(c.name)}</th>`).join("") + "</tr>";
+  for (const k of kinds) {
+    const vals = cols.map(c => c.it[k]);
+    const best = Math.max(...vals.filter(v => v != null));
+    h += `<tr><td>${esc(k)}</td>` + cols.map((c, i) => {
+      const v = vals[i], r = c.refuse[k];
+      return `<td class="${v != null && v === best && cols.length > 1 ? "win" : ""}">${pct(v)}${r ? `<br><small class="sub">отказ ${pct(r)}</small>` : ""}</td>`;
+    }).join("") + "</tr>";
+  }
+  return h + "</table>";
+}
+
+function render(d) {
+  const age = Math.round(Date.now() / 1000 - d.метка);
+  $("stamp").innerHTML = `данные с компьютера: ${esc(d.время)} ${age > 600 ? `<span class="pill bad">не обновлялись ${Math.round(age / 60)} мин</span>` : `<span class="pill ok">свежие</span>`}`;
+  const order = d.план.map(p => p.key), cur = order.indexOf(d.этап);
+  $("plan").innerHTML = d.план.map((p, i) => `<div class="st ${i === cur ? "now" : i < cur ? "done" : ""}"><b>${esc(p.когда)}${i === cur ? " · сейчас" : i < cur ? " · готово" : ""}</b>${esc(p.что)}</div>`).join("");
+  $("gpus").innerHTML = (d.карты || []).map(g => `<div class="card"><b>Карта ${g.i}</b>
+    <div class="bar"><i style="width:${g.загрузка}%"></i></div>
+    <div class="kv"><div><small>загрузка</small><span class="big">${g.загрузка} %</span></div><div><small>память</small>${num(g.память, 0)} из ${g.всего} ГБ</div><div><small>температура</small>${g.темп} °C</div><div><small>мощность</small>${g.ватт} Вт</div></div></div>`).join("") || '<div class="empty">нет данных</div>';
+  $("train").innerHTML = Object.entries(d.учёба).map(([k, t]) => trainCard(k, t)).join("");
+  const win = d.окно_deepseek || [];
+  $("exam").innerHTML = (win.length ? `<div class="empty" style="text-align:left"><b>Окно DeepSeek — ход:</b><br>${win.map(esc).join("<br>")}</div>` : "") + examTable(d);
+  const c = d.компания || {};
+  $("company").innerHTML = `<div class="card"><b>Доска почёта</b><ul>${(c.лучшие || []).map(r => `<li>${esc(r.кто)} — ${r.кредиты}</li>`).join("") || "<li>пусто</li>"}</ul>
+      <div class="sub">Победителей идей: ${(c.победители || []).length}</div></div>
+    <div class="card"><b>Штрафы</b><ul>${(c.штрафы || []).map(r => `<li>${esc(r.кто)} — ${r.кредиты}<br><small class="sub">${esc(r.за)}</small></li>`).join("") || "<li>нет</li>"}</ul></div>`;
+}
+
+async function tick() {
+  try {
+    const r = await fetch("tonight.json?t=" + Date.now(), {cache: "no-store"});
+    render(await r.json());
+  } catch (e) { $("stamp").textContent = "не удалось загрузить данные, повтор через минуту"; }
+}
+tick(); setInterval(tick, 60000);
+</script>
+</body>
+</html>

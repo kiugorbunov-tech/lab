@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ника — выходные 07–08.11</title>
+<style>
+  :root { --bg:#0f1115; --card:#181b22; --line:#262a33; --text:#e8eaed; --dim:#9aa0a6; --ok:#4caf7d; --warn:#e0a63b; --bad:#e05a5a; --acc:#6aa7ff; }
+  @media (prefers-color-scheme: light) { :root { --bg:#f6f7f9; --card:#fff; --line:#e3e6ea; --text:#1c1e21; --dim:#5f6368; } }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--text); font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; }
+  main { max-width:860px; margin:0 auto; padding:16px; }
+  h1 { font-size:20px; margin:4px 0 2px; } .sub { color:var(--dim); font-size:13px; margin-bottom:14px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px 16px; margin:10px 0; }
+  .card h2 { font-size:15px; margin:0 0 8px; color:var(--dim); font-weight:600; }
+  .big { font-size:28px; font-weight:700; } .row { display:flex; gap:18px; flex-wrap:wrap; }
+  .kv { min-width:130px; } .kv .l { color:var(--dim); font-size:12px; } .kv .v { font-size:20px; font-weight:650; }
+  .bar { height:10px; background:var(--line); border-radius:6px; overflow:hidden; margin-top:8px; } .bar > i { display:block; height:100%; background:var(--acc); }
+  .alarm { border-color:var(--bad); } .alarm h2 { color:var(--bad); }
+  .plan td, .plan th { padding:6px 8px; border-bottom:1px solid var(--line); text-align:left; font-size:13px; vertical-align:top; }
+  .plan { border-collapse:collapse; width:100%; } .now { background:rgba(106,167,255,.12); }
+  .tag { display:inline-block; padding:1px 8px; border-radius:10px; font-size:12px; background:var(--line); }
+  .tag.ok { background:rgba(76,175,125,.2); color:var(--ok); } .tag.wait { background:rgba(224,166,59,.18); color:var(--warn); }
+  svg { width:100%; height:160px; } .muted { color:var(--dim); font-size:12px; }
+</style>
+</head>
+<body><main>
+<h1>Ника — учёба на выходных</h1>
+<div class="sub" id="upd">загрузка…</div>
+
+<div class="card" id="alarmCard" style="display:none"><h2>Тревога</h2><div id="alarm"></div></div>
+
+<div class="card"><h2>Учёба основы (W_base)</h2>
+  <div class="row">
+    <div class="kv"><div class="l">биты на букву, основной текст</div><div class="v" id="bits">—</div></div>
+    <div class="kv"><div class="l">биты на букву, Википедия</div><div class="v" id="bits2">—</div></div>
+    <div class="kv"><div class="l">шагов</div><div class="v" id="step">—</div></div>
+    <div class="kv"><div class="l">счёта, ч</div><div class="v" id="hours">—</div></div>
+  </div>
+  <div class="bar"><i id="prog" style="width:0%"></i></div>
+  <div class="muted" id="progt"></div>
+  <svg id="chart" viewBox="0 0 600 160" preserveAspectRatio="none"></svg>
+  <div class="muted">синяя — основной текст, оранжевая — Википедия; пунктир — старт (0,960 / 1,079); у DeepSeek на Википедии 0,686</div>
+</div>
+
+<div class="card"><h2>Учитель Qwen</h2><div id="teacher">—</div><div id="kd" class="muted"></div></div>
+<div class="card"><h2>Данные для конца учёбы</h2><div id="data">—</div><div id="builds" class="muted"></div></div>
+<div class="card"><h2>Ночь вс → пн</h2><div id="night">—</div></div>
+
+<div class="card"><h2>План</h2>
+<table class="plan"><thead><tr><th>Когда</th><th>Что</th></tr></thead><tbody id="plan"></tbody></table></div>
+<div class="muted">Страница обновляется сама раз в минуту; данные пишет «директор» выходных, на сайт они доходят за 3–6 минут.</div>
+</main>
+<script>
+const PLAN = [
+ ["пт 18:28 →", "Учёба основы на двух картах (быстрый рецепт, усреднение весов)", "2026-11-06T18:28", "2026-11-07T06:00"],
+ ["сб 06:00–07:00", "Окно: навыки Ники; Qwen готовит подсказки учителя (1 ч)", "2026-11-07T06:00", "2026-11-07T07:00"],
+ ["сб ~07:00–07:45", "Две пробы по 30 мин: с учителем и без → решение", "2026-11-07T07:00", "2026-11-07T07:45"],
+ ["сб ~08:00–17:30", "Если учитель помог: основа на одной карте с учителем, Qwen дописывает подсказки", "2026-11-07T07:45", "2026-11-07T18:00"],
+ ["сб 18:00", "Окно навыков; затем основа на двух картах (с учителем, если помог)", "2026-11-07T18:00", "2026-11-08T06:00"],
+ ["вс 06:00", "Окно навыков", "2026-11-08T06:00", "2026-11-08T08:00"],
+ ["вс ~13:00–17:00", "Конец учёбы основы: спуск шага, отборный текст", "2026-11-08T13:00", "2026-11-08T17:30"],
+ ["вс 17:00 → пн", "Учитель помог: Qwen на двух картах; нет — отложенные пробы", "2026-11-08T17:30", "2026-11-09T09:00"],
+];
+const fmt = (x, d=4) => (x==null||isNaN(x)) ? "—" : Number(x).toFixed(d).replace(".", ",");
+function chart(h) {
+  const s = document.getElementById("chart"); if (!h || h.length < 2) { s.innerHTML = ""; return; }
+  const ys = h.flatMap(r => [r[1], r[2]].filter(v => v!=null)).concat([0.96, 1.079]);
+  const lo = Math.min(...ys) - .005, hi = Math.max(...ys) + .005, n = h.length;
+  const X = i => 10 + i * 580 / (n - 1), Y = v => 150 - (v - lo) / (hi - lo) * 140;
+  const path = k => h.map((r,i) => r[k]==null ? "" : `${i?"L":"M"}${X(i).toFixed(1)},${Y(r[k]).toFixed(1)}`).join("");
+  s.innerHTML = `<line x1="10" x2="590" y1="${Y(.96)}" y2="${Y(.96)}" stroke="#6aa7ff" stroke-dasharray="4 4" opacity=".5"/>
+   <line x1="10" x2="590" y1="${Y(1.079)}" y2="${Y(1.079)}" stroke="#e0a63b" stroke-dasharray="4 4" opacity=".5"/>
+   <path d="${path(1)}" fill="none" stroke="#6aa7ff" stroke-width="2.5"/><path d="${path(2)}" fill="none" stroke="#e0a63b" stroke-width="2.5"/>`;
+}
+async function load() {
+  try {
+    const d = await (await fetch("weekend.json?t=" + Date.now(), {cache:"no-store"})).json();
+    document.getElementById("upd").textContent = "данные на " + d.time;
+    const w = d.wbase || {};
+    document.getElementById("bits").textContent = fmt(w.bits); document.getElementById("bits2").textContent = fmt(w.bits2);
+    document.getElementById("step").textContent = w.step ?? "—"; document.getElementById("hours").textContent = fmt((w.seconds||0)/3600, 1);
+    const pr = w.budget ? Math.min(100, 100 * (w.seconds||0) / w.budget) : 0;
+    document.getElementById("prog").style.width = pr + "%";
+    document.getElementById("progt").textContent = w.finished ? "закончена" : `${pr.toFixed(0)} % счёта (${fmt((w.seconds||0)/3600,1)} из ${fmt((w.budget||0)/3600,1)} ч)`;
+    chart(d.bits_hist);
+    document.getElementById("alarmCard").style.display = d.alarm ? "" : "none"; document.getElementById("alarmCard").className = "card alarm";
+    document.getElementById("alarm").textContent = d.alarm || "";
+    document.getElementById("teacher").textContent = d.teacher || "—";
+    document.getElementById("kd").textContent = d.kd || "";
+    document.getElementById("data").textContent = d.data || "—";
+    document.getElementById("builds").textContent = d.builds || "";
+    document.getElementById("night").textContent = d.night || "—";
+  } catch (e) { document.getElementById("upd").textContent = "нет данных: " + e; }
+  const now = new Date(), tb = document.getElementById("plan"); tb.innerHTML = "";
+  for (const [t, what, a, b] of PLAN) {
+    const tr = document.createElement("tr"); if (now >= new Date(a) && now < new Date(b)) tr.className = "now";
+    const st = now >= new Date(b) ? '<span class="tag ok">прошло</span>' : (now >= new Date(a) ? '<span class="tag wait">сейчас</span>' : "");
+    tr.innerHTML = `<td>${t}</td><td>${what} ${st}</td>`; tb.appendChild(tr);
+  }
+}
+load(); setInterval(load, 60000);
+</script>
+</body></html>

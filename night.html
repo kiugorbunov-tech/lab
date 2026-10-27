@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ночь обучения</title>
+<style>
+:root{--bg:#f6f5f1;--card:#fff;--ink:#1d2127;--dim:#6a727d;--line:#e3dfd6;--track:#ece9e1;--dense:#2f6fdf;--moe:#d9772b;--good:#1a8a5a;--warn:#b7791f;--bad:#c23b3b}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#14161a;--card:#1c1f25;--ink:#ebe9e4;--dim:#9aa2ad;--line:#2e323a;--track:#2a2e35;--dense:#6c9ef5;--moe:#f0a05a;--good:#4fc28c;--warn:#e0b25a;--bad:#ef7b7b}}
+:root[data-theme="dark"]{--bg:#14161a;--card:#1c1f25;--ink:#ebe9e4;--dim:#9aa2ad;--line:#2e323a;--track:#2a2e35;--dense:#6c9ef5;--moe:#f0a05a;--good:#4fc28c;--warn:#e0b25a;--bad:#ef7b7b}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,"Segoe UI",sans-serif}
+main{max-width:860px;margin:0 auto;padding:20px 16px 60px}h1{font-size:26px;margin:0}h2{font-size:18px;margin:28px 0 8px}
+.sub{color:var(--dim);margin:2px 0 16px;font-size:14px}.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin:10px 0}
+.headline{font-size:18px}.big{font-size:34px;font-weight:700;font-variant-numeric:tabular-nums}
+.runs{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.run h3{margin:0 0 2px;font-size:16px;display:flex;align-items:center;gap:8px}.dot{width:12px;height:12px;border-radius:50%;display:inline-block}
+.bar{height:10px;background:var(--track);border-radius:6px;overflow:hidden;margin:10px 0 4px}.bar>div{height:100%;border-radius:6px}
+.row{display:flex;justify-content:space-between;font-size:14px;color:var(--dim)}.row b{color:var(--ink);font-variant-numeric:tabular-nums}
+.ok{color:var(--good)}.warn{color:var(--warn)}.bad{color:var(--bad)}
+svg{width:100%;height:auto;display:block}svg text{fill:var(--dim);font-size:12px}
+table{width:100%;border-collapse:collapse;font-size:14px}th,td{text-align:left;padding:7px 6px;border-bottom:1px solid var(--line)}th{color:var(--dim);font-weight:600}td.n{font-variant-numeric:tabular-nums;white-space:nowrap}
+.sys{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}.sys div span{display:block;color:var(--dim);font-size:13px}.sys div b{font-size:18px}
+ul{margin:6px 0 0 18px;padding:0}li{margin:3px 0}
+</style>
+</head>
+<body>
+<main>
+<h1>Ночь обучения</h1>
+<p class="sub" id="upd">загрузка…</p>
+<div class="card"><b>Ночь закончилась.</b> Отчёт: <a href="morning.html">итоги ночи 3–4 ноября</a></div>
+
+<div class="card"><div class="headline" id="headline">…</div></div>
+
+<h2>Две ночные сети</h2>
+<div class="runs" id="runs"></div>
+
+<h2>Как падает ошибка</h2>
+<div class="card">
+<svg id="chart" viewBox="0 0 800 320"></svg>
+<p class="sub" style="margin:8px 0 0">Ниже — лучше. Синяя — обычная сеть, оранжевая — сеть с экспертами. Сплошная линия — проверка на Википедии, пунктир — на свежем интернете, которого сеть не видела. Зелёная полоса — утренняя цель: меньше 1,15. Замер раз в 10 минут.</p>
+</div>
+
+<h2>Быстрые опыты: что ускоряет учёбу</h2>
+<div class="card">
+<svg id="fast" viewBox="0 0 800 320"></svg>
+<div id="fastlegend" class="sub" style="margin-top:8px"></div>
+<p class="sub" style="margin:6px 0 0">Каждая сеть учится с нуля 10 минут. Ниже — лучше (бит на знак, Википедия). Серая — обычная сеть; кто к концу ниже серой — тот приём помогает. «Как ускорение» — во сколько раз дольше обычной сети пришлось бы учиться до той же ошибки (×1,5 — приём стоит полутора раз времени; меньше 1 — вредит).</p>
+<table id="fasttab" style="margin-top:8px"></table>
+</div>
+
+<h2>Железо</h2>
+<div class="card sys" id="sys"></div>
+
+<h2>Фоном</h2>
+<div class="card"><ul id="bg"></ul></div>
+</main>
+<script>
+const css=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const f=(x,d=3)=>x==null?'—':Number(x).toFixed(d).replace('.',',');
+const NAMES={N_dense:['Обычная большая сеть','--dense'],N_moe:['Большая сеть с экспертами','--moe'],N_moe2:['Сеть с экспертами: продолжение на новой смеси','--moe'],N_big:['Сеть на 64 эксперта на двух картах','--dense']};
+const GOAL=1.15;
+async function load(){
+  let d;try{d=await (await fetch('night.json?ts='+Date.now())).json()}catch(e){document.getElementById('upd').textContent='данных пока нет';return}
+  document.getElementById('upd').textContent='обновлено '+d.updated;
+  const night=(d.rows||[]).filter(r=>r.night);
+  const live=night.filter(r=>r.running||r.done);
+  let head;
+  if(!live.length) head='Ночные сети ещё не начали считать.';
+  else{
+    const best=live.filter(r=>r.bits&&r.bits<10).sort((a,b)=>a.bits-b.bits)[0];
+    const okAll=(d.status==='running');
+    head=(okAll?'<span class="ok">● Всё идёт штатно.</span> ':'<span class="warn">● Очередь: '+(d.status||'?')+'</span> ')+
+      (best?`Лучшая сейчас — <b>${NAMES[best.name]?.[0]||best.name}</b>: <b>${f(best.bits)}</b> бита на знак (цель к утру — меньше 1,15).`:'Первый замер будет через несколько минут.');
+  }
+  document.getElementById('headline').innerHTML=head;
+  document.getElementById('runs').innerHTML=night.map(r=>{
+    const [title,col]=NAMES[r.name]||[r.name,'--dense'];const tot=r.budget||780,done=r.done?tot:(r.minutes||0);
+    const pct=Math.min(100,done/tot*100);const left=Math.max(0,tot-done);const eta=new Date(Date.now()+left*60000);
+    const st=r.done?'<span class="ok">готово</span>':(r.running?'идёт':'ждёт');
+    const b=(r.bits&&r.bits<10)?r.bits:null;
+    return `<div class="card run"><h3><span class="dot" style="background:var(${col})"></span>${title}</h3>
+      <div class="row"><span>${st}</span><span>${r.done?'':'закончит около '+eta.toTimeString().slice(0,5)}</span></div>
+      <div class="bar"><div style="width:${pct}%;background:var(${col})"></div></div>
+      <div class="row"><span>прошло ${(Math.round(done/60*10)/10).toString().replace('.',',')} ч из ${Math.round(tot/60)}</span><span>${Math.round(pct)} %</span></div>
+      <div class="row" style="margin-top:10px"><span>Википедия</span><b class="big" style="font-size:24px">${f(b)}</b></div>
+      <div class="row"><span>свежий интернет</span><b>${f(r.bits2&&r.bits2<10?r.bits2:null)}</b></div></div>`}).join('');
+  drawChart(d.curves||{});
+  drawFast(d.fast||{});
+  const cards=(d.cards||[]).map((c,i)=>{const t=c.gpu_c;const cls=t>=86?'bad':t>=80?'warn':'ok';return `<div><span>карта ${i}</span><b class="${cls}">${t??'—'} °C</b><span>${Math.round(c.gpu_w||0)} Вт, загрузка ${c.util??'—'} %</span></div>`}).join('');
+  const cpu=d.cpu_c;document.getElementById('sys').innerHTML=cards+`<div><span>процессор</span><b class="${cpu>=88?'bad':cpu>=80?'warn':'ok'}">${cpu??'—'} °C</b><span>защита остановит при 92 °C</span></div>`;
+  const bg=[];const pr=(d.prep||[])[0]||'';bg.push('Отбор лучших страниц интернета: '+(pr.startsWith('fineweb_top')?'идёт, '+(pr.match(/'kept': (\d+)/)?.[1]||'')+' страниц взято':pr.includes('готово')?'готово':(pr?'идёт':'—')));
+  const k=(d.kimi||[])[0]||'';bg.push('Кими: '+(k.includes('00013-of-00013')&&k.includes('готово')?'скачан':'качается'+((k.match(/(\d+)-of-00013/)||[])[1]?', файл '+Number(k.match(/(\d+)-of-00013/)[1])+' из 13':'')));
+  const bl=(d.blender||[])[0]||'';bg.push('Blender: '+(bl.includes('Готово')?'установлен':bl.includes('жду')?'ждёт Кими':(bl||'—').replace(/^\S+\s+\S+\s+/,'')));
+  document.getElementById('bg').innerHTML=bg.map(x=>`<li>${x}</li>`).join('');
+}
+function drawChart(curves){
+  const svg=document.getElementById('chart'),W=800,H=320,L=44,R=12,T=12,B=30;
+  const all=[];for(const n in curves)curves[n].forEach(p=>{if(p[1]<6)all.push(p[1]);if(p[2]!=null&&p[2]<6)all.push(p[2])});
+  const tmax=Math.max(13,...Object.values(curves).flat().map(p=>Math.ceil(p[0]/3600)),curves.N_moe2?23:0);let ymin=Math.min(GOAL-0.05,...(all.length?all:[GOAL])),ymax=Math.max(2.0,...(all.length?all:[2]));ymax=Math.min(ymax,3);
+  const X=m=>L+(m/tmax)*(W-L-R),Y=y=>T+(1-(y-ymin)/(ymax-ymin))*(H-T-B);
+  let g=`<rect x="${L}" y="${Y(GOAL)}" width="${W-L-R}" height="${H-B-Y(GOAL)}" fill="${css('--good')}" opacity="0.12"/>`;
+  g+=`<text x="${L+6}" y="${Y(GOAL)-5}">цель: 1,15</text>`;
+  for(let i=0;i<=4;i++){const y=ymin+(ymax-ymin)*i/4;g+=`<line x1="${L}" x2="${W-R}" y1="${Y(y)}" y2="${Y(y)}" stroke="${css('--line')}"/><text x="4" y="${Y(y)+4}">${y.toFixed(2).replace('.',',')}</text>`}
+  for(let h=0;h<=tmax;h+=(tmax>13?2:1)){g+=`<text x="${X(h)-4}" y="${H-10}">${h}</text>`}
+  g+=`<text x="${W-R-70}" y="${H-10}">часов</text>`;
+  for(const n of Object.keys(curves).filter(k=>NAMES[k])){const pts=(curves[n]||[]).filter(p=>p[1]<6);if(!pts.length)continue;const c=css(NAMES[n][1]);
+    const path=k=>pts.filter(p=>p[k]!=null&&p[k]<6).map((p,i)=>(i?'L':'M')+X(p[0]/3600).toFixed(1)+','+Y(Math.max(ymin,Math.min(ymax,p[k]))).toFixed(1)).join('');
+    g+=`<path d="${path(1)}" fill="none" stroke="${c}" stroke-width="2.5"/>`;const p2=path(2);if(p2)g+=`<path d="${p2}" fill="none" stroke="${c}" stroke-width="2" stroke-dasharray="6 5"/>`;
+    const last=pts[pts.length-1];g+=`<circle cx="${X(last[0]/3600)}" cy="${Y(Math.max(ymin,Math.min(ymax,last[1])))}" r="4" fill="${c}"/>`}
+  if(!all.length)g+=`<text x="${W/2-120}" y="${H/2}">первый замер — через ~10 минут после старта</text>`;
+  svg.innerHTML=g;
+}
+const FAST_COL={D_wide:'#8a8f98',P_patch4:'#d9772b',R_rho:'#2f6fdf',S_short:'#1a8a5a',D_deep:'#9b4dca',W_wide:'#c23b3b',D_32:'#b7791f',P_patch2:'#e8a35c',P_patch4s:'#a0522d',M_mod125:'#0f9fb5',M_mod50:'#5fb8c8',B_bigram:'#2e8b57',C_softcap:'#ff69b4',V_vres:'#6a5acd'};
+const FAST_NAME={D_wide:'обычная (12×1024)',P_patch4:'учёба кусками по 4',R_rho:'только полезные номера',S_short:'короткие куски в начале',D_deep:'глубже (24×768)',W_wide:'шире (12×1536)',D_32:'32 слоя × 1024',P_patch2:'кусками по 2 (половина времени)',P_patch4s:'кусками по 4 (30 % времени)',M_mod125:'пропуск слоёв, 12,5 %',M_mod50:'пропуск слоёв, 50 %',B_bigram:'таблица пар слов',C_softcap:'мягкий потолок выходов',V_vres:'остаток значений'};
+function drawFast(fd){
+  const svg=document.getElementById('fast'),W=800,H=320,L=44,R=12,T=12,B=30;
+  const all=[];for(const n in fd)fd[n].pts.forEach(p=>{if(p[1]<4)all.push(p[1])});
+  if(!all.length){svg.innerHTML=`<text x="${W/2-120}" y="${H/2}">опыты ещё не начались</text>`;return}
+  const tmax=10,ymin=Math.min(...all)-0.02,ymax=Math.min(3,Math.max(...all.filter(v=>v<3))+0.02);
+  const X=m=>L+(m/tmax)*(W-L-R),Y=y=>T+(1-(y-ymin)/(ymax-ymin))*(H-T-B);
+  let g='';for(let i=0;i<=4;i++){const y=ymin+(ymax-ymin)*i/4;g+=`<line x1="${L}" x2="${W-R}" y1="${Y(y)}" y2="${Y(y)}" stroke="${css('--line')}"/><text x="4" y="${Y(y)+4}">${y.toFixed(2).replace('.',',')}</text>`}
+  for(let m=0;m<=10;m+=2)g+=`<text x="${X(m)-4}" y="${H-10}">${m}</text>`;g+=`<text x="${W-R-50}" y="${H-10}">минут</text>`;
+  const rows=[];
+  for(const n in fd){const pts=fd[n].pts.filter(p=>p[1]<ymax+0.5&&p[0]>0);if(!pts.length)continue;
+    g+=`<path d="${pts.map((p,i)=>(i?'L':'M')+X(p[0]/60).toFixed(1)+','+Y(Math.min(ymax,p[1])).toFixed(1)).join('')}" fill="none" stroke="${FAST_COL[n]||'#888'}" stroke-width="${n==='D_wide'?3:2.2}"/>`;
+    const last=pts[pts.length-1];rows.push([n,last[1],last[2],Math.round(last[0]/60),fd[n].speed]);}
+  svg.innerHTML=g;
+  document.getElementById('fastlegend').innerHTML=Object.keys(fd).map(n=>`<span style="color:${FAST_COL[n]};font-weight:600">● ${FAST_NAME[n]||n}</span>`).join(' &nbsp; ');
+  const base=rows.find(r=>r[0]==='D_wide');rows.sort((a,b)=>a[1]-b[1]);
+  document.getElementById('fasttab').innerHTML='<tr><th>Приём</th><th>Википедия</th><th>Интернет</th><th>против обычной</th><th>как ускорение</th><th>мин</th></tr>'+rows.map(r=>`<tr><td>${FAST_NAME[r[0]]||r[0]}</td><td class="n">${f(r[1])}</td><td class="n">${f(r[2])}</td><td class="n">${base&&r[0]!=='D_wide'&&base[3]===r[3]?((r[1]/base[1]-1)*100).toFixed(1).replace('.',',')+' %':'—'}</td><td class="n">${r[4]?('×'+String(r[4]).replace('.',',')):'—'}</td><td class="n">${r[3]}</td></tr>`).join('');
+}
+load();setInterval(load,60000);
+</script>
+</body>
+</html>
