@@ -1,0 +1,737 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#141413">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Как учатся сети</title>
+<style>
+:root{
+  --bg:#f6f4ef;--card:#fffdf9;--fg:#1f1e1b;--muted:#77746c;--line:#e6e1d6;
+  --mem:#e08a3c;--und:#2f9e6b;--learn:#8b8f98;--guess:#3f7fd9;
+  --chip-mem:#fbe9d8;--chip-und:#dcf2e7;--chip-learn:#ecedef;--chip-guess:#dfe9fb;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#141413;--card:#1d1c1a;--fg:#eceae4;--muted:#a19e95;--line:#33312c;
+  --chip-mem:#3b2a1b;--chip-und:#173327;--chip-learn:#2a2b2e;--chip-guess:#1b2840;
+}}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.4 system-ui,-apple-system,"Segoe UI",sans-serif}
+.wrap{max-width:1280px;margin:0 auto;padding:0 16px}
+header{padding:14px 0 6px}
+h1{margin:0;font-size:20px;letter-spacing:-.01em}
+.stats{display:flex;gap:6px 16px;flex-wrap:wrap;margin-top:6px;font-size:13px;color:var(--muted)}
+.stats b{color:var(--fg);font-size:15px;font-variant-numeric:tabular-nums}
+.hw{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px;font-size:11px;color:var(--muted)}
+.hw .bar{height:4px;background:var(--line);border-radius:2px;overflow:hidden;margin-top:3px}
+.hw .bar i{display:block;height:100%;background:var(--guess)}
+.bar-nav{position:sticky;top:0;z-index:3;background:var(--bg);border-bottom:1px solid var(--line);padding:8px 0}
+.chips{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:0 16px;margin:0 -16px}
+.chips::-webkit-scrollbar{display:none}
+.chips button{flex:none;border:1px solid var(--line);background:var(--card);color:var(--fg);border-radius:999px;padding:6px 12px;font:inherit;font-size:13px}
+.chips button.on{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.help{font-size:12px;color:var(--muted);margin:10px 0 0}
+.help i{display:inline-block;width:9px;height:9px;border-radius:2px;margin:0 3px 0 8px;vertical-align:0}
+main{padding-bottom:40px}
+details.series{border-bottom:1px solid var(--line)}
+details.series > summary{list-style:none;cursor:pointer;padding:14px 0;display:flex;align-items:center;gap:10px}
+details.series > summary::-webkit-details-marker{display:none}
+summary .t{flex:1;min-width:0}
+summary .t b{display:block;font-size:16px}
+summary .t span{display:block;font-size:12px;color:var(--muted);margin-top:2px}
+summary .cnt{font-size:12px;color:var(--muted);text-align:right;white-space:nowrap}
+summary .cnt b{color:var(--und)}
+summary .chev{width:10px;height:10px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg);transition:transform .2s;margin:0 4px 4px}
+details[open] > summary .chev{transform:rotate(225deg);margin-bottom:-4px}
+.desc{font-size:13px;color:var(--muted);margin:-6px 0 10px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px;padding-bottom:14px}
+.run{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.run.running{border-color:color-mix(in srgb,var(--guess) 45%,var(--line))}
+.run .top{display:flex;gap:8px;align-items:flex-start}
+.run .name{flex:1;min-width:0;font-weight:600;font-size:14px;word-break:break-word}
+.chip{flex:none;font-size:11px;font-weight:600;border-radius:999px;padding:2px 8px;white-space:nowrap}
+.chip.learn{background:var(--chip-learn);color:var(--learn)} .chip.mem{background:var(--chip-mem);color:var(--mem)}
+.chip.guess{background:var(--chip-guess);color:var(--guess)} .chip.und{background:var(--chip-und);color:var(--und)}
+.bars{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px;font-size:12px;color:var(--muted)}
+.bars .v{float:right;color:var(--fg);font-variant-numeric:tabular-nums}
+.bars .bar{height:6px;border-radius:3px;background:var(--line);overflow:hidden;margin-top:3px;clear:both}
+.bars .bar i{display:block;height:100%;border-radius:3px;transition:width .6s}
+.bars .mem i{background:var(--mem)} .bars .und i{background:var(--und)}
+svg{display:block;width:100%;height:44px;margin-top:8px}
+.meta{display:flex;justify-content:space-between;gap:8px;font-size:11px;color:var(--muted);margin-top:4px;font-variant-numeric:tabular-nums}
+.dates{display:grid;gap:2px;margin-top:7px;font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums}
+.prog{height:3px;background:var(--line);border-radius:2px;margin-top:5px;overflow:hidden}
+.prog i{display:block;height:100%;background:var(--muted)}
+.dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--guess);margin-right:4px;animation:p 1.4s infinite}
+@keyframes p{50%{opacity:.25}}
+.empty{color:var(--muted);padding:30px 0;text-align:center}
+@media (max-width:640px){
+  .grid{grid-template-columns:1fr;gap:8px}
+  h1{font-size:18px}
+}
+@media (min-width:900px){ .bar-nav{padding:10px 0} }
+.experiment{margin:14px 0 20px;padding:20px;border:1px solid var(--line);border-radius:16px;background:var(--card)}
+.experiment h2{font-size:22px;letter-spacing:-.02em;margin:0 0 6px}
+.experiment h3{font-size:15px;margin:0 0 4px}
+.experiment p{margin:6px 0;line-height:1.55}
+.subtle,.experiment small{color:var(--muted);font-size:12px}
+.experiment small{display:block;margin-top:4px;line-height:1.45}
+.experiment .lead{font-size:14px;max-width:940px}
+.exp-status{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:start;margin:16px 0;padding:14px;border-radius:10px;background:var(--bg)}
+.exp-status strong{display:block;margin:4px 0;font-size:16px}
+.exp-count{text-align:right;white-space:nowrap;font-size:13px}
+.exp-count b{font-size:22px;color:var(--guess)}
+.exp-tabs{display:flex;flex-wrap:wrap;gap:7px;margin:14px 0 8px}
+.exp-tabs button{border:1px solid var(--line);border-radius:8px;padding:9px 12px;background:var(--bg);color:var(--fg);font:inherit;font-size:13px;cursor:pointer}
+.exp-tabs button[aria-pressed=true]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+button:focus-visible,summary:focus-visible{outline:2px solid var(--guess);outline-offset:3px}
+.table-scroll{overflow-x:auto;margin-top:14px}
+.exp-table{width:100%;border-collapse:collapse;text-align:left;font-size:13px;min-width:890px}
+.exp-table caption{text-align:left;font-weight:600;padding-bottom:9px}
+.exp-table th,.exp-table td{padding:12px 10px;border-top:1px solid var(--line);vertical-align:top}
+.exp-table thead th{color:var(--muted);font-size:11px;font-weight:500}
+.exp-table th:first-child,.exp-table td:first-child{padding-left:0;width:36%;min-width:265px}
+.exp-table td:not(:first-child){font-variant-numeric:tabular-nums}
+.exp-table .active{background:color-mix(in srgb,var(--guess) 6%,var(--card))}
+.exp-table .variant{display:flex;gap:9px;align-items:baseline}
+.variant .number{color:var(--muted);font-size:11px;min-width:13px}
+.exp-result{border-left:3px solid var(--guess);padding:8px 12px;margin-top:15px;background:var(--bg);font-size:13px}
+.exp-details{margin-top:14px;font-size:13px}
+.exp-details summary{cursor:pointer;font-weight:600;padding:4px 0}
+.exp-queue{padding-left:22px;max-height:300px;overflow:auto}
+.exp-queue li{padding:5px 0}
+.run-purpose{font-size:12px;color:var(--muted);margin:6px 0}
+.technical-id{font:10px/1.4 ui-monospace,monospace;color:var(--muted);overflow-wrap:anywhere;margin-top:8px}
+.connection{color:var(--mem);font-size:13px;padding:8px 0}
+.hw small{display:block;font-size:11px;margin-top:3px}
+@media(max-width:640px){.experiment{padding:14px}.experiment h2{font-size:19px}.exp-status{grid-template-columns:1fr}.exp-count{text-align:left}.hw{grid-template-columns:1fr}.exp-tabs button{flex:1}.experiment .lead{font-size:13px}}
+
+.study-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:10px;margin:12px 0}.lesson-line{display:grid;gap:5px;font-size:12px;margin:10px 0}.study-grid .top{flex-wrap:wrap}.study-grid .name{min-width:200px}.study-grid p{font-size:13px}@media(max-width:640px){.study-grid{grid-template-columns:1fr}}
+ .learning-figure{margin:14px 0}.learning-chart{height:100px;border-bottom:1px solid var(--line)}.learning-chart svg{width:100%;height:100%}.learning-figure figcaption{font-size:11px;color:var(--muted);line-height:1.5;margin-top:6px}
+.ablation-chart{margin:12px 0}.ablation-chart svg{width:100%;height:auto;display:block}.ablation-chart figcaption{font-size:11px;line-height:1.5;color:var(--muted)}.ablation-repeat{border-top:1px solid var(--line);padding-top:14px;margin-top:16px}.ablation-repeat .top{gap:8px}.ablation-repeat p{font-size:12px}#ablation details{font-size:12px;margin-top:14px}#ablation summary{cursor:pointer;font-weight:600}
+#transfer .study-grid{grid-template-columns:repeat(2,minmax(0,1fr))}@media(max-width:760px){#transfer .study-grid{grid-template-columns:1fr}}
+#retention .study-grid{grid-template-columns:repeat(2,minmax(0,1fr))}#retention table{width:100%;font-size:13px;border-collapse:collapse}#retention td,#retention th{text-align:left;padding:10px;border-bottom:1px solid var(--line)}@media(max-width:760px){#retention .study-grid{grid-template-columns:1fr}}
+#anchor .study-grid{grid-template-columns:repeat(2,minmax(0,1fr))}#anchor table{width:100%;font-size:13px;border-collapse:collapse}#anchor td,#anchor th{text-align:left;padding:10px;border-bottom:1px solid var(--line)}@media(max-width:760px){#anchor .study-grid{grid-template-columns:1fr}}
+#mature .study-grid{grid-template-columns:repeat(2,minmax(0,1fr))}#mature table{width:100%;font-size:13px;border-collapse:collapse}#mature td,#mature th{text-align:left;padding:10px;border-bottom:1px solid var(--line)}@media(max-width:760px){#mature .study-grid{grid-template-columns:1fr}}
+#bit3d .study-grid{grid-template-columns:repeat(2,minmax(0,1fr))}#training-speed table,#parallel-scale table,#bit3d table{width:100%;border-collapse:collapse;font-size:13px}#training-speed td,#training-speed th,#parallel-scale td,#parallel-scale th,#bit3d td,#bit3d th{text-align:left;padding:10px;border-bottom:1px solid var(--line)}.bit3d-scroll{overflow-x:auto}@media(max-width:760px){#bit3d .study-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Как учатся сети</h1>
+    <div class="stats" id="stats">загрузка…</div>
+    <div class="hw" id="hw"></div>
+    <div id="connection" class="connection" role="status"></div>
+  </header>
+  <section id="training-speed" class="experiment" aria-label="Ускорение обучения и восемь процессов" hidden></section>
+  <section id="parallel-scale" class="experiment" aria-label="Сравнение четырёх и шести процессов" hidden></section>
+  <section id="planner" class="experiment" aria-label="Самостоятельный план решения" hidden></section>
+  <section id="bit3d" class="experiment" aria-label="3D и троичные веса" hidden></section>
+  <section id="mature" class="experiment" aria-label="Учитель после освоения урока" hidden></section>
+  <section id="anchor" class="experiment" aria-label="Сложение и умножение без взаимных помех" hidden></section>
+  <section id="retention" class="experiment" aria-label="Сохранение сложения при изучении умножения" hidden></section>
+  <section id="transfer" class="experiment" aria-label="Обучение операциям и самостоятельным решениям" hidden></section>
+  <section id="ablation" class="experiment" aria-label="Сравнение памяти с одинаковым черновиком" hidden></section>
+  <section id="night" class="experiment" hidden></section>
+<section class="experiment" id="study" aria-label="Кубическая задача и последовательные уроки">Загружаем учебную программу…</section>
+  <section class="experiment" id="experiment" aria-label="Новые опыты с объёмной памятью">Загружаем очередь опытов…</section>
+</div>
+<div class="bar-nav"><div class="wrap">
+  <div class="chips" id="filters"></div>
+</div></div>
+<div class="wrap">
+  <p class="help">История опытов. Оранжевая линия — результат на учебных данных, зелёная — на новых примерах.<br>Для текста: бит на символ, меньше — лучше. Для математики: доля правильных ответов, больше — лучше. Высокая точность на одном тесте ещё не означает общего понимания.</p>
+  <main id="main"></main>
+</div>
+<script>
+const SERIES = {
+ CUBIC:["Кубическая: три способа обучения","Кривые показывают проверочную выборку; итоговый тест раскрывается после выбора весов"],
+ RANK:["Повторы со штрафом за ранг","Тот же текстовый бюджет и данные, добавлен штраф 0,001"],
+ EXTEND:["Перспективные старые опыты: больше шагов","Новые повторы на 40 000 шагов; старые веса не сохранились"],
+  "1":["Первый опыт","Со штрафом за веса и без"], "2":["Первый опыт","Со штрафом за веса и без"],
+  A:["Сила штрафа","Слабый, сильный, L1 — на сложении"], B:["Операции посложнее","Вычитание, умножение, деление, многочлен"],
+  C:["Вычитание без подсказок","Долгий прогон, обычный штраф"], D:["Новые штрафы","Ранг, «живые нейроны», биты"],
+  E:["Трудная задача с лучшим штрафом","Вычитание"], F:["Повторы","Другие начальные веса — проверка, что не случайность"],
+  G:["Сложные формулы","Деление, степень, логарифм, кубическая"], H:["Без правильных ответов","Мусор в ответах и самообучение"],
+  L:["Научить всему","Каждая операция до прозрения со штрафом за ранг"], M:["Чем взять трудные формулы","Больше данных, глубже, черновик, калькулятор"],
+  Q:["Веса в 1–2 бита","После прозрения доучиваемся на весах −1/0/+1 или ±"], R:["Защита от мусора","Отсев примеров, противоречащих правилу"],
+  T:["Текст: книги","Маленький корпус «Книги дня»"], W:["Текст: Википедия","Способы против зубрёжки на языке"],
+  X:["Дать больше времени","До 200 000 шагов на трудных формулах"],
+  BIG:["Текстовые модели: сравнение архитектур","Обычный трансформер, блокнот и варианты объёмной памяти. Условия разных серий отличаются; новое сравнение при 450 Вт показано в таблице сверху"],
+  SPACE:["Объёмная память: арифметические задачи","Пять архитектур на сложении и на данных с 10% ошибок в учебных ответах"],
+  C2:["Кубическая: все варианты","Подробный черновик (по одному действию), учебная программа (сначала кусочки), модуль 23 вместо 59"],
+  Y:["Новые устройства слоя","MoE (смесь экспертов), minGRU (память-состояние, как Mamba/RWKV), KAN (обучаемые функции) — на кубической, мусоре и тексте"],
+  Z:["«Блокнот» версии 2","Блокнот выпадает на половине шагов, заслонка с ценой за взгляд, веса −1/0/+1 после прозрения"],
+  P:["Повторы главных выводов","Те же опыты с начальными весами №1 и №2 — не случайность ли"],
+  K:["Штурм кубической","Черновик с разной силой давления, «поощрение за части», плюс «живые нейроны» до 1 млн шагов"],
+  N:["Архитектура «Блокнот»","Мозг для правил (узкий, −1/0/+1) + блокнот для исключений + шаги мысли — против обычного трансформера"],
+  U:["Текст: ограничения против зубрёжки","«Потолок старания», согласие с собой, плоский минимум, шум в весах"],
+  V:["Текст: способы для языковых моделей","Опечатки, штраф за самоуверенность, z-loss, общая таблица букв, пропуск слоёв, дубли, 200 000 шагов"],
+  S:["Учитель знает бюджет","Скорость обучения под заданное число шагов: постоянная, косинус, WSD"],
+};
+const ORDER = ["CUBIC","RANK","EXTEND","BIG","SPACE","C2","Y","Z","N","P","K","U","V","W","S","X","M","Q","R","L","H","G","F","E","D","C","B","A","1","2","T"];
+const LOCAL = ["localhost", "127.0.0.1"].includes(location.hostname);
+let FILTER = "running", DATA = null, OPEN = {};
+try { OPEN = JSON.parse(localStorage.getItem("lab_open") || "{}"); FILTER = localStorage.getItem("lab_filter") || "running"; } catch (e) {}
+const save = () => { try { localStorage.setItem("lab_open", JSON.stringify(OPEN)); localStorage.setItem("lab_filter", FILTER); } catch (e) {} };
+const pct = v => Math.round(Math.max(0, Math.min(1, v)) * 100);
+const fmt = n => n.toLocaleString("ru-RU");
+const dateFmt = new Intl.DateTimeFormat("ru-RU", {timeZone:"Europe/Moscow", day:"2-digit", month:"2-digit", year:"numeric", hour:"2-digit", minute:"2-digit"});
+const dateLabel = t => dateFmt.format(new Date(t * 1000));
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+const VARIANTS = {
+  standard: ["Обычная модель", "Трансформер без внешнего блокнота. Базовый результат, с которым сравниваем остальные варианты."],
+  notebook: ["Блокнот: поиск по всей памяти", "Модель оценивает все записи и выбирает подходящие. Проверяем исходный вариант блокнота."],
+  addressed: ["Блокнот: поиск по 3 координатам", "Сначала выбирает адреса по X, Y и Z. Проверяем, ускорит ли это поиск без ухудшения ответов."],
+  neighbors: ["3D-память: связь с соседями", "К найденной ячейке подключены до 6 соседей: слева, справа, сверху, снизу, спереди и сзади. Проверяем пользу этих связей."],
+  compact: ["3D-память: компактная модель", "Те же связи с соседями, но записи короче и внутренние слои уже. Проверяем уменьшение весов в 3 раза и сохранение качества."]
+};
+const SCENARIOS = {
+  new_text: ["Новые тексты", "Предсказать следующий символ в текстах, которых не было в обучении. Все варианты получают один и тот же учебный и проверочный текст: 2 000 шагов обучения, 3 повтора с разными начальными весами."],
+  arithmetic_clean: ["Сложение", "Найти остаток от суммы двух чисел при делении на 59: например, (40 + 30) → 11. Учим на половине примеров, проверяем на остальных. 5 000 шагов, один пробный запуск каждого варианта."],
+  arithmetic_noisy: ["Ошибки в учебных ответах", "То же сложение, но 10% учебных ответов намеренно испорчены. Проверочные ответы остаются правильными. Проверяем устойчивость к ошибкам в данных: 5 000 шагов, один пробный запуск."]
+};
+const STATUS = {queued:"В очереди", running:"Обучается", waiting:"Ожидает условий запуска", done:"Завершён", paused:"Защитная пауза", error:"Ошибка запуска", interrupted:"Прерван"};
+let SCENARIO = "new_text";
+const num = (v, digits=1) => Number(v).toLocaleString("ru-RU", {maximumFractionDigits:digits, minimumFractionDigits:digits});
+const avg = values => values.length ? values.reduce((a,b)=>a+b,0)/values.length : null;
+const jobTitle = j => `${VARIANTS[j.variant]?.[0] || j.variant} · ${SCENARIOS[j.scenario]?.[0] || j.scenario} · повтор ${j.seed+1}`;
+const jobSpec = r => DATA?.experiment?.jobs?.find(j => j.name === r.name);
+function runTitle(r){
+  const study=studyJob(r); if(study) return study.title;
+  const j = jobSpec(r);
+  if (j) return jobTitle(j);
+  const old = r.name.match(/^BIG_ADDR_(flat|product3d)_pilot_seed(\d+)$/);
+  if (old) return `${old[1]==="flat"?"Блокнот: поиск по всей памяти":"Блокнот: поиск по 3 координатам"} · предварительный текстовый опыт · повтор ${Number(old[2])+1}`;
+  return r.name.replace(/^BIG_/, "Большая модель: ").replace(/^([A-Z]+|\d+)_/, "Опыт $1: ").replace(/_seed(\d+)/g, (_, n)=>` · повтор ${Number(n)+1}`).replace(/_/g," ");
+}
+function purpose(r){
+  const study=studyJob(r); if(study) return study.description;
+  const j=jobSpec(r);
+  if(j) return `${VARIANTS[j.variant][1]} Задача: ${SCENARIOS[j.scenario][0].toLowerCase()}.`;
+  if(r.name.startsWith("BIG_ADDR_")) return "Предварительная проверка способа поиска в блокноте. Другие условия запуска; не входит в новое сравнение пяти архитектур при 450 Вт.";
+  return r.text ? "Предсказание следующего символа. Сравниваем результат на учебном и отдельном проверочном тексте." : "Сравниваем долю правильных ответов на учебных и новых примерах.";
+}
+function renderExperiment(){
+  const host=document.getElementById("experiment"), e=DATA.experiment;
+  const queueWasOpen=host.querySelector("details")?.open;
+  const tableScroll=host.querySelector(".table-scroll")?.scrollLeft || 0;
+  const queueScroll=host.querySelector(".exp-queue")?.scrollTop || 0;
+  const focusedScenario=host.contains(document.activeElement) ? document.activeElement.dataset.scenario : null;
+  if(!e?.jobs?.length){host.innerHTML='<p class="subtle">Список новых опытов пока недоступен. Существующие результаты показаны ниже.</p>';return;}
+  const jobs=e.jobs, done=jobs.filter(j=>j.status==="done").length;
+  const control=e.controller||{}, active=jobs.find(j=>j.status==="running") || jobs.find(j=>j.name===control.name && j.status!=="done");
+  const running=active?.status==="running";
+  const otherSeries=!active && done<jobs.length && control.fresh && ["running","waiting"].includes(control.status);
+  const label=active ? STATUS[active.status] : done===jobs.length ? "Все 25 опытов завершены" : otherSeries ? "Ждёт очереди: сейчас другая серия" : ["paused","error"].includes(control.status) ? "Очередь остановлена" : "Очередь ожидает запуск";
+  let stateNote="Опыты запускаются по одному на верхней видеокарте. Между запусками — проверка температуры и доступной памяти.";
+  if(control.reason) stateNote=control.reason;
+  if(otherSeries){
+    const current=DATA.study?.jobs?.find(j=>j.name===control.name);
+    stateNote=`Сейчас ${control.status==="waiting"?"готовится":"выполняется"}: ${current?.title||"опыт другой серии"}. Чередуем по одному опыту из новой серии и сравнения архитектур. Опыты этой серии выполняются по одному; малая математика — по результату теста выше.`;
+  }
+  if(!control.fresh && !running && done<jobs.length) stateNote="Нет свежего сигнала от контроллера. Автоматический запуск следующих опытов сейчас не подтверждён.";
+  const progress=active?.steps_total ? pct(active.step/active.steps_total) : 0;
+  const rowJobs=variant=>jobs.filter(j=>j.variant===variant&&j.scenario===SCENARIO);
+  const mean=(rs,key)=>avg(rs.filter(j=>Number.isFinite(j[key])).map(j=>j[key]));
+  const rows=Object.entries(VARIANTS).map(([key,[title,desc]],i)=>{
+    const all=rowJobs(key), finished=all.filter(j=>j.status==="done"), inProgress=all.find(j=>j.status==="running"), score=mean(finished,"score");
+    const params=mean(finished,"params") ?? (SCENARIO==="new_text" ? e.design?.parameters?.[key] : null);
+    const weights=mean(finished,"raw_weight_bytes"), peak=mean(finished,"peak_gpu_mib"), seconds=mean(finished,"seconds");
+    const state=inProgress ? `Обучается · повтор ${inProgress.seed+1}` : finished.length===all.length ? "Завершено" : (all.some(j=>["paused","error","interrupted"].includes(j.status))?"Прервано; см. очередь":finished.length?"Следующие повторы в очереди":"Ожидает очереди");
+    return `<tr class="${inProgress?"active":""}"><td><div class="variant"><span class="number">${i+1}</span><b>${title}</b></div><small>${desc}</small></td>
+      <td>${score===null?"Пока нет результата":SCENARIO==="new_text"?num(score,3):num(score*100,1)+"%"}<small>${finished.length} из ${all.length} завершено</small><small>${state}</small></td>
+      <td>${params===null?"После запуска":num(params/1e6,1)+" млн"}<small>${weights===null?"Размер весов — после завершения":num(weights/1e6,1)+" МБ весов"}</small></td>
+      <td>${peak===null?"—":num(peak/1024,2)+" ГиБ"}</td><td>${seconds===null?"—":num(seconds/60,1)+" мин"}</td></tr>`;
+  }).join("");
+  const groups=(e.comparisons||[]), compactChecks=groups.map(g=>g.comparisons.find(c=>c.variant==="compact")).filter(Boolean);
+  const comparable=compactChecks.filter(c=>c.matched_data_and_budget);
+  const passed=comparable.filter(c=>c.target_weights_and_quality_on_this_test).length;
+  const qualityNote=comparable.length ? `В ${passed} из ${comparable.length} завершённых сравнений компактная версия дала веса минимум в 3 раза меньше и результат не хуже обычной модели. Это итог только этих коротких тестов.` : "Качество компактной версии ещё проверяется: полного сравнения пяти вариантов пока нет.";
+  const ratio=e.design?.raw_weight_ratio_standard_over_compact;
+  host.innerHTML=`<h2>Проверяем твою идею: объёмная память</h2>
+    <p class="lead">Можно ли уменьшить модель в 3 раза и сохранить качество ответов? Сравниваем обычную модель, два способа поиска в блокноте, связи соседних ячеек и компактную версию.</p>
+    <div class="exp-status"><div><span class="chip ${running?"guess":"learn"}">${esc(label)}</span>
+      <strong>${active?esc(jobTitle(active)):"Сравнение пяти вариантов архитектуры"}</strong>
+      ${active?`<small>Шаг ${fmt(active.step)} из ${fmt(active.steps_total||0)} · ${progress}%${active.started_at?` · начат ${dateLabel(active.started_at)} МСК`:""}</small><div class="prog"><i style="width:${progress}%"></i></div>`:""}
+      <small>${esc(stateNote)}</small></div><div class="exp-count"><b>${done} / ${jobs.length}</b><br>опытов завершено</div></div>
+    <div class="exp-tabs" role="group" aria-label="Выбрать задачу для сравнения">${Object.entries(SCENARIOS).map(([key,[name]])=>`<button type="button" data-scenario="${key}" aria-pressed="${key===SCENARIO}">${name}</button>`).join("")}</div>
+    <p class="subtle">${SCENARIOS[SCENARIO][1]}</p>
+    <div class="table-scroll" role="region" aria-label="Результаты сравнения архитектур" tabindex="0"><table class="exp-table">
+      <caption>${SCENARIO==="new_text"?"Качество предсказания текста: меньше — лучше":"Точность на новых примерах: больше — лучше"}</caption>
+      <thead><tr><th scope="col">Вариант и что проверяем</th><th scope="col">${SCENARIO==="new_text"?"Ошибка предсказания, бит/символ":"Правильные ответы, %"}</th><th scope="col">Размер модели</th><th scope="col">Пик памяти обучения</th><th scope="col">Время обучения</th></tr></thead><tbody>${rows}</tbody></table></div>
+    <p class="subtle">Показаны только итоговые результаты; при нескольких повторах — их среднее. Бит/символ (BPC) показывает, насколько неожиданным для модели оказался правильный символ. Параметры — обучаемые числа, из которых состоят веса. Пик памяти обучения включает веса, градиенты, состояние оптимизатора и промежуточные результаты. Это максимум памяти тензоров данного процесса, без других программ и резервов CUDA. Меньше весов не обязательно означает такой же выигрыш по всей памяти: одинаковые глубина, длина текста и размер пачки сохраняют большой объём промежуточных результатов. Время — длительность обучения без ожидания запуска.</p>
+    <div class="exp-result"><b>${ratio?`По числу параметров веса компактной текстовой модели в ${num(ratio,2)} раза меньше.`:"Размер весов проверяется."}</b><p>${qualityNote}</p>
+      <small>Это проверка на небольших моделях. Уменьшение модели с 300 до 100 ГБ без потери качества пока не доказано. Геометрия ячеек сама по себе не превращает 1 бит в 3 бита.</small></div>
+    <details class="exp-details" id="experiment-queue"><summary>Все 25 опытов: очередь и даты</summary><ol class="exp-queue">${jobs.map(j=>`<li><b>${esc(jobTitle(j))}</b> — ${STATUS[j.status]}<small>${j.started_at?`Начат ${dateLabel(j.started_at)} МСК`:"Ещё не запускался"}${j.finished_at?` · завершён ${dateLabel(j.finished_at)} МСК`:""}</small></li>`).join("")}</ol></details>
+    <p class="subtle">Технические имена файлов сохранены в карточках ниже. Фильтры ниже относятся к истории опытов; это сравнение видно всегда.</p>`;
+  host.querySelector("details").open=!!queueWasOpen;
+  host.querySelector(".table-scroll").scrollLeft=tableScroll;
+  host.querySelector(".exp-queue").scrollTop=queueScroll;
+  if(focusedScenario) host.querySelector(`[data-scenario="${focusedScenario}"]`)?.focus({preventScroll:true});
+}
+document.getElementById("experiment").addEventListener("click",e=>{const key=e.target.dataset.scenario;if(key&&SCENARIOS[key]){SCENARIO=key;renderExperiment();}});
+
+const PHASE_LABEL={direct:"Кубическая: ответ сразу",trace:"Кубическая: шесть шагов черновика",addition:"Урок 1 — сложение",multiplication:"Урок 2 — умножение и повторение сложения",composition:"Урок 3 — сборка кубической формулы"};
+const studyJob=r=>DATA?.study?.jobs?.find(j=>j.name===r.name);
+function learningGraph(name,caption,baselineName){
+  let r=DATA.runs?.find(r=>r.name===name);
+  if(r&&baselineName){const old=DATA.runs?.find(x=>x.name===baselineName);r={...r,curve:r.curve.filter(p=>p[0]>(old?.step||0))};}
+  if(!r?.curve?.length)return '<p class="subtle">График появится после первой проверки.</p>';
+  return `<figure class="learning-figure" aria-label="График обучения ${esc(name)}"><div class="learning-chart">${spark(r)}</div><figcaption><span style="color:var(--mem)">Оранжевая — учебные примеры</span> · <span style="color:var(--und)">зелёная — проверочные</span><br>${esc(caption)} · шаги ${fmt(r.curve[0][0])}…${fmt(r.curve[r.curve.length-1][0])}</figcaption></figure>`;
+}
+function nightCards(n){
+  const rows=n.jobs||[];
+  return `<div class="study-grid">${rows.map(j=>{
+    const g=j.growth||{};
+    const current=j.status==='running'?'Обучается':j.status==='done'?'Завершён':j.step?'Сохранён, ждёт продолжения':'В очереди';
+    return `<article class="run ${j.status}" id="night-${esc(j.name)}"><div class="top"><b>${esc(j.title)} · повтор ${j.seed+1}</b><span class="chip ${j.status==='running'?'guess':'learn'}">${current}</span></div>
+      <p>Шаг <b>${fmt(j.step)}</b> · обязательный минимум ${fmt(j.min_steps||18000)}</p>
+      ${j.phase?`<p>${esc(PHASE_LABEL[j.phase]||j.phase)}: ${fmt(j.phase_step||0)} шагов · минимум ${fmt(j.min_stage_steps||6000)}</p>`:''}
+      <p>Вся учебная выборка: <b>${j.training_accuracy==null?'ещё проверяется':num(j.training_accuracy*100,2)+'%'}</b><br>Последняя проверка урока: <b>${j.phase_validation_accuracy==null?'—':num(j.phase_validation_accuracy*100,2)+'%'}</b><br>Успешных проверок подряд: <b>${j.streak||0} / 3</b></p>
+      <p class="subtle">${g.armed?`После достижения 100%: ${fmt(g.steps_without_progress||0)} из 1 000 шагов без нового лучшего проверочного результата.`:'Остановка по плато ещё не включена: сначала 100% на всей учебной выборке.'}</p>
+      ${learningGraph(j.name,'Точность текущего урока; при смене урока меняется задача',j.continuation_of)}
+      ${j.test==null?'':`<p>Лучшее сохранённое состояние, итоговый тест: <b>${num(j.test*100,2)}%</b></p>`}
+      ${j.continuation_of?'<p class="subtle">Продолжение сохранённых весов. Участок графика до продолжения относится к прежнему протоколу; итоговый тест уже показывался ранее.</p>':''}
+      ${j.outcome?`<p class="subtle">${esc({validation_passed:'Минимум выполнен, экзамен пройден',plateau:'После освоения учебных данных проверочная точность не росла 1 000 шагов'}[j.outcome]||j.outcome)}</p>`:''}
+    </article>`;
+  }).join('')}</div>`;
+}
+
+function renderTrainingSpeed(){
+  const host=document.getElementById('training-speed'),p=DATA.training_speed_probe,a=DATA.parallel_eight;
+  if(!host||!p?.status)return;host.hidden=false;
+  const title=n=>(n.includes('neighbors')?'3D с соседями':'Обычная модель')+' · '+(n.includes('ternary')?'троичные веса':'FP32');
+  const summaries=(p.comparisons||[]).map(c=>{const rows=p.rows.filter(r=>r.source===c.source);const avg=m=>rows.filter(r=>r.mode===m).reduce((x,r)=>x+r.training_seconds,0)/2;return {...c,ref:avg('reference'),graph:avg('graph_fb')};});
+  const largest=Math.max(1,...summaries.map(s=>s.ref));
+  const labels={starting:'Подготовка',preflight:'Проверка датчиков перед запуском',running:'Идёт сравнение',complete:'Сравнение завершено',stopped:'Остановлено: требуется проверка причины'};
+  const stages=a?.stages||[],c=a?.comparison,maxTime=Math.max(1,...stages.map(s=>s.seconds));
+  const means=[6,8].map(n=>{const rows=stages.filter(s=>s.concurrency===n);return {n,count:rows.length,seconds:rows.length?rows.reduce((x,r)=>x+r.seconds,0)/rows.length:null};});
+  host.innerHTML=`<h2>Что ограничивает скорость обучения?</h2>
+  <p>450 Вт — ограничение мощности, а не цель загрузки. В прежнем сравнении шесть процессов сократили время всего на 2,3%. В этих небольших моделях много коротких GPU-операций: важна также скорость их запуска с процессора.</p>
+  <p><b>Проверенное ускорение: CUDA Graph.</b> Повторяющиеся вычисления запускаются одним графом. На профилированной 3D с троичными весами число вызовов <code>cudaLaunchKernel</code> уменьшилось с 379 до 29 на шаг, плюс один запуск графа. Проверка конечности ошибки, ограничение градиента и обновление оптимизатора сохранены.</p>
+  <h3>Одна модель: время 1 000 шагов, меньше — лучше</h3>
+  <p>Два повтора с обратным порядком. Одинаковые сохранения, данные, шаги и FP32-вычисления. Подготовка графа измеряется отдельно; итоговые веса, состояние оптимизатора и проверочные ответы ${p.accepted?'<b>совпали точно во всех восьми парах</b>':'ещё проверяются'}. Итоговый закрытый тест не использован.</p>
+  ${summaries.map(s=>`<div style="margin:14px 0"><b>${esc(title(s.source))}</b> · ускорение ${num(s.speedup,2)}×<div><small>Прежний запуск · ${num(s.ref,2)} с</small><div style="height:9px;background:var(--line);border-radius:4px"><div style="height:100%;background:#d8a15c;width:${100*s.ref/largest}%"></div></div></div><div><small>С графом · ${num(s.graph,2)} с</small><div style="height:9px;background:var(--line);border-radius:4px"><div style="height:100%;background:#74bce7;width:${100*s.graph/largest}%"></div></div></div></div>`).join('')}
+  <h3>Шесть или восемь одновременно — уже с ускорением</h3>
+  <p><b>${a?.status?(a.status==='complete'&&!a.comparison?'Увеличение нагрузки отложено':labels[a.status]||esc(a.status)):'Ожидание безопасной границы сохранения'}</b>${a&&['running','preflight'].includes(a.status)?` · повтор ${a.current_round}/2 · до ${a.concurrency} процессов · готово ${a.current_done||0}/24`:''}</p>
+  <p>В каждом замере 24 копии: по шесть обычных FP32, обычных троичных, 3D FP32 и 3D троичных. Каждая проходит 6 000 шагов: <b>144 000 шагов на замер</b>. Порядок: 6→8, затем 8→6. Основные модели сохраняют свои шаги; тест идёт на отдельных копиях.</p>
+  ${a?.reason?`<p class="warn">${esc(a.reason)}</p>`:''}${a?.decision?`<p><b>${esc(a.decision)}</b></p>`:''}
+  ${c?`<p>Восемь к шести: <b>${num(c.speedup,3)}×</b> · времени ${c.elapsed_reduction_percent>=0?'меньше':'больше'} на ${num(Math.abs(c.elapsed_reduction_percent),1)}%. Точное совпадение и полноценное перекрытие процессов: ${c.matched?'подтверждены':'условия не выполнены'}. Запас по датчикам: ${c.comfortable?'сохранён':'недостаточен'}.</p>`:''}
+  ${means.map(m=>`<div style="margin:10px 0"><small>${m.n} одновременно · ${m.seconds==null?'ещё нет результата':num(m.seconds,1)+' с в среднем'} · ${m.count}/2 повтора</small><div style="height:12px;background:var(--line);border-radius:4px"><div style="height:100%;background:${m.n===6?'#d8a15c':'#74bce7'};width:${m.seconds==null?0:100*m.seconds/maxTime}%"></div></div></div>`).join('')}
+  <div class="bit3d-scroll"><table><thead><tr><th>Повтор</th><th>Процессов</th><th>Время, с</th><th>Шагов/с</th><th>GPU, Вт</th><th>GPU, °C</th><th>CPU, °C</th><th>Полное перекрытие, наблюдений</th></tr></thead><tbody>${stages.map(s=>`<tr><td>${s.round}</td><td>${s.concurrency}</td><td>${num(s.seconds,1)}</td><td>${num(s.steps/s.seconds,1)}</td><td>${num(s.peaks.gpu_w,1)}</td><td>${num(s.peaks.gpu_c,1)}</td><td>${num(s.peaks.cpu_c,1)}</td><td>${s.full_overlap_samples}</td></tr>`).join('')}</tbody></table></div>
+  ${a?.current_peaks?.gpu_w?`<p>Текущий замер: максимумы GPU ${num(a.current_peaks.gpu_w,1)} Вт / ${num(a.current_peaks.gpu_c,1)}°C, CPU ${num(a.current_peaks.cpu_c,1)}°C.</p>`:''}
+  ${a?.review?`<p><b>Что показал короткий замер:</b> завершены ${a.review.completed_jobs} копии; повторы ${a.review.copies_exact?'совпали точно':'требуют разбора'}. По интервалам выполнения шагов одновременно учились максимум около ${a.review.approximate_training_overlap_peak} моделей: короткие задания заканчиваются между плавными запусками. Лимит планировщика и фактическое перекрытие — разные числа. Восемь ${a.review.eight_started?'запускались':'ещё не запускались'}; CPU достиг ${num(a.review.cpu_observed_max_c,1)}°C при требовании запаса ниже ${a.review.cpu_headroom_c}°C. Это запас для увеличения нагрузки, а не факт аварийного перегрева. Все ${a.review.protected_main_checkpoint_count} основных сохранений остались неизменными во время теста.</p>`:''}
+  <p class="subtle">Время группы включает запуск, плавное увеличение нагрузки, подготовку графов и проверки; предварительные 120 секунд контроля датчиков исключены. Раздельные ускорения не перемножаем. Восемь остаются только при выигрыше в обоих повторах, точном совпадении результатов, ≥5 наблюдениях полной одновременной работы и запасе CPU &lt;80°C, GPU &lt;70°C, мощности &lt;350 Вт. Лимит GPU0 — 450 Вт. Прежние защитные пороги и остановки действуют; после защитной остановки автоматического возобновления нет.</p>`;
+}
+
+function renderScale(){
+  const a=DATA.parallel_scale,host=document.getElementById('parallel-scale');if(!a?.status||!host)return;host.hidden=false;
+  const stages=a.stages||[],c=a.comparison,labels={starting:'Подготовка',preflight:'Проверка датчиков и охлаждение',running:'Идёт сравнение',complete:'Сравнение завершено',stopped:'Остановлено защитой или ошибкой'};
+  const max=Math.max(1,...stages.map(s=>s.seconds)),means=[4,6].map(n=>{const s=stages.filter(s=>s.concurrency===n);return {n,seconds:s.length?s.reduce((x,y)=>x+y.seconds,0)/s.length:null,repeats:s.length};});
+  host.innerHTML=`<h2>Четыре или шесть моделей одновременно?</h2><p><b>${labels[a.status]||esc(a.status)}</b>${a.status==='running'||a.status==='preflight'?` · повтор ${a.current_round}/2 · до ${a.concurrency} процессов · заданий завершено ${a.current_done||0}/12`:''}</p>
+  <p>В каждом замере — одинаковые 12 копий сохранённых моделей, по 6 000 шагов: всего <b>72 000 шагов</b>. По три копии обычной FP32, обычной троичной, 3D FP32 и 3D троичной. Два повтора в порядке 4→6, затем 6→4.</p>
+  <p class="subtle">Замер включает запуск процессов, постепенное увеличение нагрузки, обучение и проверки. Предварительные 120 секунд охлаждения исключены. Основные сохранения не перезаписываются; после теста очередь продолжится с них. Лимит GPU0 — 450 Вт; прежняя защита действует.</p>
+  ${a.reason?`<p class="warn">${esc(a.reason)}</p>`:''}${a.decision?`<p><b>${esc(a.decision)}</b></p>`:''}
+  ${c?`<p>Ускорение шести к четырём: <b>${num(c.speedup,2)}×</b> · ${c.elapsed_reduction_percent>=0?'времени меньше':'времени больше'} на ${num(Math.abs(c.elapsed_reduction_percent),1)}%. Совпадение данных и шагов: ${c.matched?'подтверждено':'не подтверждено'}. Запас по датчикам: ${c.comfortable?'сохранён':'недостаточен'}.</p>`:''}
+  ${means.map(m=>`<div style="margin:12px 0"><small>${m.n} одновременно · ${m.seconds==null?'ещё нет результата':num(m.seconds,1)+' с в среднем'} · ${m.repeats}/2 повтора</small><div style="height:12px;background:var(--line);border-radius:4px;overflow:hidden"><div style="height:100%;background:${m.n===4?'#d8a15c':'#74bce7'};width:${m.seconds==null?0:100*m.seconds/max}%"></div></div></div>`).join('')}
+  <small>Длина полосы — время выполнения одинаковой работы; короче — быстрее. Промежуточное среднее одного повтора ещё не основание менять режим.</small>
+  <div class="bit3d-scroll"><table><thead><tr><th>Повтор</th><th>Процессов</th><th>Время, с</th><th>Шагов/с суммарно</th><th>Пик GPU, Вт</th><th>GPU, °C</th><th>CPU, °C</th></tr></thead><tbody>${stages.map(s=>`<tr><td>${s.round}</td><td>${s.concurrency}</td><td>${num(s.seconds,1)}</td><td>${num(s.steps/s.seconds,1)}</td><td>${num(s.peaks.gpu_w,1)}</td><td>${num(s.peaks.gpu_c,1)}</td><td>${num(s.peaks.cpu_c,1)}</td></tr>`).join('')}</tbody></table></div>
+  <p class="subtle">Шесть включаются только при ускорении суммарно и в обоих повторах, совпадении исходных весов/данных/шагов и расхождении точности не более 0,5 п.п. Дополнительный запас для решения: CPU &lt;80°C, GPU &lt;70°C, наблюдаемая мощность &lt;350 Вт. Это не изменение лимита 450 Вт. После защитной остановки автоматического продолжения нет.</p>`;
+}
+
+function plannerGraph(jobs,key,title){
+  const colors=['#d8a15c','#74bce7'],w=740,h=180,pad=32,max=Math.max(1000,...jobs.flatMap(j=>j.curve.map(r=>r.step)));
+  return `<div><small>${title}</small><svg role="img" aria-label="${title}" viewBox="0 0 ${w} ${h}" style="display:block;width:100%;height:auto;margin:8px 0"><g fill="none" stroke="var(--line)">${[0,.5,1].map(y=>`<path d="M${pad} ${h-pad-y*(h-2*pad)}H${w-12}"/>`).join('')}</g><g fill="var(--muted)" font-size="11">${[0,50,100].map(y=>`<text x="0" y="${h-pad-y/100*(h-2*pad)+4}">${y}%</text>`).join('')}<text x="${pad}" y="${h-5}">0</text><text x="${w-100}" y="${h-5}">${fmt(max)} шагов</text></g>${jobs.map((j,i)=>`${j.curve.length?`<circle cx="${pad+j.curve.at(-1).step/max*(w-pad-12)}" cy="${h-pad-j.curve.at(-1)[key]*(h-2*pad)}" r="3" fill="${colors[i]}"/>`:''}<polyline fill="none" stroke="${colors[i]}" stroke-width="2" ${i?'stroke-dasharray="5 3"':''} points="${j.curve.map(r=>`${pad+r.step/max*(w-pad-12)},${h-pad-r[key]*(h-2*pad)}`).join(' ')}"/>`).join('')}</svg></div>`;
+}
+function renderPlanner(){
+  const host=document.getElementById('planner'),p=DATA.planner;if(!host||!p?.jobs?.length)return;host.hidden=false;
+  const pct=x=>x==null?'—':num(x*100,1)+'%',labels={running:'Обучается',queued:'Сохранена · в очереди',preflight:'Проверка датчиков',paused:'Очередь остановлена',stopped:'Защитная остановка',done:'Завершена'};
+  const phases=['Сложение и самостоятельное завершение ответа','Умножение с повторением сложения','Составные выражения и собственный план'];
+  host.innerHTML=`<h2>Модель сама выбирает шаги решения</h2><p class="lead">Две модели получают выражение и исходные числа. Сами выбирают сложение, умножение, значения из черновика и момент остановки. 3D также решает, читать ли адресную память.</p>
+  <p>Обе модели имеют одинаковые троичные слои и общие начальные веса. <b>70 000 шагов на урок, 210 000 всего</b>, без ранней остановки. Новые опыты идут по одному в отдельных слотах общей очереди: GPU0 до 450 Вт и прежняя защита. Основные прогоны продолжаются из своих сохранений.</p>
+  <p class="subtle">После первых 1 000 шагов каждая новая модель сохраняется; дальше — участки по 10 000 с чередованием с основной очередью. «В очереди» означает продолжение, а не завершение опыта. Первые 2 000 шагов — прогрев памяти, затем модель учится пропускать чтение; штраф постепенно достигает 0,001 к 6 000.</p>
+  ${p.matched===false?'<p class="warn">Данные или начальные веса различаются — сравнение скрыто.</p>':p.common_step!=null?`<h3>Честное сравнение на шаге ${fmt(p.common_step)}</h3><div class="bit3d-scroll"><table><thead><tr><th>Модель</th><th>Новые числа: верны план и ответ</th><th>Новые выражения: верны план и ответ</th><th>Правильный план новых выражений</th><th>Правильный числовой ответ</th><th>Чтений памяти / задача</th></tr></thead><tbody>${p.rows.map(r=>`<tr><td>${esc(r.title)}</td><td>${pct(r.known_joint)}</td><td>${pct(r.novel_joint)}</td><td>${pct(r.novel_plan)}</td><td>${pct(r.novel_numeric)}</td><td>${r.name.includes('neighbors')?num(r.reads,2):'Без 3D-памяти'}</td></tr>`).join('')}</tbody></table></div>`:'<p>Общая таблица появится после первой проверки обеих моделей на одинаковом шаге.</p>'}
+  <p class="subtle">Новые числа — 256 проверочных задач на знакомых семействах выражений. Новые выражения — ещё 256 задач на семействах, которых не было в обучении. Правильный план проверяется алгебраически: другой равнозначный порядок действий тоже принимается. Числовые ответы модель вычисляет нейронной сетью, без встроенного калькулятора.</p>
+  <div class="study-grid">${p.jobs.map(j=>{const v=j.progress,m=v.metrics||{};return `<article class="run"><div class="top"><h3>${esc(j.spec.title)}</h3><span class="chip">${labels[j.status]}</span></div><p><b>${fmt(v.step||0)} / 210 000 шагов</b><br>Урок ${(v.phase||0)+1}: ${phases[v.phase||0]}</p><p>Отдельное новое сложение: <b>${pct(m.skills?.addition)}</b><br>Отдельное новое умножение: <b>${pct(m.skills?.multiplication)}</b><br>Новые выражения — верны план и ответ: <b>${pct(m.novel?.joint_accuracy)}</b></p><small>Последняя проверка этой модели; общая таблица выше сравнивает одинаковые шаги.<br>Параметров: ${fmt(v.params||p.plan.initial?.find(x=>x.name===j.spec.name)?.parameters||0)}<br>Пик памяти GPU при обучении: ${v.peak_gpu_bytes?num(v.peak_gpu_bytes/1048576,1)+' МиБ':'ещё не измерен'}</small>${j.spec.architecture==='memory_neighbors'?`<p>Чтений 3D-памяти на новую задачу: ${m.novel?num(m.novel.memory_reads_per_task,2):'—'}<br>Выбранных ячеек в проверке: ${m.novel?.memory_cells_used??'—'} из 1024</p>`:''}${j.spec.architecture==='memory_neighbors'?'<small>Это число обращений нейросети к памяти; каждое обращение выбирает восемь адресов на позицию и их соседей.</small>':''}${v.started_at?`<small>Начало: ${new Date(v.started_at).toLocaleString('ru-RU',{timeZone:'Europe/Moscow'})} МСК</small>`:''}${j.reason?`<p>${esc(j.reason)}</p>`:''}${m.novel?.samples?.length?`<details><summary>Что модель сама сделала на новой задаче</summary>${m.novel.samples.slice(0,1).map(s=>`<p>${esc(s.expression)}, a=${s.a}, b=${s.b}; все действия по модулю 59.</p><ol>${s.actions.map((a,i)=>`<li>${a[0]===2?`Закончить: взять ответ из r${a[1]}`:`r${i+2} = r${a[1]} ${a[0]===0?'+':'×'} r${a[2]} → модель записала ${a[3]}`}</li>`).join('')}</ol><p>r0 — a, r1 — b. Ответ модели: ${s.halted?s.answer:'не завершила решение'}; правильный: ${s.expected}. План: ${s.plan_correct?'верный':'неверный'}.</p>`).join('')}</details>`:''}${j.final?.final_test?`<p>Итоговый тест новых выражений: ${pct(j.final.final_test.novel.joint_accuracy)}</p>`:'<small>Итоговый тест закрыт до 210 000 шагов.</small>'}</article>`}).join('')}</div>
+  <p><span style="color:#d8a15c">Сплошная — обычная</span> · <span style="color:#74bce7">Пунктир — 3D</span></p>${plannerGraph(p.jobs,'addition','Отдельный навык: новые примеры сложения без подсказок')}${plannerGraph(p.jobs,'multiplication','Отдельный навык: новые примеры умножения без подсказок')}${plannerGraph(p.jobs,'novel_joint','Новые выражения: одновременно верны план и числовой ответ')}${plannerGraph(p.jobs,'novel_plan','Новые выражения: математически правильный план')}
+  <p class="subtle">В начале учатся отдельные операции; сложные выражения входят в третий урок. Один seed, арифметика mod 59 и до пяти операций — это пилот архитектуры. Адреса памяти уже выбирались обучаемым запросом; новое здесь — выбор чтения/пропуска и самостоятельных шагов решения. Совпадение числового ответа само по себе не доказывает правильный способ решения.</p>`;
+}
+
+function runtimeOptimization(a){
+  const r=a.runtime;if(!r)return '';
+  const labels={reference:'Исходное выполнение',native:'Прямой расчёт упакованных весов',cached_native:'Кэш соседей + сокращение временных массивов',compact_native:'То же + короткий последний блок',compact_bf16:'Оптимизированное исполнение BF16',compact_fp16:'Оптимизированное исполнение FP16'};
+  const statuses={pending:'Ожидает одиночного замера',running:'Идёт одиночный замер',complete:'Проверка завершена',stopped:'Проверка остановлена'};
+  const mib=x=>num(x/1048576,2)+' МиБ';
+  return `<section aria-label="Рабочая память и ускорение"><h3>Рабочая память и ускорение без дообучения</h3>
+    <p><b>${statuses[r.status]||esc(r.status)}</b> · сохранённые веса на шаге ${fmt(r.common_step)}. Основные обучения продолжают прежнюю программу; замер занимает отдельное окно.</p>
+    <p class="subtle">Сравниваем ответы всех новых примеров сложения/умножения и всех шести промежуточных ответов 870 новых полных задач. Совпадение с исходной моделью не означает, что исходная модель решает их правильно. Итоговый тест не используется.</p>
+    ${r.reason?`<p class="warn">${esc(r.reason)}</p>`:''}
+    ${(r.results||[]).map(result=>{const name=result.source.model.architecture==='memory_dense'?'Обычная FP32':'3D с троичными весами';const max=Math.max(...result.rows.map(x=>x.working_peak_bytes));return `<h4>${name}</h4><div class="bit3d-scroll"><table><thead><tr><th>Исполнение</th><th>Ответы совпали</th><th>Модель в GPU</th><th>Модель + временная память</th><th>Задач/с</th><th>Ускорение к исходному</th></tr></thead><tbody>${result.rows.map(row=>`<tr><td>${labels[row.mode]}</td><td>${row.quality.exact_answers?'Все проверенные ответы':'Есть изменения — не применять'}${row.mode===result.recommended?'<br><b>Прошёл условия скорости и памяти</b>':''}</td><td>${mib(row.model_allocation_bytes)}</td><td>${mib(row.working_peak_bytes)}</td><td>${num(row.tasks_per_second,0)}</td><td>${row.stable?num(row.speedup,2)+'×':num(row.speedup_range[0],2)+'–'+num(row.speedup_range[1],2)+'× · разброс'}</td></tr>`).join('')}</tbody></table></div><div aria-label="Сравнение рабочей памяти">${result.rows.map(row=>`<div style="margin:8px 0"><small>${labels[row.mode]} · ${mib(row.working_peak_bytes)}</small><div style="height:7px;background:var(--line);border-radius:4px;overflow:hidden;margin-top:4px"><i style="display:block;height:100%;background:var(--guess);width:${100*row.working_peak_bytes/max}%"></i></div></div>`).join('')}</div>`}).join('')}
+    <p class="subtle">Память — измеренные выделения PyTorch сверх существующего фона процесса: модель и временные тензоры, без контекста CUDA и ранее созданных служебных буферов. Поэтому эти цифры нельзя напрямую смешивать со старой таблицей полного пика процесса. BF16 и FP16 здесь раскрывают троичные матрицы в 16-битные и сокращают последний блок; в 3D также применён кэш соседей. Ускорение не принимается при изменении ответов или нестабильных замерах. Проверенные режимы привязаны к этим конкретным весам: для новых сохранений нужна повторная проверка.</p></section>`;
+}
+
+function parallelTrial(a){
+  const p=a.parallel;if(!p)return '';
+  const words={starting:'Подготовка',preflight:'Проверка датчиков — 120 секунд',running:'Идёт сравнение',complete:'Сравнение завершено',stopped:'Защитная остановка'};
+  const stages=p.stages||[],gate=c=>c===2?p.pair_gate:c===4?p.quad_gate:null;
+  const rows=[1,2,4].map(c=>{const s=stages.filter(x=>x.concurrency===c),g=gate(c),sec=s.reduce((n,x)=>n+x.seconds,0),peaks=k=>s.length?num(Math.max(...s.map(x=>x.peaks[k])),k==='cpu_c'?1:0):'—';return `<tr><td>${c===1?'По одной':c===2?'По две одновременно':'По четыре одновременно'}</td><td>${s.length}/2</td><td>${s.length?num(sec,1)+' с':'—'}</td><td>${c===1&&s.length===2?'1,00×':g?num(g.speedup,2)+'×':'—'}</td><td>${peaks('gpu_w')} Вт / ${peaks('gpu_c')} °C / ${peaks('cpu_c')} °C</td><td>${c===1?'Контроль':g?(g.matched?'Данные и качество совпали':'Проверка не пройдена'):c===4&&p.quad_skipped?'Не запускались: пара не прошла условия':'Ожидает проверки'}</td></tr>`}).join('');
+  const completed=stages.map(s=>({label:`${s.concurrency} одновр., повтор ${s.round}`,value:s.seconds})),max=Math.max(1,...completed.map(x=>x.value));
+  return `<section aria-label="Параллельность 3D и троичных моделей"><h3>Сколько моделей выгодно учить одновременно?</h3><p><b>${words[p.status]||p.status}</b>${p.concurrency?' · по '+p.concurrency+', повтор '+p.current_round+'/2':''}. Лимит GPU0 — 450 Вт, запуск вычислений с интервалом не меньше 10 секунд.</p><p class="subtle">Во всех режимах одни и те же четыре модели из замороженных копий сохранений. На каждую — 6 000 дополнительных шагов; два повтора. Это тест скорости обучения, его шаги не прибавляются к основным опытам. Время включает загрузку, постепенный запуск и проверку качества; ожидание охлаждения перед режимом исключено. Индивидуальные замеры скорости/памяти в таблице выше остаются одиночными.</p><div class="bit3d-scroll"><table><thead><tr><th>Режим</th><th>Повторы</th><th>Общее время</th><th>Ускорение</th><th>Максимумы: GPU Вт / GPU °C / CPU °C</th><th>Проверка</th></tr></thead><tbody>${rows}</tbody></table></div><div aria-label="Время выполнения одинаковой работы">${completed.map(x=>`<div style="margin:8px 0"><small>${x.label} · ${num(x.value,1)} с</small><div class="bar" style="height:8px;background:var(--line);border-radius:4px;overflow:hidden"><i style="display:block;height:100%;width:${100*x.value/max}%;background:#75a7ff"></i></div></div>`).join('')}</div>${p.recommended_concurrency?`<p><b>Лучший режим в предыдущем сравнении 1/2/4: ${p.recommended_concurrency} одновременно.</b> Меньшее время — лучше.</p>`:''}${p.quad_skipped?`<p>${esc(p.quad_skipped)}</p>`:''}${p.reason?`<p class="warn">${esc(p.reason)}. Автоматического перезапуска после защиты нет.</p>`:''}<p class="subtle">Максимумы — по доступным отсчётам датчиков, не гарантия отсутствия более коротких пиков. Четыре процесса допускаются только после устойчивого выигрыша пары, совпадения данных/качества и запаса температуры/мощности.</p></section>`;
+}
+
+function bit3dGraph(j){return transferGraph({...j,title:j.spec.title,program:'curriculum'}).replace('каждые 250 шагов','каждые 1 000 шагов');}
+function renderBit3D(){
+  const host=document.getElementById('bit3d'),a=DATA.bit3d;
+  if(!a?.jobs?.length){host.hidden=true;return;}host.hidden=false;
+  const pct=x=>x==null?'—':num(x*100,2)+'%', mib=x=>x==null?'—':num(x/1048576,2)+' МиБ';
+  const labels={running:'Обучается',waiting_measurement:'Сохранена · ждёт замера',measuring:'Изолированный замер',done:'Завершён',queued:'В очереди',preflight:'Проверка датчиков',paused:'Очередь остановлена',stopped:'Защитная остановка'};
+  const active=a.jobs.find(j=>['running','preflight','waiting_measurement','measuring'].includes(j.status));
+  const parallelCount=DATA.parallel_capacity||4;
+  const lesson={addition:'1 — сложение',multiplication:'2 — умножение с повторением сложения',composition:'3 — сборка формулы'};
+  host.innerHTML=`<h2>3D + троичные веса: четыре одинаковых опыта</h2>
+  <p class="lead">Проверяем отдельно пользу 3D-памяти, троичных весов и их сочетания. Формула a³ + a·b² + b, остатки по модулю 59. Всем даны одинаковые операции и их порядок; числовые ответы модель вычисляет сама.</p>
+  ${a.parallel_policy?`<div class="exp-status" aria-label="Основная параллельная очередь"><div><strong>До ${parallelCount} моделей обучаются вместе · замеры скорости по одной</strong><small>${a.controller?.status==='running'&&a.controller?.phase==='isolated_measurement'?'Обучение группы завершено. Сейчас измеряется одна модель.':a.controller?.status==='running'&&a.controller?.phase==='parallel_training'?'Сейчас обучаются: '+(a.controller.learning_names?.length||0)+'; остальные участники группы сохраняются или ждут замера.':a.controller?.status==='paused'||a.controller?.status==='error'?'Очередь остановлена: '+esc(a.controller.reason||'сработала защита'):'Подготовка следующей группы: проверка датчиков.'}</small><small>Продолжение из собственных сохранений; запуск с интервалом ≥10 секунд. GPU0 — 450 Вт, защита без ослабления.</small></div></div>`:''}
+  <div class="exp-status"><div><strong>${esc(active?.spec.title||(['paused','error'].includes(a.controller?.status)?'Очередь остановлена':'Опыты ожидают очереди'))}</strong><small>Обучение до ${parallelCount} · замеры по 1 · GPU0 до 450 Вт · перед группой 120 секунд проверки датчиков · ${a.completed}/4 завершено</small>${active&&a.controller?.sensors?`<small>GPU ${num(a.controller.sensors.gpu_w,0)} Вт / ${num(a.controller.sensors.gpu_c,0)}°C · CPU ${num(a.controller.sensors.cpu_c,1)}°C</small>`:''}</div></div>
+  <p>Каждой модели: <b>70 000 шагов на урок, 210 000 всего</b>. Переходы строго на 70 000 и 140 000, ранней остановки нет. Сохранение и передача очереди каждые 10 000. Один повтор; одинаковые примеры проверяются контрольной суммой.</p>
+  ${a.matched===false?'<p class="warn">Обнаружено несовпадение данных или начальных весов. Сравнение скрыто до проверки.</p>':a.shared_step!=null?`<p><b>Качество на одинаковом шаге ${fmt(a.shared_step)}</b> · данные и начальные веса совпали.</p><div class="bit3d-scroll"><table><thead><tr><th>Вариант</th><th>Новые полные задачи</th><th>Новое сложение</th><th>Новое умножение</th></tr></thead><tbody>${a.rows.map(r=>`<tr><td>${esc(r.title)}</td><td>${pct(r.new_tasks)}</td><td>${pct(r.addition)}</td><td>${pct(r.multiplication)}</td></tr>`).join('')}</tbody></table></div>`:'<p class="subtle">Общая таблица появится, когда все четыре модели дойдут до одного шага. Последние результаты разных шагов не смешиваем.</p>'}
+  ${a.comparisons?.length?`<p><b>Память и скорость на общем шаге ${fmt(a.measurement_step)}</b></p><div class="bit3d-scroll"><table><thead><tr><th>Вариант</th><th>Файл для работы</th><th>Пик GPU, обучение</th><th>Пик GPU, работа</th><th>Шагов обучения/с</th><th>Новых задач/с</th></tr></thead><tbody>${a.comparisons.map(m=>`<tr><td>${esc(m.title)}</td><td>${mib(m.deploy_file_bytes)}</td><td>${mib(m.training_peak_allocated_bytes)}</td><td>${mib(m.inference_peak_allocated_bytes)}</td><td>${m.training_timing_isolated===false?"Совместное обучение":num(m.training_steps_per_second,1)}</td><td>${num(m.speed.examples_per_second,1)}</td></tr>`).join('')}</tbody></table></div>`:'<p class="subtle">Замеры памяти и скорости появятся после первых 10 000 шагов каждого варианта.</p>'}
+  <h3>Расчёт прямо из упакованных весов — отдельная проверка</h3>
+  <p class="subtle">Те же сохранённые веса, без дообучения. Сравниваем распаковку перед слоем и CUDA-операцию без полной временной матрицы. Декодирование битов происходит внутри GPU. Основная таблица четырёх моделей сохраняет прежний способ расчёта. Если повторные замеры различаются более чем на 20%, показываем диапазон ускорения; это разброс замеров, не доверительный интервал.</p>
+  <div class="bit3d-scroll"><table><thead><tr><th>Вариант / шаг</th><th>Совпадение всех промежуточных ответов</th><th>С распаковкой, мс/пакет</th><th>Прямой расчёт, мс/пакет</th><th>Ускорение</th><th>Пик GPU до → после</th></tr></thead><tbody>${a.jobs.filter(j=>j.spec.precision==='ternary').map(j=>{const n=j.native||{},r=n.summaries?.reference,f=n.summaries?.native;return `<tr><td>${esc(j.spec.title)}<br>${n.step?fmt(n.step)+' шагов':'Ожидает измерения'}</td><td>${n.status==='verified'?pct(n.trace_agreement):n.status==='quality_mismatch'?'Ответы различаются — не рекомендовано':'Ещё не проверено'}</td><td>${r?num(r.batch_ms,3):'—'}</td><td>${f?num(f.batch_ms,3):'—'}</td><td>${n.measurements?.length?(()=>{const r=n.measurements.filter(x=>x.mode==='reference').map(x=>x.speed.batch_ms),f=n.measurements.filter(x=>x.mode==='native').map(x=>x.speed.batch_ms),lo=Math.min(...r)/Math.max(...f),hi=Math.max(...r)/Math.min(...f),stable=Math.max(...r)/Math.min(...r)<=1.2&&Math.max(...f)/Math.min(...f)<=1.2;return stable?num(n.speedup,2)+'×':num(lo,2)+'–'+num(hi,2)+'×<br><small>Замеры нестабильны</small>'})():n.speedup?num(n.speedup,2)+'×':'—'}</td><td>${r&&f?mib(r.peak_allocated_bytes)+' → '+mib(f.peak_allocated_bytes):'—'}</td></tr>`}).join('')}</tbody></table></div>
+  ${runtimeOptimization(a)}
+  ${parallelTrial(a)}
+  <div class="study-grid">${a.jobs.map(j=>{const p=j.progress,m=j.metrics,s=j.spec;const measure=j.measurements.at(-1);return `<article class="run"><div class="top"><h3>${esc(s.title)}</h3><span class="chip">${labels[j.status]}</span></div><p><b>${fmt(j.step)} / 210 000 шагов</b> · урок ${lesson[j.phase]||'ещё не начат'}<br>Новые полные задачи: <b>${pct(m.validation)}</b><br>Сложение: ${pct(m.skills?.addition)} · умножение: ${pct(m.skills?.multiplication)}</p><div class="bar"><i style="width:${Math.min(100,j.step/2100)}%"></i></div><small>Параметров: ${fmt(p.params||(s.architecture==='memory_dense'?235680:353633))} · веса при обучении FP32<br>Пик GPU при обучении: ${mib(p.training_peak_allocated_bytes)}</small>${bit3dGraph(j)}${measure?`<p>Замер на шаге ${fmt(measure.step)}: файл ${mib(measure.deploy_file_bytes)}; тензоры модели ${mib(measure.deploy_tensor_bytes)}.<br>GPU при работе: выделено ${mib(measure.inference_resident_allocated_bytes)}, пик ${mib(measure.inference_peak_allocated_bytes)}, резерв ${mib(measure.inference_peak_reserved_bytes)}.<br>${num(measure.speed.examples_per_second,1)} задач/с · пакет ${measure.speed.batch_size}, медиана 7 повторов.<br>${measure.training_timing_isolated===false?"Обучение шло в группе; шаги/с не сравниваем с одиночными замерами. Скорость выполнения задач измерена отдельно.":"Обучение: "+num(measure.training_steps_per_second,1)+" шагов/с, без проверки качества и охлаждения."}</p>`:''}<small>${s.precision==='ternary'?'Троичные значения −1/0/+1, упаковка по 2 бита. Основная таблица — эталон с распаковкой. Результат прямой CUDA-операции показан отдельно выше.':'Обычные веса FP32 — контроль для размера, памяти и скорости.'}</small>${j.test==null?'<small>Итоговый тест закрыт до завершения всех 210 000 шагов этого опыта.</small>':`<p>Отложенный итоговый тест на последних весах: <b>${pct(j.test)}</b></p>`}${j.started_at?`<small>Начат: ${new Date(j.started_at*1000).toLocaleString('ru-RU',{timeZone:'Europe/Moscow'})} МСК</small>`:''}${j.reason?`<small>${esc(j.reason)}</small>`:''}</article>`;}).join('')}</div>
+  <p class="subtle">Троичными становятся восемь одинаковых матриц трансформера. Ширина и ранг не уменьшаются. Входные/выходные слои и 3D-память остаются FP32. 3D добавляет параметры; одинаковые шаги не означают одинаковое время вычислений. Графики показывают проверочную выборку, а не итоговый тест. GPU-память — реальные выделения/резерв PyTorch этого процесса, со служебными буферами, без контекста CUDA и других программ. Сохранение оптимизатора не считается файлом модели для работы. Один seed и маленькая арифметика не доказывают преимущество на языке.</p>`;
+}
+
+function renderMature(){
+  const host=document.getElementById('mature'),a=DATA.mature;
+  if(!a?.jobs?.length){host.hidden=true;return;}host.hidden=false;
+  const pct=x=>x==null?'—':num(x*100,2)+'%';
+  const labels={running:'Обучается',done:'Завершён',queued:'Сохранён / в очереди',preflight:'Проверка датчиков',paused:'Защитная пауза',stopped:'Защитная остановка'};
+  const active=a.jobs.find(j=>j.status==='running')||a.jobs.find(j=>j.status==='preflight');
+  const allCurves=a.jobs.map(j=>j.curve||[]);
+  const common=allCurves.length===4?allCurves[0].filter(p=>p[0]>=0&&allCurves.every(c=>c.some(q=>q[0]===p[0]))).at(-1)?.[0]:null;
+  host.innerHTML=`<h2>Учитель после освоения урока</h2>
+  <p class="lead">Учитель сохраняется после успешного экзамена по сложению, затем по обеим операциям. Его ответы используются только при обучении. Штраф падает от 1 до 0 за первые 6 000 шагов следующего урока. Новые варианты повторяют обучение с теми же начальными весами; прежняя 3D продолжается из своего сохранения.</p>
+  <div class="exp-status"><div><strong>${esc(active?.title||(['error','paused'].includes(a.controller?.status)?'Очередь остановлена защитой':'Продолжения в общей очереди'))}</strong><small>До четырёх сохранённых малых моделей · лимит 450 Вт · проверка датчиков 120 секунд · сравнение по общим сохранённым шагам; прежняя 3D продолжает обучение.</small>${a.controller?.sensors?`<small>GPU ${num(a.controller.sensors.gpu_w,0)} Вт / ${num(a.controller.sensors.gpu_c,0)}°C · CPU ${num(a.controller.sensors.cpu_c,1)}°C</small>`:''}</div></div>
+  ${common!=null?`<p><b>Одинаковый общий шаг: ${fmt(common)}</b>. Правильные конечные ответы на одних и тех же новых задачах, весь черновик без подсказок.</p><table class="compare-table"><thead><tr><th>Вариант</th><th>Новые полные задачи</th><th>Новое сложение</th><th>Новое умножение</th></tr></thead><tbody>${a.jobs.map(j=>{const p=j.curve.find(q=>q[0]===common);return `<tr><td>${esc(j.title)}</td><td>${pct(p[2])}</td><td>${pct(p[5])}</td><td>${pct(p[6])}</td></tr>`;}).join('')}</tbody></table>`:'<p class="subtle">Сопоставление появится, когда все четыре варианта запишут общий шаг. Последние точки разных шагов не сравниваем.</p>'}
+  ${a.review?`<p class="subtle"><b>${esc(a.review.text)}</b><br>${esc(a.review.limits)}</p>`:''}
+  <div class="study-grid">${a.jobs.map(j=>{const m=j.metrics||{},b=m.balance||{};const graph={...j,curve:(j.curve||[]).filter(p=>p[0]>=0)};return `<article class="run"><div class="top"><h3>${esc(j.title)}</h3><span class="chip">${labels[j.status]||esc(j.status)}</span></div><p>Общий шаг ${fmt(j.step||0)}<br>Параметров: ${fmt(m.parameters||(j.architecture==='memory_dense'?235680:j.method==='split'?471586:353633))}<br>Новые задачи самостоятельно: <b>${pct(m.validation)}</b><br>Новое сложение: ${pct(m.skills?.addition)} · умножение: ${pct(m.skills?.multiplication)}</p><small>${j.method==='mature'?'Учитель: только после экзамена. Последний коэффициент штрафа: '+(j.anchor_alpha==null?'ещё не применяется':num(j.anchor_alpha,3)):'Прежнее обучение без штрафа; контроль.'}</small>${(j.teacher_summary||[]).map(t=>`<small>Учитель ${t.phase==='addition'?'сложения':'обеих операций'} сохранён на шаге ${fmt(t.step)} · успешных проверок ${t.exam_streak}</small>`).join('')}${transferGraph(graph)}<small>На оси X — общее число шагов обучения. Число шагов одинаковое, время вычислений может различаться.</small>${j.test!=null?`<p>Итоговый отложенный тест: ${pct(j.test)}</p>`:'<small>Итоговый тест не открывался. Графики и таблица — отдельная проверочная выборка.</small>'}${j.reason?`<small>${esc(j.reason)}</small>`:''}</article>`;}).join('')}</div>
+  <p class="subtle">Учитель фиксируется только после 100% на всей учебной выборке, трёх проверок подряд ≥99% и минимальных 6 000 шагов урока. Проверочные и итоговые ответы не используются для штрафа. Размер самой модели не растёт; сохранения учителей занимают дополнительное место на диске. По одному повтору, одинаковые начальные веса и данные внутри архитектуры; время вычислений и длительность уроков могут различаться. Результат — mod 59, не большая языковая модель.</p>`;
+}
+
+function renderAnchor(){
+  const host=document.getElementById('anchor'),a=DATA.anchor;
+  if(!a?.jobs?.length){host.hidden=true;return;}host.hidden=false;
+  const pct=x=>x==null?'—':num(x*100,2)+'%';
+  const labels={running:'Обучается',done:'Завершён',queued:'Сохранён / в очереди',preflight:'Проверка датчиков',paused:'Защитная пауза',stopped:'Защитная остановка'};
+  const active=a.jobs.find(j=>j.status==='running')||a.jobs.find(j=>j.status==='preflight');
+  const allCurves=a.jobs.map(j=>j.curve||[]);
+  const common=allCurves.length===5?allCurves[0].filter(p=>p[0]>=10000&&allCurves.every(c=>c.some(q=>q[0]===p[0]))).at(-1)?.[0]:null;
+  host.innerHTML=`<h2>Сложение и умножение без взаимных помех</h2>
+  <p class="lead">Проверяем защиту сложения через прежние ответы и отдельные банки 3D-памяти для двух операций. Умножение получает обычный учебный сигнал. Все варианты продолжаются от сохранений на шаге 10 000; два прежних контрольных прогона используем повторно.</p>
+  <div class="exp-status"><div><strong>${esc(active?.title||(['error','paused'].includes(a.controller?.status)?'Очередь остановлена защитой':'Продолжения в общей очереди'))}</strong><small>До четырёх сохранённых малых моделей · лимит 450 Вт · проверка датчиков 120 секунд · сравнение по общим сохранённым шагам; прежняя 3D продолжает обучение.</small>${a.controller?.sensors?`<small>GPU ${num(a.controller.sensors.gpu_w,0)} Вт / ${num(a.controller.sensors.gpu_c,0)}°C · CPU ${num(a.controller.sensors.cpu_c,1)}°C</small>`:''}</div></div>
+  ${common!=null?`<p><b>Одинаковый общий шаг: ${fmt(common)}</b>. Правильные конечные ответы на одних и тех же новых задачах, весь черновик без подсказок.</p><table class="compare-table"><thead><tr><th>Вариант</th><th>Новые полные задачи</th><th>Новое сложение</th><th>Новое умножение</th></tr></thead><tbody>${a.jobs.map(j=>{const p=j.curve.find(q=>q[0]===common);return `<tr><td>${esc(j.title)}</td><td>${pct(p[2])}</td><td>${pct(p[5])}</td><td>${pct(p[6])}</td></tr>`;}).join('')}</tbody></table>`:'<p class="subtle">Сопоставление появится, когда все пять вариантов запишут общий шаг. Последние точки разных шагов не сравниваем.</p>'}
+  ${a.review?`<p class="subtle"><b>${esc(a.review.text)}</b><br>${esc(a.review.limits)}</p>`:''}
+  <div class="study-grid">${a.jobs.map(j=>{const m=j.metrics||{},b=m.balance||{};const graph={...j,curve:(j.curve||[]).filter(p=>p[0]>=10000).map(p=>[p[0]-10000,...p.slice(1)])};return `<article class="run"><div class="top"><h3>${esc(j.title)}</h3><span class="chip">${labels[j.status]||esc(j.status)}</span></div><p>Общий шаг ${fmt(j.step||10000)} · добавлено ${fmt(Math.max(0,(j.step||10000)-10000))}<br>Параметров: ${fmt(m.parameters||(j.architecture==='memory_dense'?235680:j.method==='split'?471586:353633))}<br>Новые задачи самостоятельно: <b>${pct(m.validation)}</b><br>Новое сложение: ${pct(m.skills?.addition)} · умножение: ${pct(m.skills?.multiplication)}</p><small>${j.method==='plain'?'Прежнее обучение без защиты ответов.':j.method==='split'?'Отдельные банки для сложения и умножения, общий трансформер; штраф за изменение прежних ответов на сложение.':'Общие веса; штраф за изменение прежних ответов на сложение.'}</small>${b.weights?`<small>Последние множители: сложение ${num(b.weights[0],2)}, умножение ${num(b.weights[1],2)}</small>`:''}${transferGraph(graph)}<small>На оси X — дополнительные шаги после исходных 10 000. Число шагов одинаковое, время вычислений может различаться.</small>${j.test!=null?`<p>Итоговый отложенный тест: ${pct(j.test)}</p>`:'<small>Итоговый тест не открывался. Графики и таблица — отдельная проверочная выборка.</small>'}${j.reason?`<small>${esc(j.reason)}</small>`:''}</article>`;}).join('')}</div>
+  <p class="subtle">Штраф использует только учебные примеры сложения и ответы замороженной исходной модели. Правильные ответы проверочных задач в обучение не попадают. На проверке учитель не используется: модель сама выполняет все действия. Учитель на старте уже имеет 85,06% нового сложения у 3D; защита не возвращает автоматически потерянный навык. Раздельная память увеличивает размер модели; это не доказательство сжатия. Один повтор, обычная модель начала умножение раньше. Бюджет каждого урока — до 70 000 шагов, без остановки по плато.</p>`;
+}
+
+function renderRetention(){
+  const host=document.getElementById('retention'),a=DATA.retention;
+  if(!a?.jobs?.length){host.hidden=true;return;}host.hidden=false;
+  const pct=x=>x==null?'—':num(x*100,2)+'%';
+  const labels={running:'Обучается',done:'Завершён',queued:'Сохранён / в очереди',preflight:'Проверка датчиков',paused:'Защитная пауза',stopped:'Защитная остановка'};
+  const active=a.jobs.find(j=>j.status==='running')||a.jobs.find(j=>j.status==='preflight');
+  const allCurves=a.jobs.map(j=>j.curve||[]);
+  const common=allCurves.length===4?allCurves[0].filter(p=>p[0]>=10000&&allCurves.every(c=>c.some(q=>q[0]===p[0]))).at(-1)?.[0]:null;
+  host.innerHTML=`<h2>Сохраняем сложение при изучении умножения</h2>
+  <p class="lead">Проверяем баланс влияния двух операций на веса. Для каждой архитектуры прежнее обучение и вариант с балансировкой продолжаются из одного сохранения на шаге 10 000, с тем же оптимизатором и случайными числами.</p>
+  <div class="exp-status"><div><strong>${esc(active?.title||(['error','paused'].includes(a.controller?.status)?'Очередь остановлена защитой':'Продолжения в общей очереди'))}</strong><small>До четырёх сохранённых малых моделей · лимит 450 Вт · проверка датчиков 120 секунд · первый общий рубеж 12 000 шагов, затем обычные сохранения через 10 000.</small>${a.controller?.sensors?`<small>GPU ${num(a.controller.sensors.gpu_w,0)} Вт / ${num(a.controller.sensors.gpu_c,0)}°C · CPU ${num(a.controller.sensors.cpu_c,1)}°C</small>`:''}</div></div>
+  ${common!=null?`<p><b>Одинаковый общий шаг: ${fmt(common)}</b>. Правильные конечные ответы на одних и тех же новых задачах, весь черновик без подсказок.</p><table class="compare-table"><thead><tr><th>Вариант</th><th>Новые полные задачи</th><th>Новое сложение</th><th>Новое умножение</th></tr></thead><tbody>${a.jobs.map(j=>{const p=j.curve.find(q=>q[0]===common);return `<tr><td>${esc(j.title)}</td><td>${pct(p[2])}</td><td>${pct(p[5])}</td><td>${pct(p[6])}</td></tr>`;}).join('')}</tbody></table>`:'<p class="subtle">Сопоставление появится, когда все четыре продолжения запишут общий шаг. Последние точки разных шагов не сравниваем.</p>'}
+  ${a.review?`<p class="subtle"><b>${esc(a.review.text)}</b><br>${esc(a.review.limits)}</p>`:''}
+  <div class="study-grid">${a.jobs.map(j=>{const m=j.metrics||{},b=m.balance||{};const graph={...j,curve:(j.curve||[]).filter(p=>p[0]>=10000).map(p=>[p[0]-10000,...p.slice(1)])};return `<article class="run"><div class="top"><h3>${esc(j.title)}</h3><span class="chip">${labels[j.status]||esc(j.status)}</span></div><p>Общий шаг ${fmt(j.step||10000)} · добавлено ${fmt(Math.max(0,(j.step||10000)-10000))}<br>Новые задачи самостоятельно: <b>${pct(m.validation)}</b><br>Новое сложение: ${pct(m.skills?.addition)} · умножение: ${pct(m.skills?.multiplication)}</p><small>${j.method==='balanced'?'Вклад каждой операции корректируется по её учебному градиенту; множители ограничены от 0,25 до 1,75.':'Прежний AdamW и прежняя общая ошибка; контроль продолжения без балансировки.'}</small>${b.weights?`<small>Последние множители: сложение ${num(b.weights[0],2)}, умножение ${num(b.weights[1],2)}</small>`:''}${transferGraph(graph)}<small>На оси X — дополнительные шаги после исходных 10 000. Число шагов одинаковое, время вычислений может различаться.</small>${j.test!=null?`<p>Итоговый отложенный тест: ${pct(j.test)}</p>`:'<small>Итоговый тест не открывался. Графики и таблица — отдельная проверочная выборка.</small>'}${j.reason?`<small>${esc(j.reason)}</small>`:''}</article>`;}).join('')}</div>
+  <p class="subtle">У 3D перед продолжением: 99,92% на учебном сложении и 85,06% на новом. Повторение уже было; в шести учебных пробах градиент умножения был сильнее в 2,5–12,6 раза. Это диагностический признак, а не доказанная единственная причина. Проверяем упрощённую балансировку градиентов; это не полная реализация GradNorm и не гарантия отсутствия забывания.</p>`;
+}
+
+function transferGraph(j){
+  const points=j.curve||[];
+  if(!points.length)return '<p class="subtle">График появится после первой проверки — каждые 250 шагов.</p>';
+  const W=470,H=165,L=40,R=9,T=12,B=25,end=Math.max(250,points.at(-1)[0]);
+  const sx=x=>L+x/end*(W-L-R),sy=y=>T+(1-y)*(H-T-B);
+  const line=k=>points.map((p,i)=>`${i?'L':'M'}${sx(p[0]).toFixed(2)},${sy(p[k]).toFixed(2)}`).join(' ');
+  const changes=points.filter((p,i)=>i&&p[4]!==points[i-1][4]);
+  const grid=[0,.5,1].map(y=>`<line x1="${L}" x2="${W-R}" y1="${sy(y)}" y2="${sy(y)}" stroke="var(--line)"/><text x="${L-5}" y="${sy(y)+4}" text-anchor="end" fill="var(--muted)" font-size="10">${y*100}%</text>`).join('');
+  const operations=j.program==='curriculum'&&points.every(p=>Number.isFinite(p[5])&&Number.isFinite(p[6]))?`<figure class="ablation-chart"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Экзамены по сложению и умножению: ${esc(j.title)}">${grid}<path d="${line(5)}" fill="none" stroke="#88b8ff" stroke-width="2"/><path d="${line(6)}" fill="none" stroke="#d4a2ff" stroke-width="2" stroke-dasharray="6 3"/><text x="${L}" y="${H-5}" fill="var(--muted)" font-size="10">0</text><text x="${W-R}" y="${H-5}" text-anchor="end" fill="var(--muted)" font-size="10">${fmt(end)} шагов</text></svg><figcaption><span style="color:#88b8ff">Синяя — новые примеры на сложение</span><br><span style="color:#d4a2ff">Фиолетовая пунктирная — новые примеры на умножение</span><br>Прогресс отдельных уроков. Умножение ещё не обучается на первом уроке.</figcaption></figure>`:'';
+  return `<figure class="ablation-chart"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(j.title)}: самостоятельные решения знакомых и новых задач">
+  ${[0,.5,1].map(y=>`<line x1="${L}" x2="${W-R}" y1="${sy(y)}" y2="${sy(y)}" stroke="var(--line)"/><text x="${L-5}" y="${sy(y)+4}" text-anchor="end" fill="var(--muted)" font-size="10">${y*100}%</text>`).join('')}
+  ${changes.map(p=>`<line x1="${sx(p[0])}" x2="${sx(p[0])}" y1="${T}" y2="${H-B}" stroke="var(--muted)" stroke-dasharray="2 5"><title>Смена урока</title></line>`).join('')}
+  <path d="${line(1)}" fill="none" stroke="var(--mem)" stroke-width="2"/>
+  <path d="${line(2)}" fill="none" stroke="var(--und)" stroke-width="2.5" stroke-dasharray="6 3"/>
+  ${points.length===1?[1,2].map(k=>`<circle cx="${sx(points[0][0])}" cy="${sy(points[0][k])}" r="3" fill="${k===1?'var(--mem)':'var(--und)'}"/>`).join(''):''}
+  <text x="${L}" y="${H-5}" fill="var(--muted)" font-size="10">0</text><text x="${W-R}" y="${H-5}" text-anchor="end" fill="var(--muted)" font-size="10">${fmt(end)} шагов</text></svg>
+  <figcaption><span style="color:var(--mem)">Сплошная — знакомые задачи без подсказок</span><br><span style="color:var(--und)">Пунктир — новые задачи без подсказок</span><br>Обе линии: правильность конечного ответа всей формулы. Вертикальные отметки — смена урока.</figcaption></figure>${operations}`;
+}
+function renderTransfer(){
+  const host=document.getElementById('transfer'),a=DATA.transfer;
+  if(!a?.jobs?.length){host.hidden=true;return;}host.hidden=false;
+  const expanded=host.querySelector('details')?.open||false;
+  const pct=x=>x==null?'Ещё нет проверки':num(x*100,2)+'%';
+  const phases={addition:'Урок 1 — сложение',multiplication:'Урок 2 — умножение и повторение сложения',composition:'Урок 3 — вся формула со своим черновиком',trace:'Контроль — прежний черновик'};
+  const statuses={running:'Обучается',done:'Завершён',queued:'В очереди',preflight:'Проверка датчиков',paused:'Защитная пауза',stopped:'Защитная остановка'};
+  const outcomes={fixed_budget_complete:'Все 70 000 шагов выполнены',validation_passed:'Учебные примеры освоены; три экзамена подряд ≥99%',lesson_limit_without_exam:'Предел урока достигнут; экзамен не пройден, следующий урок не начат'};
+  const active=a.jobs.find(j=>j.status==='running')||a.jobs.find(j=>j.status==='preflight');
+  const stopped=['error','paused'].includes(a.controller?.status);
+  const sensor=a.controller?.sensors;
+  host.innerHTML=`<h2>Учимся решать: операции → собственный черновик</h2>
+  <p class="lead">Обычная модель и 3D-память с соседями. Два подхода: обучение сложению и умножению с переходом к своему черновику; контроль с прежним черновиком на полные 70 000 шагов.</p>
+  <div class="exp-status"><div><strong>${esc(active?.title||(a.completed===a.total?'Все четыре опыта завершены':stopped?'Очередь остановлена защитой':'Ожидаем запуска в общей очереди'))}</strong><small>До четырёх сохранённых малых моделей · GPU до 450 Вт · 120 секунд проверки датчиков перед группой · сохранение каждые 10 000 шагов.</small>
+  ${sensor?`<small>Замер контроллера: GPU ${num(sensor.gpu_w,0)} Вт / ${num(sensor.gpu_c,0)}°C · CPU ${num(sensor.cpu_c,1)}°C</small>`:''}
+  ${active?.status==='preflight'?`<small>Стабильные условия: ${a.controller.stable_seconds||0} / 120 секунд</small>`:''}</div><div class="exp-count"><b>${a.completed} / ${a.total}</b><br>опытов завершено</div></div>
+  <p class="subtle">Остановка на плато отключена во всех четырёх опытах. Контроли проходят ровно 70 000 шагов, даже если раньше достигли 100%. Новая программа: до 70 000 на урок, до 210 000 всего; переход после минимума 6 000 шагов, освоения всей учебной выборки и трёх проверок ≥99%. Защитная остановка всегда действует.</p>
+  <div class="study-grid">${a.jobs.map(j=>{const m=j.metrics||{};return `<article class="run" id="transfer-${esc(j.name)}"><div class="top"><h3>${esc(j.title)}</h3><span class="chip ${j.status==='running'?'guess':'learn'}">${statuses[j.status]||esc(j.status)}</span></div>
+  <p>${j.program==='control'?'Прежний черновик с правильными предыдущими ответами при обучении. Проверяем, поможет ли длительное обучение.':'Сначала учит операции, затем применяет их шесть раз. При сборке решения доля собственных промежуточных ответов растёт от 0 до 100% за 10 000 шагов.'}</p>
+  <p><b>${esc(phases[j.phase]||'Ещё не запускался')}</b><br>Всего шагов: ${fmt(j.step)} / ${fmt(j.max_steps)}<br>Текущий урок: ${fmt(j.phase_step)} / ${fmt(j.stage_budget)}</p>
+  <p>Знакомые задачи самостоятельно: <b>${pct(m.train_free)}</b><br>Новые задачи самостоятельно: <b>${pct(m.validation)}</b></p>
+  ${transferGraph(j)}
+  <small>Шаги с правильными подсказками: учебные ${pct(m.train_teacher)} · новые ${pct(m.validation_teacher)}. Этот показатель не равен самостоятельному решению.</small>
+  ${j.program==='curriculum'?`<p>Экзамены по операциям: сложение ${pct(m.skills?.addition)} · умножение ${pct(m.skills?.multiplication)}</p><small>Успешных проверок текущего урока подряд: ${j.streak} / 3 · собственный черновик в обучении: ${pct(j.self_probability)}</small>`:''}
+  ${j.history.filter(h=>h.passed).length?`<small>Пройдено: ${j.history.filter(h=>h.passed).map(h=>esc(phases[h.phase])).join('; ')}</small>`:''}
+  ${m.validation_details?`<small>Первые ошибки по шести шагам на новых задачах: ${m.validation_details.first_error_counts.join(' / ')}. Шаги: a²; a³; b²; a·b²; сумма; итог.</small>`:''}
+  ${j.test!=null?`<p><b>Итоговый отложенный тест: ${pct(j.test)}</b><br><small>Веса выбраны по проверке на шаге ${fmt(j.selected_step)}. График показывает ход обучения, включая последние веса.</small></p>`:'<small>Итоговый тест ещё не открывался; он не участвует в обучении и переходах.</small>'}
+  <small>${esc(outcomes[j.outcome]||j.reason||(j.status==='queued'?(j.step?'Сохранён и вернётся с этого шага. ':'Ещё не запускался. ')+`Место в общей очереди: ${j.queue_position||'—'}`:''))}</small>
+  ${j.recorded_at?`<small>Первый запуск: ${new Date(j.recorded_at*1000).toLocaleString('ru-RU',{timeZone:'Europe/Moscow'})} МСК</small>`:''}</article>`;}).join('')}</div>
+  <details ${expanded?'open':''}><summary>Что именно доказывает этот опыт</summary><p>Это четыре пилотных запуска с одним разбиением и одинаковыми начальными весами общей части. Число параметров: обычная — 235 680, 3D — 353 633. Проверяем способ обучения и пользу памяти; не заявляем преимущество по размеру.</p><p>Формулу a³ + a·b² + b по модулю 59 и порядок действий задаём мы. В новой программе все промежуточные численные ответы вычисляет одна и та же модель сложения и умножения. Программа не открывает калькулятор при проверке. Это применение выученных операций, а не самостоятельное открытие формулы.</p><p>Новые входные пары отделены от обучения. Отложенные пары операций исключены из всех потерь новой программы, включая собственные черновики. Отдельные операции могут повторяться внутри новых формул. Программы различаются числом учебных ответов и затратами; сравниваем качество, шаги и время отдельно.</p></details>`;
+}
+
+function ablationGraph(j){
+  const run=DATA.runs?.find(r=>r.name===j.name), points=run?.curve||[];
+  if(!points.length)return '<p class="subtle">График появится после первой проверки: каждые 250 шагов.</p>';
+  const W=420,H=152,L=38,R=8,T=10,B=24,end=Math.max(points.at(-1)[0],250);
+  const sx=x=>L+x/end*(W-L-R),sy=y=>T+(1-y)*(H-T-B);
+  const line=k=>points.map((p,i)=>`${i?'L':'M'}${sx(p[0]).toFixed(2)},${sy(p[k]).toFixed(2)}`).join(' ');
+  return `<figure class="ablation-chart"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Точность по шагам: ${esc(j.title)}, повтор ${j.repeat}">
+  ${[0,.5,1].map(y=>`<line x1="${L}" x2="${W-R}" y1="${sy(y)}" y2="${sy(y)}" stroke="var(--line)"/><text x="${L-5}" y="${sy(y)+4}" text-anchor="end" fill="var(--muted)" font-size="10">${y*100}%</text>`).join('')}
+  <path d="${line(1)}" fill="none" stroke="var(--mem)" stroke-width="2"/>
+  <path d="${line(2)}" fill="none" stroke="var(--und)" stroke-width="2" stroke-dasharray="6 3"/>
+  ${points.length===1?[1,2].map(k=>`<circle cx="${sx(points[0][0])}" cy="${sy(points[0][k])}" r="3" fill="${k===1?'var(--mem)':'var(--und)'}"/>`).join(''):''}
+  <text x="${L}" y="${H-5}" fill="var(--muted)" font-size="10">0</text><text x="${W-R}" y="${H-5}" text-anchor="end" fill="var(--muted)" font-size="10">${fmt(end)} шагов</text></svg>
+  <figcaption><span style="color:var(--mem)">Сплошная — учебный черновик</span><br><span style="color:var(--und)">Пунктир — самостоятельное решение новых примеров</span></figcaption></figure>`;
+}
+function renderAblation(){
+  const host=document.getElementById('ablation'),a=DATA.ablation;
+  if(!a?.jobs?.length){host.hidden=true;return;}host.hidden=false;
+  const open=host.querySelector('details')?.open||false;
+  const percent=x=>x==null?'Ещё нет проверки':num(x*100,2)+'%';
+  const labels={running:'Обучается',done:'Завершён',queued:'В очереди',preflight:'Проверка датчиков',paused:'Защитная пауза',stopped:'Защитная остановка'};
+  const outcomes={validation_passed:'Учебные примеры освоены; три проверки подряд ≥99%',plateau:'1 000 шагов без роста после освоения учебных примеров',no_further_growth:'Продление остановлено по правилу прогресса',adaptive_limit:'Достигнут предел шагов',budget_exhausted:'Достигнут предел шагов'};
+  const sensor=a.controller?.sensors;
+  const active=a.jobs.find(j=>j.status==='running')||a.jobs.find(j=>j.status==='preflight');
+  const header=active?`${active.title} · повтор ${active.repeat}`:a.completed===a.total?'Все сравнения завершены':a.controller?.status==='paused'||a.controller?.status==='error'?'Очередь остановлена защитой':'Ожидаем следующего запуска в общей очереди';
+  host.innerHTML=`<h2>Что меняет 3D-память: одинаковый черновик</h2>
+  <p class="lead">Три варианта решают одну кубическую формулу по модулю 59 и учатся на одинаковых шести промежуточных ответах. Проверяем отдельно поиск по трём координатам и пользу соседних ячеек.</p>
+  <p class="subtle">Полноценные матрицы и обычные float32-веса; сжатие и штраф за ранг выключены. Одинаковое уменьшение весов: 0,3. По три повтора с новыми начальными весами и разбиениями данных; внутри каждого повтора общие веса и учебные примеры совпадают.</p>
+  <div class="exp-status"><div><strong>${esc(header)}</strong><small>До четырёх сохранённых малых моделей. Лимит GPU — 450 Вт; перед группой 120 секунд стабильных датчиков. При перегреве или потере датчиков очередь останавливается.</small>
+  ${sensor?`<small>Последний замер контроллера: GPU ${num(sensor.gpu_w,0)} Вт · ${num(sensor.gpu_c,0)}°C; CPU ${num(sensor.cpu_c,1)}°C</small>`:''}
+  ${active?.status==='preflight'?`<small>Стабильные условия: ${a.controller.stable_seconds||0} / 120 секунд</small>`:''}</div><div class="exp-count"><b>${a.completed} / ${a.total}</b><br>опытов завершено</div></div>
+  <p class="subtle">Минимум 18 000, максимум 70 000 шагов на опыт. После 100% на всей учебной выборке: остановка при 1 000 шагов без роста медианы проверок. Каждые 10 000 шагов — сохранение и очередь продолжения. Размеры моделей различаются: этот опыт проверяет добавление памяти, а не экономию параметров.</p>
+  <div class="study-grid">${a.variants.map(v=>`<article class="run"><h3>${esc(v.title)}</h3><p>${esc(v.description)}</p><small>${fmt(v.params)} параметров · ${num(v.tensor_bytes/1e6,2)} МБ весов</small>
+  ${a.jobs.filter(j=>j.architecture===v.architecture).sort((x,y)=>x.repeat-y.repeat).map(j=>`<section class="ablation-repeat" id="ablation-${esc(j.name)}"><div class="top"><b>Повтор ${j.repeat}</b><span class="chip ${j.status==='running'?'guess':'learn'}">${labels[j.status]||esc(j.status)}</span></div>
+  <small>Шаг ${fmt(j.step)} / ${fmt(j.budget)} · потолок ${fmt(j.max_steps)}</small>
+  <p>Учебный черновик: <b>${percent(j.train)}</b><br>Самостоятельная проверка: <b>${percent(j.validation)}</b></p>
+  ${ablationGraph(j)}
+  <small>Успешных проверок подряд: ${j.streak} / 3 · продлений: ${j.extensions}</small>
+  ${j.health.memory_cells_used!=null?`<small>В пробе из ${j.health.probe_examples} учебных примеров: ${j.health.memory_cells_used} / ${j.health.memory_cells} ячеек. Это диагностика использования памяти, а не оценка качества.</small>`:''}
+  ${j.health.prediction_classes!=null?`<small>Разных ответов в учебной пробе: ${j.health.prediction_classes} / 59</small>`:''}
+  ${j.test!=null?`<p><b>Итоговый отложенный тест: ${percent(j.test)}</b></p>`:'<small>Итоговый тест откроется после завершения и выбора весов.</small>'}
+  ${j.outcome?`<small>${esc(outcomes[j.outcome]||j.outcome)}</small>`:j.reason?`<small>${esc(j.reason)}</small>`:j.status==='queued'?`<small>${j.step?'Сохранён; продолжит с этого шага.':'Ещё не запускался.'} Место в общей очереди: ${j.queue_position||'—'}</small>`:''}
+  ${j.recorded_at?`<small>Первый запуск: ${new Date(j.recorded_at*1000).toLocaleString('ru-RU',{timeZone:'Europe/Moscow'})} МСК</small>`:''}</section>`).join('')}</article>`).join('')}</div>
+  <details ${open?'open':''}><summary>Как читать графики и сравнивать результаты</summary><p>Оранжевая линия: точность промежуточных ответов при правильном предыдущем черновике на всей учебной выборке. Зелёная пунктирная: точность конечного ответа на новых примерах, когда весь черновик модель пишет сама. Эти показатели измеряют разные навыки. Итоговый тест не участвует в обучении и выборе числа шагов.</p><p>Сначала сравниваем варианты внутри одного повтора, затем все три повтора. Один удачный результат ещё не доказывает преимущество. Параметры, время и расход памяти учитываем отдельно.</p></details>`;
+}
+
+function renderNight(){
+  const host=document.getElementById('night'),n=DATA.night;
+  if(!n?.deadline){host.hidden=true;return;}host.hidden=false;
+  const expanded=host.querySelector('details')?.open;
+  const b=n.benchmark||{},controller=n.controller||{};
+  const statuses={benchmark:'Сравниваем скорость',running:'Ночная очередь работает',complete:'Все задания завершены',paused:'Защитная остановка',error:'Очередь остановлена: ошибка',deadline:'Ночные запуски закончены',waiting_for_install:'Подготовка ночной очереди'};
+  const title=statuses[n.status]||'Вечерняя и ночная программа';
+  const labels=new Map((n.jobs||[]).map(j=>[j.name,j.title]));
+  const current=(n.current||'Подготовка').split(' + ').map(x=>labels.get(x)||x).join(' + ');
+  const conditions=controller.status==='waiting'?`Подготовка: ${controller.stable_seconds||0} / 120 секунд стабильных условий. ${controller.reason||''}`:controller.sensors?`Сейчас GPU: ${num(controller.sensors.gpu_w,1)} Вт, ${num(controller.sensors.gpu_c,1)} °C · CPU: ${num(controller.sensors.cpu_c,1)} °C`:'';
+  const tests=b.rounds?.length?`<div class="table-scroll"><table class="exp-table"><thead><tr><th>Повтор</th><th>По одной: время пары</th><th>Одновременно: время пары</th><th>Ускорение</th></tr></thead><tbody>${b.rounds.map(r=>`<tr><td>${r.round}</td><td>${num(r.serial_seconds,1)} с</td><td>${num(r.parallel_seconds,1)} с</td><td>${num(r.speedup,2)}×</td></tr>`).join('')}</tbody></table></div><p>${esc(b.decision)}. Общий коэффициент: <b>${num(b.speedup,2)}×</b>.</p>`:
+    `<p>Две одинаковые математические задачи, по 6 000 шагов. Два повтора с обратным порядком. Завершено частей сравнения: ${Object.keys(b.measurements||{}).length} из 4.</p>`;
+  const jobs=n.jobs||[];
+  host.innerHTML=`<h2>Вечер и ночь · сохранённые опыты и продолжения</h2><div class="exp-status"><div><span class="chip ${n.status==='paused'||n.status==='error'?'mem':'guess'}">${esc(title)}</span><strong>${esc(current)}</strong><small>${esc(conditions)}</small><small>Завершено новых математических опытов: ${n.completed||0} / ${n.total||0}. Новые запуски — до ${n.deadline?new Date(n.deadline).toLocaleString('ru-RU',{timeZone:'Europe/Moscow'}):'срока очереди'} МСК.</small></div></div>
+    ${tests}<p class="subtle">В скорости учтён запуск второго процесса с задержкой 10 секунд; паузы охлаждения исключены. Два процесса выбираются только при выигрыше ≥15% в сумме и ≥10% в каждом повторе, при одинаковых шагах, данных и сопоставимой проверочной точности.</p>
+    <p><b>Автопродление:</b> сначала минимум 18 000 шагов на опыт, а в новых уроках — минимум 6 000 на урок. Остановка по плато включается только после 100% на всей учебной выборке текущего урока. Пока растёт медиана трёх проверок, добавляем по 1 000 шагов; 1 000 без улучшения — завершение. Потолок — 70 000 на урок: до 210 000 для трёхурочной модели, до 70 000 для ответа сразу и черновика.</p>
+    <p class="subtle">Проверенные сохранённые малые модели обучаются группами до четырёх; замеры скорости — по одной. Текстовые и большие модели остаются последовательными. Лимит GPU0 — 450 Вт; при перегреве, потере датчиков или постороннем обучении очередь останавливается. Автоматического возобновления после защитной остановки нет.</p>
+    ${nightCards(n)}<details class="exp-details" ${expanded?'open':''}><summary>Ночная математика: результаты и добавленные шаги</summary><div class="table-scroll"><table class="exp-table"><thead><tr><th>Опыт</th><th>Состояние</th><th>Шаги</th><th>Итоговый тест</th><th>Продления</th></tr></thead><tbody>${jobs.map(j=>`<tr><td>${esc(j.title)}<small>Повтор ${j.seed+1}${j.continuation_of?' · продолжение сохранённых весов; тест уже показывался ранее':''}</small></td><td>${j.status==='done'?'Завершён':j.status==='running'?'Обучается':'В очереди'}${j.outcome?`<small>${esc({plateau:'1 000 шагов без улучшения',validation_passed:'Экзамен пройден',gate_failed:'Урок пока не освоен',no_further_growth:'Рост остановился',adaptive_limit:'Достигнут предел шагов'}[j.outcome]||j.outcome)}</small>`:''}</td><td>${fmt(j.step)} / ${fmt(j.budget)}<small>${j.max_steps?`Максимум ${fmt(j.max_steps)}`:"По росту · в пределах срока очереди"}</small></td><td>${j.test==null?'После завершения':num(j.test*100,1)+'%'}</td><td>${j.extensions.filter(e=>e.extend).length}${j.extensions.length?`<small>${esc(j.extensions[j.extensions.length-1].reason)}</small>`:''}</td></tr>`).join('')}</tbody></table></div></details>`;
+}
+
+function renderStudy(){
+  const host=document.getElementById("study"), study=DATA.study;
+  if(!study?.jobs?.length){host.hidden=true;return;}host.hidden=false;
+  const open=[...host.querySelectorAll('details[open]')].map(d=>d.dataset.section);
+  const jobs=study.jobs, controller=study.controller||{};
+  const draw=j=>{
+    const p=j.progress||{},r=j.result||{},done=j.status==='done';
+    const follow=DATA.night?.jobs?.find(x=>x.continuation_of===j.name);
+    let state=STATUS[j.status]||j.status;
+    if(done&&r.outcome==='gate_failed')state='Экзамен пока не пройден';
+    else if(done&&r.outcome==='budget_exhausted')state='Бюджет шагов исчерпан';
+    else if(done&&r.screening_success)state='Проверка пройдена в одном запуске';
+    const phase=p.phase||r.phase, score=done?(r.val_bits_per_char??r.final_test_acc):p.validation_accuracy;
+    const scoreText=score==null?'Результата пока нет':j.group==='rank'?`Новый текст: ${num(score,3)} бит/символ · меньше — лучше`:
+      `${done?'Итоговый тест':'Проверка во время обучения'}: ${num(score*100,1)}% правильных ответов`;
+    const before=j.baseline_result, baseline=before?(j.group==='rank'?before.val_bits_per_char:before.final_test_acc):null;
+    const passed=p.passed||r.passed||[];
+    const phaseList=j.mode==='operators'?`<div class="lesson-line">${['addition','multiplication','composition'].map(k=>`<span>${passed.includes(k)?'✓':phase===k?'●':'○'} ${PHASE_LABEL[k]}</span>`).join('')}</div>`:'';
+    const skills=p.skills||r.primitive_validation||{};
+    const chip=j.status==='running'?'guess':done&&r.screening_success?'und':r.outcome==='gate_failed'?'mem':'learn';
+    return `<article class="run ${j.status}"><div class="top"><div class="name">${esc(j.title)}</div><span class="chip ${chip}">${esc(state)}</span></div>
+      <p class="run-purpose">${esc(j.description)}</p>${phaseList}
+      ${phase?`<p class="subtle">Сейчас: ${esc(PHASE_LABEL[phase]||phase)}${p.phase_step!=null?` · ${fmt(p.phase_step)} / ${fmt(j.mode==='operators'?p.stage_budget:j.steps)} шагов ${j.mode==='operators'?'урока':'опыта'}`:''}</p>`:''}
+      <p><b>${scoreText}</b></p>
+      ${done?'<p class="subtle">Итог относится к лучшему сохранённому состоянию. Это не последняя проверка перед остановкой.</p>':''}
+      ${j.group==='cubic'?`<p class="subtle">Успешных проверок подряд перед завершением: ${p.streak||0} / 3</p>`:''}
+      ${learningGraph(j.name,j.mode==='operators'?'Старый график всей кубической формулы, а не экзамена отдельного урока':j.group==='cubic'?'Исходный опыт с прежними пределами шагов':'Исходный контрольный опыт')}
+      ${follow?`<p><a href="#night-${esc(follow.name)}">Продолжение этой модели: ${follow.status==='running'?'обучается':follow.status==='done'?'результат готов':'в очереди'}, шаг ${fmt(follow.step)}</a></p>`:''}
+      ${Object.keys(skills).length?`<p class="subtle">Экзамен: сложение ${num(skills.addition*100,1)}% · умножение ${num(skills.multiplication*100,1)}%</p>`:''}
+      ${baseline!=null?`<p class="subtle">Исходный опыт: ${j.group==='rank'?num(baseline,3)+' бит/символ':num(baseline*100,1)+'%'}${done&&score!=null?` · новый результат ${j.group==='rank'?score<=baseline?'не хуже':'хуже':score>=baseline?'не хуже':'хуже'}`:''}</p>`:''}
+      <p class="subtle">Штраф за ранг: ${num(j.nuc,3)} · weight decay: ${num(j.wd,1)}${j.params?` · ${fmt(j.params)} параметров`:''}</p>
+      <div class="meta"><span>${j.queue_position?`Место в общей очереди: ${j.queue_position}`:'Завершён'}${r.seconds?` · ${num(r.seconds/60,1)} мин`:''}</span><span>Шаг ${fmt(j.step)} / ${fmt(j.steps)}</span></div>
+      <div class="prog"><i style="width:${pct(j.step/j.steps)}%"></i></div>
+      <div class="dates">${j.started_at?`Начат: ${dateLabel(j.started_at)} МСК`:'Ещё не запускался'}${j.finished_at?` · завершён: ${dateLabel(j.finished_at)} МСК`:''}</div>
+      ${done&&r.outcome==='gate_failed'?'<p class="subtle">Не набралось трёх успешных проверок подряд в пределах бюджета; продолжения показаны в ночной программе.</p>':''}
+      ${r.test_details?.first_error_counts?`<details><summary>Где появилась первая ошибка</summary><p class="subtle">${r.test_details.stage_labels.map((s,i)=>`${esc(s)}: ${r.test_details.first_error_counts[i]}`).join(' · ')} примеров</p></details>`:''}</article>`;
+  };
+  const active=jobs.find(j=>j.status==='running');
+  const scheduled=jobs.find(j=>j.name===controller.name);
+  const note=active?`Сейчас: ${active.title}`:controller.status==='paused'||controller.status==='error'?`Очередь остановлена: ${controller.reason||'нужна проверка'}`:controller.status==='waiting'&&scheduled?`Подготовка: ${scheduled.title}. Подходящие условия: ${controller.stable_seconds||0} из 120 секунд.`:'Запуски ожидают своей очереди. Текущий опыт завершается перед следующим.';
+  host.innerHTML=`<h2>Кубическая формула: учимся считать по шагам</h2>
+    <p class="subtle">Ниже сохранены исходные короткие опыты. Их счётчики больше не растут. Продолжения с новым правилом и графиками находятся в блоке «Вечер и ночь» выше.</p>
+    <p class="lead">Считаем (a³ + a·b² + b) mod 59. Это остаток от деления результата на 59. Три метода обучения и пять запусков: последовательный метод проверяется на трёх архитектурах.</p>
+    <div class="exp-status"><div><strong>${esc(note)}</strong><small>Опыты этой серии — по одному на верхней видеокарте. Лимит 450 Вт; перед стартом — минимум 120 секунд подходящих температур. При срабатывании защиты очередь останавливается.</small></div><div class="exp-count"><b>${jobs.filter(j=>j.status==='done').length} / ${jobs.length}</b><br>новых опытов завершено</div></div>
+    <p class="subtle">Штраф за ранг уменьшает сложность матриц; weight decay сдерживает рост весов. Это добавки к обучению, а не гарантия правильных ответов. Для перехода к следующему уроку нужны ≥99% на проверке три раза подряд; предыдущие навыки тоже проверяются.</p>
+    <div class="study-grid">${jobs.filter(j=>j.group==='cubic').map(draw).join('')}</div>
+    <details class="exp-details" data-section="rank"><summary>Повтор прошлых архитектур со штрафом за ранг — ${jobs.filter(j=>j.group==='rank').length} опытов</summary><p class="subtle">Те же данные, начальные веса и бюджет, что в первых пяти опытах при 450 Вт. Добавлен штраф за ранг 0,001; weight decay сохранён 0,1. Исходные результаты остаются контрольными.</p><div class="study-grid">${jobs.filter(j=>j.group==='rank').map(draw).join('')}</div></details>
+    <details class="exp-details" data-section="extend"><summary>Больше шагов для перспективных старых опытов — ${jobs.filter(j=>j.group==='extend').length} опыта</summary><p class="subtle">Веса этих завершённых запусков не сохранились. Это новые повторы с прежними настройками и бюджетом 40 000 вместо 20 000 шагов. Теперь итоговые веса и состояние оптимизатора сохраняются.</p><div class="study-grid">${jobs.filter(j=>j.group==='extend').map(draw).join('')}</div></details>
+    <details class="exp-details" data-section="roadmap"><summary>Как двигаться к высшей математике</summary><ol>${study.roadmap.map(s=>`<li><b>${esc(s.title)}</b> — ${esc(s.status)}<small>${esc(s.description)}</small></li>`).join('')}</ol></details>
+    <p class="subtle">Пока это один пробный запуск каждого варианта. Во время обучения показывается проверочная выборка; отдельный итоговый тест кубической серии открывается только после выбора весов. Равный предел шагов не означает одинаковое количество вычислений. Порядок действий в последовательном методе задан явно; числовые ответы вычисляет сеть.</p>`;
+  host.querySelectorAll('details[data-section]').forEach(d=>d.open=open.includes(d.dataset.section));
+}
+
+function stage(r){
+  const last = r.curve[r.curve.length - 1];
+  if (r.status === "stopped") return ["learn", "Прерван"];
+  if (r.text){
+    const best = Math.min(...r.curve.map(p => p[2]));
+    if (last[2] > best * 1.06 && last[1] < last[2] - 0.4) return ["mem", "Признаки переобучения"];
+    return r.status === "running" ? ["guess", "Обучается"] : ["und", "Готово"];
+  }
+  const [, tr, te] = last;
+  if (te >= 0.99) return ["und", "На новых ≥99%"];
+  if (tr < 0.9) return ["learn", "На учебных <90%"];
+  if (te >= 0.6) return ["guess", "На новых ≥60%"];
+  return ["mem", "Признаки переобучения"];
+}
+
+function spark(r){
+  const W = 300, H = 44, c = r.curve, x0 = c[0][0], x1 = Math.max(c[c.length-1][0], x0 + 1);
+  let lo = 0, hi = 1;
+  if (r.text){ lo = Math.min(...c.map(p => Math.min(p[1], p[2]))); hi = Math.max(...c.map(p => Math.max(p[1], p[2]))); }
+  const sx = s => (s - x0) / (x1 - x0) * W;
+  const sy = v => r.text ? 3 + (v - lo) / Math.max(hi - lo, 1e-6) * (H - 6) : H - 3 - v * (H - 6);
+  const path = k => c.map((p, i) => (i ? "L" : "M") + sx(p[0]).toFixed(1) + " " + sy(p[k]).toFixed(1)).join(" ");
+  const g = r.grok && !r.text ? `<line x1="${sx(r.grok)}" x2="${sx(r.grok)}" y1="0" y2="${H}" stroke="var(--und)" stroke-dasharray="3 3"/>` : "";
+  return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">${g}
+    <path d="${path(1)}" fill="none" stroke="var(--mem)" stroke-width="1.6" vector-effect="non-scaling-stroke"/>
+    <path d="${path(2)}" fill="none" stroke="var(--und)" stroke-width="1.8" vector-effect="non-scaling-stroke"/></svg>`;
+}
+
+function card(r){
+  const [cls, label] = stage(r), last = r.curve[r.curve.length - 1];
+  let bars;
+  if (r.text){
+    bars = `<div>Учебный текст<span class="v">${last[1].toFixed(2)}</span><div class="bar mem"><i style="width:${pct((8 - last[1]) / 7.5)}%"></i></div></div>
+            <div>Новый текст<span class="v">${last[2].toFixed(2)}</span><div class="bar und"><i style="width:${pct((8 - last[2]) / 6.2)}%"></i></div></div>`;
+  } else {
+    bars = `<div>Учебные примеры<span class="v">${pct(last[1])}%</span><div class="bar mem"><i style="width:${pct(last[1])}%"></i></div></div>
+            <div>${r.kind==="cubic_curriculum"?"Проверочная выборка":"Новые примеры"}<span class="v">${pct(last[2])}%</span><div class="bar und"><i style="width:${pct(last[2])}%"></i></div></div>`;
+  }
+  const total = r.steps_total || last[0], done = r.status === "done" ? 1 : last[0] / Math.max(total, 1);
+  const where = r.status === "running" ? `<span class="dot"></span>${r.device}` : (r.status === "done" ? "готово" : "остановлен");
+  let extra = r.grok != null && !r.text ? ` · точность ≥99% на шаге ${fmt(r.grok)}` : "";
+  if (r.row_quant && r.grok != null) extra += ` · 1 бит ${pct(r.row_quant["1bit"])}%`;
+  const dates = [];
+  if (r.started_at) dates.push(`<span>Первый запуск: ${dateLabel(r.started_at)}</span>`);
+  else if (r.recorded_at) dates.push(`<span title="Точное время запуска не сохранилось; указана дата создания файла журнала">Журнал создан: ${dateLabel(r.recorded_at)}</span>`);
+  if (r.finished_at) dates.push(`<span>${r.finished_source === "queue" ? "Завершён" : "Результат сохранён"}: ${dateLabel(r.finished_at)}</span>`);
+  else if (r.updated) dates.push(`<span>Последние метрики: ${dateLabel(r.updated)}</span>`);
+  return `<div class="run ${r.status}"><div class="top"><div class="name">${esc(runTitle(r))}</div><span class="chip ${cls}">${label}</span></div>
+    <p class="run-purpose">${esc(purpose(r))}</p><div class="bars">${bars}</div><small class="subtle">${r.text?"Бит/символ · меньше — лучше":"Правильные ответы · больше — лучше"}</small>${spark(r)}
+    <div class="meta"><span>${where}${extra}</span><span>Шаг ${fmt(last[0])} / ${fmt(total)}</span></div>
+    <div class="dates">${dates.join("")}<span>Время московское</span></div>
+    <div class="prog"><i style="width:${pct(done)}%"></i></div><div class="technical-id">Файл: ${esc(r.name)}</div></div>`;
+}
+
+function render(){
+  if (!DATA) return;
+  const queueOpen = document.getElementById("experiment-queue")?.open;
+  renderTrainingSpeed();renderScale();renderPlanner();renderBit3D();renderMature();renderAnchor();renderRetention();renderTransfer();renderAblation();renderNight();renderStudy();
+  renderExperiment();
+  if(queueOpen) document.getElementById("experiment-queue").open=true;
+  const runs = DATA.runs;
+  const running = runs.filter(r => r.status === "running").length;
+  const completed = runs.filter(r => r.status === "done").length;
+  const stopped = runs.filter(r => r.status === "stopped").length;
+  const grokked = runs.filter(r => !r.text && stage(r)[0] === "und").length;
+  const arith = runs.filter(r => !r.text).length;
+  const age = Math.round((Date.now() / 1000 - DATA.time) / 60);
+  const when = new Date(DATA.time * 1000).toLocaleTimeString("ru-RU", {hour: "2-digit", minute: "2-digit"});
+  document.getElementById("stats").innerHTML =
+    `<span><b>${running}</b> учатся</span><span><b>${grokked}</b> из ${arith} с точностью ≥99%</span><span><b>${completed}</b> завершены</span><span><b>${stopped}</b> без итогового результата</span>
+     <span>данные ${when}${LOCAL ? "" : age < 1 ? " (только что)" : ` (${age} мин назад)`}</span>`;
+  const hw = DATA.hw;
+  document.getElementById("hw").innerHTML = [`<div>Процессор ${Math.round(hw.cpu)}%<div class="bar"><i style="width:${hw.cpu}%"></i></div></div>`,
+    ...hw.gpus.map(g => `<div>${g.index===0?"Верхняя карта (GPU 0)":"Нижняя карта (GPU 1)"}: ${g.util}% загрузка · ${(g.mem_used/1024).toFixed(0)} ГиБ памяти<small>${g.power_w==null?"":`${num(g.power_w,0)} Вт сейчас · лимит ${num(g.power_limit_w,0)} Вт · ${num(g.temp_c,0)} °C`}</small><div class="bar"><i style="width:${g.util}%"></i></div></div>`)].join("");
+  const fl = [["running","Учатся сейчас"],["und","Точность ≥99%"],["text","Текст"],["math","Математика"],["all","Все"]];
+  document.getElementById("filters").innerHTML = fl.map(([k, t]) => `<button class="${FILTER === k ? "on" : ""}" data-k="${k}">${t}</button>`).join("");
+  const keep = r => FILTER === "all" || (FILTER === "running" && r.status === "running") || (FILTER === "und" && !r.text && stage(r)[0] === "und")
+    || (FILTER === "text" && r.text) || (FILTER === "math" && !r.text);
+  const groups = {};
+  runs.filter(keep).forEach(r => (groups[r.series] ||= []).push(r));
+  const rank = k => { const i = ORDER.indexOf(k); return i < 0 ? 99 : i; };
+  const keys = Object.keys(groups).sort((a, b) => rank(a) - rank(b));
+  const wide = window.innerWidth >= 900;
+  document.getElementById("main").innerHTML = keys.map(k => {
+    const [t, d] = SERIES[k] || [k, ""];
+    const list = groups[k].sort((a, b) => (b.status === "running") - (a.status === "running") || a.name.localeCompare(b.name));
+    const run = list.filter(r => r.status === "running").length, ok = list.filter(r => !r.text && stage(r)[0] === "und").length;
+    const open = k in OPEN ? OPEN[k] : (wide || run > 0 || FILTER !== "all");
+    return `<details class="series" data-k="${k}" ${open ? "open" : ""}><summary><div class="t"><b>${t}</b><span>${list.length} прогонов${run ? ` · ${run} идут` : ""}</span></div>
+      <div class="cnt">${list.some(r => !r.text) ? `<b>${ok}</b> с точностью ≥99%` : ""}</div><div class="chev"></div></summary>
+      <p class="desc">${d}</p><div class="grid">${list.map(card).join("")}</div></details>`;
+  }).join("") || `<p class="empty">Здесь пока пусто — выберите другой фильтр.</p>`;
+}
+
+document.getElementById("filters").addEventListener("click", e => { const k = e.target.dataset.k; if (k){ FILTER = k; save(); render(); } });
+document.getElementById("main").addEventListener("toggle", e => { const d = e.target.closest("details"); if (d){ OPEN[d.dataset.k] = d.open; save(); } }, true);
+async function tick(){
+  try {
+    const response = await fetch(LOCAL ? "/api/state" : "state.json?t=" + Date.now(), {cache: "no-store", signal:AbortSignal.timeout(15000)});
+    if(!response.ok) throw new Error("HTTP "+response.status);
+    DATA = await response.json(); render(); document.getElementById("connection").textContent="";
+  } catch (e) { document.getElementById("connection").textContent="Не удалось обновить данные. Показаны последние полученные значения; повторяем подключение автоматически."; }
+  setTimeout(tick, LOCAL ? 5000 : 60000);
+}
+tick();
+</script>
+</body>
+</html>

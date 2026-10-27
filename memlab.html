@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Память на SSD</title>
+<style>
+:root {
+  --bg: #f6f5f1; --card: #ffffff; --ink: #1d1d1b; --muted: #6b6a64; --line: #e3e1da;
+  --c1: #8a8a85; --c2: #2f6fb3; --c3: #c2571a; --c4: #2e8b57; --c5: #8e44ad; --ok: #2e8b57; --warn: #c2571a;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #161615; --card: #20201e; --ink: #ecebe6; --muted: #9c9a92; --line: #33322f;
+    --c1: #a3a39d; --c2: #6aa8e8; --c3: #f08a4b; --c4: #5cc28a; --c5: #c08ae0;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #161615; --card: #20201e; --ink: #ecebe6; --muted: #9c9a92; --line: #33322f;
+  --c1: #a3a39d; --c2: #6aa8e8; --c3: #f08a4b; --c4: #5cc28a; --c5: #c08ae0;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; }
+main { max-width: 860px; margin: 0 auto; padding: 16px; }
+h1 { font-size: 22px; margin: 4px 0 2px; }
+h2 { font-size: 17px; margin: 0 0 8px; }
+.sub { color: var(--muted); font-size: 13px; }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 14px; margin: 12px 0; }
+.hw { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.hw div { text-align: center; }
+.hw b { display: block; font-size: 20px; font-variant-numeric: tabular-nums; }
+.hw span { color: var(--muted); font-size: 12px; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; font-variant-numeric: tabular-nums; }
+th, td { text-align: left; padding: 6px 4px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { color: var(--muted); font-weight: 500; }
+.scroll { overflow-x: auto; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 12px; color: var(--muted); margin-top: 6px; }
+.legend i { display: inline-block; width: 12px; height: 3px; border-radius: 2px; vertical-align: middle; margin-right: 5px; }
+.pill { font-size: 11px; padding: 1px 7px; border-radius: 9px; border: 1px solid var(--line); color: var(--muted); white-space: nowrap; }
+.pill.run { color: var(--ok); border-color: var(--ok); }
+svg text { fill: var(--muted); font-size: 10px; }
+.note { color: var(--muted); font-size: 13px; }
+pre { white-space: pre-wrap; font-size: 12px; color: var(--muted); margin: 0; }
+@media (max-width: 520px) { .hw { grid-template-columns: repeat(2, 1fr); } }
+</style>
+</head>
+<body>
+<main>
+  <h1>Память на SSD</h1>
+  <div class="sub">Мозг на видеокарте, знания — в большой таблице, которая может лежать на SSD. <span id="upd"></span></div>
+
+  <div class="card">
+    <h2>Верхняя видеокарта сейчас</h2>
+    <div class="hw" id="hw"></div>
+    <div class="note" style="margin-top:8px">Карта общая с очередью Астры. Наше обучение само притормаживает выше 340 Вт или 70 °C, при 78 °C сохраняется и ждёт.</div>
+  </div>
+
+  <div class="card">
+    <h2>Знания: точные ответы о незнакомых вопросах</h2>
+    <div class="note">100 000 вымышленных объектов. Про эти объекты модель читала только прозу, вопросов не видела. Больше — лучше.</div>
+    <div id="chartQa"></div>
+  </div>
+
+  <div class="card">
+    <h2>Википедия: бит на знак на новых статьях</h2>
+    <div class="note">Насколько хорошо модель предсказывает незнакомый текст. Меньше — лучше. Прошлый рекорд (100 млн, −1/0/+1): 1,640.</div>
+    <div id="chartVal"></div>
+  </div>
+
+  <div class="card">
+    <h2>Варианты</h2>
+    <div class="scroll"><table id="runs"></table></div>
+    <div class="note" style="margin-top:6px">«Без памяти» — та же модель с выключенной памятью: показывает, сколько знаний лежит именно в памяти.</div>
+  </div>
+
+  <div class="card">
+    <h2>Чтение памяти прямо с SSD</h2>
+    <div class="note">Случайные строки по 4 КБ в обход кэша Windows. Одна позиция текста читает 128 строк (2 слоя × 4 головы × 16).</div>
+    <div class="scroll"><table id="ssd"></table></div>
+  </div>
+
+  <div class="card">
+    <h2>Очередь</h2>
+    <pre id="queue"></pre>
+  </div>
+</main>
+<script>
+const COLORS = ["--c1", "--c2", "--c3", "--c4", "--c5"];
+const css = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const fmt = (v, d = 3) => v == null ? "—" : v.toLocaleString("ru-RU", { minimumFractionDigits: d, maximumFractionDigits: d });
+const pct = v => v == null ? "—" : (v * 100).toLocaleString("ru-RU", { maximumFractionDigits: 1 }) + " %";
+
+function chart(el, series, key, { percent = false } = {}) {
+  const pts = series.flatMap(s => s.rows.filter(r => r[key] != null).map(r => [r.step, r[key]]));
+  if (!pts.length) { el.innerHTML = '<div class="note" style="padding:14px 0">Данных пока нет — появятся после первой проверки.</div>'; return; }
+  const W = 640, H = 220, L = 44, R = 10, T = 10, B = 24;
+  const xs = pts.map(p => p[0]), ys = pts.map(p => p[1]);
+  const x0 = 0, x1 = Math.max(...xs, 1);
+  let y0 = Math.min(...ys), y1 = Math.max(...ys);
+  if (percent) { y0 = 0; y1 = Math.max(0.05, y1); }
+  if (y1 - y0 < 1e-6) { y1 += 0.5; y0 -= 0.5; }
+  const X = v => L + (v - x0) / (x1 - x0) * (W - L - R), Y = v => T + (1 - (v - y0) / (y1 - y0)) * (H - T - B);
+  let g = "";
+  for (let i = 0; i <= 4; i++) {
+    const v = y0 + (y1 - y0) * i / 4, y = Y(v);
+    g += `<line x1="${L}" x2="${W - R}" y1="${y}" y2="${y}" stroke="${css("--line")}"/>` +
+         `<text x="${L - 6}" y="${y + 3}" text-anchor="end">${percent ? Math.round(v * 100) + "%" : v.toFixed(2)}</text>`;
+  }
+  g += `<text x="${W - R}" y="${H - 6}" text-anchor="end">шаг ${x1.toLocaleString("ru-RU")}</text><text x="${L}" y="${H - 6}">0</text>`;
+  series.forEach((s, i) => {
+    const p = s.rows.filter(r => r[key] != null).map(r => `${X(r.step).toFixed(1)},${Y(r[key]).toFixed(1)}`);
+    if (p.length) g += `<polyline fill="none" stroke="${css(COLORS[i % 5])}" stroke-width="2" points="${p.join(" ")}"/>`;
+  });
+  el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img">${g}</svg>` +
+    `<div class="legend">${series.map((s, i) => `<span><i style="background:${css(COLORS[i % 5])}"></i>${s.label}</span>`).join("")}</div>`;
+}
+
+function render(d) {
+  document.getElementById("upd").textContent = "Обновлено " + d.updated + ".";
+  const g = d.gpu || {};
+  document.getElementById("hw").innerHTML = [["w", "Вт"], ["c", "°C"], ["mem_gb", "ГБ видеопамяти"], ["util", "% загрузки"]]
+    .map(([k, u]) => `<div><b>${g[k] ?? "—"}</b><span>${u}</span></div>`).join("");
+  chart(document.getElementById("chartQa"), d.runs, "qa_test", { percent: true });
+  chart(document.getElementById("chartVal"), d.runs, "val_bits");
+  document.getElementById("runs").innerHTML = "<tr><th>Вариант</th><th>Шаг</th><th>Вики, бит/знак</th><th>Знания</th><th>Без памяти</th><th>Шаг/с</th><th>VRAM</th></tr>" +
+    d.runs.map(r => {
+      const last = r.rows[r.rows.length - 1] || {}, live = r.live || {};
+      const step = Math.max(last.step ?? 0, live.step ?? 0), total = live.steps || r.summary.steps_done || 0;
+      const share = total ? ` <span class="pill">${Math.floor(step / total * 100)} %</span>` : "";
+      const when = live.time ? `<div class="note">${live.time}, ${fmt(live.steps_per_s, 2)} шаг/с</div>` : "";
+      return `<tr><td>${r.label} <span class="pill ${r.status === "идёт" ? "run" : ""}">${r.status}</span></td><td>${step.toLocaleString("ru-RU")}${share}${when}</td>` +
+        `<td>${fmt(last.val_bits)}</td><td>${pct(last.qa_test)}</td><td>${last.qa_test_no_mem == null ? "—" : pct(last.qa_test_no_mem)}</td>` +
+        `<td>${fmt(last.steps_per_s, 2)}</td><td>${last.peak_vram_gb == null ? "—" : fmt(last.peak_vram_gb, 1) + " ГБ"}</td></tr>`;
+    }).join("");
+  const s = d.ssd || {};
+  document.getElementById("ssd").innerHTML = s.results ? "<tr><th>Потоков</th><th>Строк/с</th><th>МБ/с</th><th>Задержка</th><th>Знаков/с</th></tr>" +
+    s.results.map(r => `<tr><td>${r.threads}</td><td>${r.rows_per_s.toLocaleString("ru-RU")}</td><td>${r.mb_per_s}</td><td>${r.lat_median_us} мкс</td><td>${r.tokens_per_s.toLocaleString("ru-RU")}</td></tr>`).join("") +
+    `<tr><td colspan="5" class="note">Таблица ${s.file_gb} ГБ = ${s.rows_in_table.toLocaleString("ru-RU")} строк. Это нижняя граница: упирается в Python, сам диск быстрее.</td></tr>` : "<tr><td>Замера пока нет</td></tr>";
+  document.getElementById("queue").textContent = (d.queue || []).join("\n") || "Очередь ещё не запускалась.";
+}
+
+async function load() {
+  try {
+    const r = await fetch("memlab.json?t=" + Date.now());
+    render(await r.json());
+  } catch (e) {
+    document.getElementById("upd").textContent = "Данные недоступны.";
+  }
+}
+load();
+setInterval(load, 60000);
+</script>
+</body>
+</html>
