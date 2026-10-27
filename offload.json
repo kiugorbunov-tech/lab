@@ -1,0 +1,1039 @@
+{
+  "updated": 1794610410.6372578,
+  "rows": [],
+  "matches": [],
+  "prerequisites": [
+    {
+      "name": "L_base",
+      "finished": true
+    },
+    {
+      "name": "L_tern",
+      "finished": true
+    },
+    {
+      "name": "F_base",
+      "finished": true
+    },
+    {
+      "name": "F_svd",
+      "finished": true
+    },
+    {
+      "name": "F_grow",
+      "finished": true
+    },
+    {
+      "name": "F_svd_grow",
+      "finished": true
+    },
+    {
+      "name": "L_long",
+      "finished": true
+    },
+    {
+      "name": "L_long_tern",
+      "finished": true
+    },
+    {
+      "name": "L2_base",
+      "finished": true
+    },
+    {
+      "name": "L2_tern",
+      "finished": true
+    },
+    {
+      "name": "L_more",
+      "finished": true
+    },
+    {
+      "name": "L_long_more_tern",
+      "finished": true
+    },
+    {
+      "name": "MEM_tern",
+      "finished": true
+    },
+    {
+      "name": "MEM_base",
+      "finished": true
+    },
+    {
+      "name": "E_moe16",
+      "finished": true
+    },
+    {
+      "name": "E_moe16_all",
+      "finished": true
+    },
+    {
+      "name": "E2_learned",
+      "finished": true
+    },
+    {
+      "name": "E2_group",
+      "finished": true
+    },
+    {
+      "name": "E3_group",
+      "finished": true
+    },
+    {
+      "name": "E3_mixed",
+      "finished": true
+    },
+    {
+      "name": "E3_split",
+      "finished": true
+    },
+    {
+      "name": "E3_combo",
+      "finished": true
+    },
+    {
+      "name": "O_base",
+      "finished": true
+    },
+    {
+      "name": "O_rope",
+      "finished": true
+    },
+    {
+      "name": "E4_group_s1",
+      "finished": true
+    },
+    {
+      "name": "E4_group_s2",
+      "finished": true
+    },
+    {
+      "name": "E4_learned_wide",
+      "finished": true
+    },
+    {
+      "name": "E4_learned_s1",
+      "finished": true
+    },
+    {
+      "name": "R_loop2x4",
+      "finished": true
+    },
+    {
+      "name": "R_loop4x2",
+      "finished": true
+    },
+    {
+      "name": "E5_group_tern",
+      "finished": true
+    },
+    {
+      "name": "T_tie",
+      "finished": true
+    },
+    {
+      "name": "T_tie_r128",
+      "finished": true
+    },
+    {
+      "name": "S_all",
+      "finished": true
+    },
+    {
+      "name": "S_all_compile",
+      "finished": true
+    },
+    {
+      "name": "S_all_fp8c",
+      "finished": true
+    },
+    {
+      "name": "S_big",
+      "finished": true
+    },
+    {
+      "name": "S_big_fp8c",
+      "finished": true
+    },
+    {
+      "name": "E6_random_s0",
+      "finished": true
+    },
+    {
+      "name": "E6_random_s1",
+      "finished": true
+    },
+    {
+      "name": "O_swiglu",
+      "finished": true
+    },
+    {
+      "name": "O_relu2",
+      "finished": true
+    },
+    {
+      "name": "O_muon",
+      "finished": true
+    },
+    {
+      "name": "W_root_s0",
+      "finished": true
+    },
+    {
+      "name": "W_root_s1",
+      "finished": true
+    },
+    {
+      "name": "W_end_s0",
+      "finished": true
+    },
+    {
+      "name": "W_end_s1",
+      "finished": true
+    },
+    {
+      "name": "N_dense",
+      "finished": true
+    },
+    {
+      "name": "N_moe",
+      "finished": true
+    },
+    {
+      "name": "O_mtp3",
+      "finished": true
+    },
+    {
+      "name": "O_all",
+      "finished": true
+    },
+    {
+      "name": "O_all_mtp3",
+      "finished": true
+    },
+    {
+      "name": "O_all_tern",
+      "finished": true
+    },
+    {
+      "name": "G_factor",
+      "finished": true
+    },
+    {
+      "name": "G_aux",
+      "finished": true
+    },
+    {
+      "name": "S_test",
+      "finished": true
+    },
+    {
+      "name": "N_moe2",
+      "finished": false
+    },
+    {
+      "name": "E_same",
+      "finished": true
+    },
+    {
+      "name": "Q8",
+      "finished": true
+    },
+    {
+      "name": "Q4",
+      "finished": true
+    },
+    {
+      "name": "A_answers",
+      "finished": false
+    },
+    {
+      "name": "V_speed",
+      "finished": true
+    },
+    {
+      "name": "X_answers",
+      "finished": false
+    },
+    {
+      "name": "V_fp8",
+      "finished": true
+    },
+    {
+      "name": "D_wide",
+      "finished": true
+    },
+    {
+      "name": "P_patch4",
+      "finished": true
+    },
+    {
+      "name": "R_rho",
+      "finished": false
+    },
+    {
+      "name": "S_short",
+      "finished": false
+    },
+    {
+      "name": "D_deep",
+      "finished": false
+    },
+    {
+      "name": "W_wide",
+      "finished": false
+    },
+    {
+      "name": "D_32",
+      "finished": false
+    },
+    {
+      "name": "K16",
+      "finished": false
+    },
+    {
+      "name": "P_patch2",
+      "finished": false
+    },
+    {
+      "name": "P_patch4s",
+      "finished": false
+    },
+    {
+      "name": "M_mod125",
+      "finished": false
+    },
+    {
+      "name": "M_mod50",
+      "finished": false
+    },
+    {
+      "name": "B_bigram",
+      "finished": false
+    },
+    {
+      "name": "C_softcap",
+      "finished": false
+    },
+    {
+      "name": "V_vres",
+      "finished": false
+    },
+    {
+      "name": "H1_base",
+      "finished": true
+    },
+    {
+      "name": "H1_deep",
+      "finished": true
+    },
+    {
+      "name": "H1_wide",
+      "finished": true
+    },
+    {
+      "name": "H1_d32",
+      "finished": true
+    },
+    {
+      "name": "H1_mod125",
+      "finished": true
+    },
+    {
+      "name": "H1_mod50",
+      "finished": true
+    },
+    {
+      "name": "H1_bigram",
+      "finished": true
+    },
+    {
+      "name": "H1_softcap",
+      "finished": true
+    },
+    {
+      "name": "H1_vres",
+      "finished": true
+    },
+    {
+      "name": "H1_rho",
+      "finished": true
+    },
+    {
+      "name": "V_head",
+      "finished": true
+    },
+    {
+      "name": "V_fp8t",
+      "finished": true
+    },
+    {
+      "name": "T2",
+      "finished": true
+    },
+    {
+      "name": "N_bigP",
+      "finished": false
+    },
+    {
+      "name": "N_bigP2",
+      "finished": true
+    },
+    {
+      "name": "N_big",
+      "finished": false
+    },
+    {
+      "name": "H2_base",
+      "finished": true
+    },
+    {
+      "name": "H2_bigram",
+      "finished": true
+    },
+    {
+      "name": "H2_softcap",
+      "finished": true
+    },
+    {
+      "name": "H2_vres",
+      "finished": true
+    },
+    {
+      "name": "H2_rho",
+      "finished": true
+    },
+    {
+      "name": "H3_vres",
+      "finished": true
+    },
+    {
+      "name": "H3_base",
+      "finished": true
+    },
+    {
+      "name": "H3_softcap",
+      "finished": true
+    },
+    {
+      "name": "F_mix",
+      "finished": true
+    },
+    {
+      "name": "F_tools",
+      "finished": true
+    },
+    {
+      "name": "X_F_mix",
+      "finished": true
+    },
+    {
+      "name": "X3_F_mix",
+      "finished": true
+    },
+    {
+      "name": "X_F_tools",
+      "finished": true
+    },
+    {
+      "name": "X3_F_tools",
+      "finished": true
+    },
+    {
+      "name": "V_prof",
+      "finished": true
+    },
+    {
+      "name": "V_prof_ce",
+      "finished": true
+    },
+    {
+      "name": "V_prof_fast",
+      "finished": true
+    },
+    {
+      "name": "V_prof_ns2",
+      "finished": true
+    },
+    {
+      "name": "S_skills",
+      "finished": true
+    },
+    {
+      "name": "AB_mix3",
+      "finished": true
+    },
+    {
+      "name": "AB_mix4",
+      "finished": true
+    },
+    {
+      "name": "B1_bench",
+      "finished": true
+    },
+    {
+      "name": "B2_bench",
+      "finished": true
+    },
+    {
+      "name": "S_skills3",
+      "finished": true
+    },
+    {
+      "name": "B2b_bench",
+      "finished": false
+    },
+    {
+      "name": "B3_bench",
+      "finished": false
+    },
+    {
+      "name": "B4_bench",
+      "finished": false
+    },
+    {
+      "name": "B5_bench",
+      "finished": true
+    },
+    {
+      "name": "N_chatP",
+      "finished": true
+    },
+    {
+      "name": "N_chat",
+      "finished": true
+    },
+    {
+      "name": "X3_N_chat",
+      "finished": true
+    },
+    {
+      "name": "N_chat2P",
+      "finished": true
+    },
+    {
+      "name": "N_chat2",
+      "finished": true
+    },
+    {
+      "name": "N_chat3P",
+      "finished": true
+    },
+    {
+      "name": "N_chat3",
+      "finished": true
+    },
+    {
+      "name": "N_night",
+      "finished": true
+    },
+    {
+      "name": "X3_N_night",
+      "finished": true
+    },
+    {
+      "name": "D_serve",
+      "finished": false
+    },
+    {
+      "name": "Q_old",
+      "finished": false
+    },
+    {
+      "name": "Q_fast",
+      "finished": false
+    },
+    {
+      "name": "Q_ns2",
+      "finished": false
+    },
+    {
+      "name": "N_day1",
+      "finished": true
+    },
+    {
+      "name": "G12",
+      "finished": true
+    },
+    {
+      "name": "G24",
+      "finished": false
+    },
+    {
+      "name": "V_prof_speed",
+      "finished": true
+    },
+    {
+      "name": "V_prof_now",
+      "finished": true
+    },
+    {
+      "name": "N_think",
+      "finished": true
+    },
+    {
+      "name": "N_talk",
+      "finished": true
+    },
+    {
+      "name": "N_tz",
+      "finished": true
+    },
+    {
+      "name": "V_cool",
+      "finished": true
+    },
+    {
+      "name": "Q_e128",
+      "finished": true
+    },
+    {
+      "name": "Q_ctx2k",
+      "finished": true
+    },
+    {
+      "name": "Q_ebf16",
+      "finished": false
+    },
+    {
+      "name": "Q_ema",
+      "finished": true
+    },
+    {
+      "name": "V_acc8",
+      "finished": false
+    },
+    {
+      "name": "Q4e",
+      "finished": false
+    },
+    {
+      "name": "Q8e",
+      "finished": false
+    },
+    {
+      "name": "Q4all",
+      "finished": false
+    },
+    {
+      "name": "V_cool2",
+      "finished": true
+    },
+    {
+      "name": "P_thr",
+      "finished": false
+    },
+    {
+      "name": "P_proc",
+      "finished": false
+    },
+    {
+      "name": "P_proc_fast",
+      "finished": false
+    },
+    {
+      "name": "P_proc_fast2",
+      "finished": true
+    },
+    {
+      "name": "P_thr_fast",
+      "finished": false
+    },
+    {
+      "name": "N_sat1",
+      "finished": true
+    },
+    {
+      "name": "W_qwen_teacher1",
+      "finished": true
+    },
+    {
+      "name": "N_sat2",
+      "finished": true
+    },
+    {
+      "name": "W_qwen_teacher2",
+      "finished": true
+    },
+    {
+      "name": "Q_kd",
+      "finished": true
+    },
+    {
+      "name": "Q_kd0",
+      "finished": true
+    },
+    {
+      "name": "W_base",
+      "finished": true
+    },
+    {
+      "name": "W_qwen_annot",
+      "finished": true
+    },
+    {
+      "name": "V_prof_adam16",
+      "finished": true
+    },
+    {
+      "name": "Q_adam32",
+      "finished": true
+    },
+    {
+      "name": "Q_adam16",
+      "finished": true
+    },
+    {
+      "name": "V_prof_day",
+      "finished": true
+    },
+    {
+      "name": "Q_muonx",
+      "finished": true
+    },
+    {
+      "name": "Q_lowlr",
+      "finished": true
+    },
+    {
+      "name": "V_dumpval",
+      "finished": true
+    },
+    {
+      "name": "V_dyn3",
+      "finished": true
+    },
+    {
+      "name": "V_dyn10",
+      "finished": true
+    },
+    {
+      "name": "V_dyn30",
+      "finished": true
+    },
+    {
+      "name": "Q_ctx4k",
+      "finished": true
+    },
+    {
+      "name": "Q30_adam",
+      "finished": false
+    },
+    {
+      "name": "V_prof_dayP",
+      "finished": true
+    },
+    {
+      "name": "V_p2_base",
+      "finished": true
+    },
+    {
+      "name": "Q30_muon",
+      "finished": false
+    },
+    {
+      "name": "G24f",
+      "finished": false
+    },
+    {
+      "name": "V_p2_attn",
+      "finished": true
+    },
+    {
+      "name": "V_p2_shadow",
+      "finished": true
+    },
+    {
+      "name": "V_p2_both",
+      "finished": true
+    },
+    {
+      "name": "V_acc2",
+      "finished": true
+    },
+    {
+      "name": "V_acc4",
+      "finished": true
+    },
+    {
+      "name": "V_b32a2",
+      "finished": true
+    },
+    {
+      "name": "V_b32",
+      "finished": true
+    },
+    {
+      "name": "V_b48",
+      "finished": true
+    },
+    {
+      "name": "Q_all16",
+      "finished": true
+    },
+    {
+      "name": "Q_all32",
+      "finished": true
+    },
+    {
+      "name": "Q_all32m",
+      "finished": true
+    },
+    {
+      "name": "Q_acc4",
+      "finished": true
+    },
+    {
+      "name": "Q_acc4m",
+      "finished": true
+    },
+    {
+      "name": "N_all",
+      "finished": true
+    },
+    {
+      "name": "V_fp8h",
+      "finished": false
+    },
+    {
+      "name": "Q_fp8h",
+      "finished": false
+    },
+    {
+      "name": "Q_explr2",
+      "finished": false
+    },
+    {
+      "name": "Q_explr4",
+      "finished": false
+    },
+    {
+      "name": "V_prof_dayF",
+      "finished": false
+    },
+    {
+      "name": "V_prof_dayAll",
+      "finished": false
+    },
+    {
+      "name": "V_prof_dayAll8",
+      "finished": false
+    },
+    {
+      "name": "V_prof_dayJ",
+      "finished": false
+    },
+    {
+      "name": "V_cool3",
+      "finished": false
+    },
+    {
+      "name": "W_qwen_teacher_day",
+      "finished": false
+    },
+    {
+      "name": "W_qwen_teacher_day2",
+      "finished": true
+    },
+    {
+      "name": "W_qwen_teacher_day3",
+      "finished": true
+    },
+    {
+      "name": "W_qwen_teacher_day4",
+      "finished": true
+    },
+    {
+      "name": "W_qwen_teacher_big1",
+      "finished": true
+    },
+    {
+      "name": "Q_rw_lo",
+      "finished": true
+    },
+    {
+      "name": "N_mon2",
+      "finished": true
+    },
+    {
+      "name": "Q_rw_hi",
+      "finished": true
+    },
+    {
+      "name": "V_bridge1",
+      "finished": true
+    },
+    {
+      "name": "V_bridge2",
+      "finished": true
+    },
+    {
+      "name": "W_qwen_dlg_a",
+      "finished": true
+    },
+    {
+      "name": "W_qwen_dlg_b",
+      "finished": true
+    },
+    {
+      "name": "W_qwen_dlg_a2",
+      "finished": true
+    },
+    {
+      "name": "W_qwen_dlg_b2",
+      "finished": true
+    },
+    {
+      "name": "W_qwen_dlg_a3",
+      "finished": true
+    },
+    {
+      "name": "W_qwen_dlg_c",
+      "finished": true
+    },
+    {
+      "name": "N_pal_full",
+      "finished": true
+    },
+    {
+      "name": "N_talk3",
+      "finished": true
+    },
+    {
+      "name": "G_coach1",
+      "finished": true
+    },
+    {
+      "name": "G_hint1",
+      "finished": true
+    },
+    {
+      "name": "G_coach1b",
+      "finished": true
+    },
+    {
+      "name": "G_coach2",
+      "finished": true
+    },
+    {
+      "name": "G_hint2",
+      "finished": true
+    },
+    {
+      "name": "W2_base",
+      "finished": false
+    },
+    {
+      "name": "N_shot1",
+      "finished": true
+    },
+    {
+      "name": "N_look1",
+      "finished": true
+    },
+    {
+      "name": "N_plan1",
+      "finished": true
+    },
+    {
+      "name": "N_fast1",
+      "finished": true
+    },
+    {
+      "name": "W_qwen_math4",
+      "finished": true
+    },
+    {
+      "name": "Q_rw_kd3",
+      "finished": false
+    },
+    {
+      "name": "Q_rw_fp8h",
+      "finished": false
+    },
+    {
+      "name": "W_qwen_dialog",
+      "finished": false
+    },
+    {
+      "name": "W_qwen_teacher_mon",
+      "finished": false
+    },
+    {
+      "name": "W_qwen_teacher_big2",
+      "finished": false
+    },
+    {
+      "name": "N_mon",
+      "finished": true
+    },
+    {
+      "name": "W_qwen_math",
+      "finished": true
+    },
+    {
+      "name": "G_measure_test",
+      "finished": true
+    },
+    {
+      "name": "G_measure_seen",
+      "finished": false
+    },
+    {
+      "name": "G_tr_tasks",
+      "finished": true
+    },
+    {
+      "name": "N_think1",
+      "finished": true
+    },
+    {
+      "name": "G_tr_dialog",
+      "finished": true
+    },
+    {
+      "name": "W_qwen_math2",
+      "finished": true
+    },
+    {
+      "name": "W_qwen_math3",
+      "finished": true
+    },
+    {
+      "name": "G_stage1",
+      "finished": false
+    }
+  ],
+  "protocol": {
+    "version": 1,
+    "after": "all four K2 runs finished at 30000 steps",
+    "models": [
+      "K2_base",
+      "K2_tern_mem3d"
+    ],
+    "ssd_vram_gib": 4,
+    "ssd_ram_gib": 8,
+    "reference_vram_gib": 16,
+    "reference_ram_gib": 16,
+    "no_os_file_cache": true,
+    "no_application_weight_cache": true,
+    "ssd_controller_cache": "not disabled",
+    "quality": {
+      "qa": 64,
+      "heldout_characters": 4096,
+      "free_generation": true,
+      "teacher_forcing_answers": false
+    },
+    "speed": {
+      "prompts": 4,
+      "new_characters": 32,
+      "repeats": 3,
+      "batch": 1,
+      "kv_cache": false
+    },
+    "precision": "Original FP32 weights and tables; same BF16 arithmetic as training evaluation; no extra compression",
+    "limits": "RAM hard limit is Windows private committed memory, with sampled RSS check. PyTorch VRAM cap leaves 1 GiB for driver/context, checked by observed device-memory delta.",
+    "timing": "Export/loading and checksum excluded from timed generation. All benchmark jobs serial on GPU0; both training GPUs idle.",
+    "scope": "Pilot on these char models, one seed; does not establish performance of a 300GB LLM."
+  }
+}
